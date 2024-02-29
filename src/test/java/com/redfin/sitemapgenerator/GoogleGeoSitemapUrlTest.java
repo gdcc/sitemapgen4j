@@ -1,26 +1,30 @@
 package com.redfin.sitemapgenerator;
 
+import com.redfin.sitemapgenerator.GoogleGeoSitemapUrl.Format;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
 import java.io.File;
 import java.util.List;
 
-import junit.framework.TestCase;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import com.redfin.sitemapgenerator.GoogleGeoSitemapGenerator;
-import com.redfin.sitemapgenerator.GoogleGeoSitemapUrl;
-import com.redfin.sitemapgenerator.GoogleGeoSitemapUrl.Format;
-
-public class GoogleGeoSitemapUrlTest extends TestCase {
+class GoogleGeoSitemapUrlTest {
 	
 	File dir;
 	GoogleGeoSitemapGenerator wsg;
 	
-	public void setUp() throws Exception {
+	@BeforeEach
+	void setUp() throws Exception {
 		dir = File.createTempFile(GoogleGeoSitemapUrlTest.class.getSimpleName(), "");
 		dir.delete();
 		dir.mkdir();
 		dir.deleteOnExit();
 	}
 	
+	@AfterEach
 	public void tearDown() {
 		wsg = null;
 		for (File file : dir.listFiles()) {
@@ -31,7 +35,8 @@ public class GoogleGeoSitemapUrlTest extends TestCase {
 		dir = null;
 	}
 	
-	public void testSimpleUrl() throws Exception {
+	@Test
+	void testSimpleUrl() throws Exception {
 		wsg = new GoogleGeoSitemapGenerator("http://www.example.com", dir);
 		GoogleGeoSitemapUrl url = new GoogleGeoSitemapUrl("http://www.example.com/index.html", Format.KML);
 		wsg.addUrl(url);
@@ -51,8 +56,8 @@ public class GoogleGeoSitemapUrlTest extends TestCase {
 	
 	private String writeSingleSiteMap(GoogleGeoSitemapGenerator wsg) {
 		List<File> files = wsg.write();
-		assertEquals("Too many files: " + files.toString(), 1, files.size());
-		assertEquals("Sitemap misnamed", "sitemap.xml", files.get(0).getName());
+		assertEquals(1, files.size(), "Too many files: " + files.toString());
+		assertEquals("sitemap.xml", files.get(0).getName(), "Sitemap misnamed");
 		return TestUtil.slurpFileAndDelete(files.get(0));
 	}
 }

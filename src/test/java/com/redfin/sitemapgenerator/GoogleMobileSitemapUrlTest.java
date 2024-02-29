@@ -1,18 +1,20 @@
 package com.redfin.sitemapgenerator;
 
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
 import java.io.File;
 import java.util.List;
 
-import junit.framework.TestCase;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import com.redfin.sitemapgenerator.GoogleMobileSitemapGenerator;
-import com.redfin.sitemapgenerator.GoogleMobileSitemapUrl;
-
-public class GoogleMobileSitemapUrlTest extends TestCase {
+class GoogleMobileSitemapUrlTest {
 	
 	File dir;
 	GoogleMobileSitemapGenerator wsg;
-	
+
+	@BeforeEach
 	public void setUp() throws Exception {
 		dir = File.createTempFile(GoogleMobileSitemapUrlTest.class.getSimpleName(), "");
 		dir.delete();
@@ -20,6 +22,7 @@ public class GoogleMobileSitemapUrlTest extends TestCase {
 		dir.deleteOnExit();
 	}
 	
+	@AfterEach
 	public void tearDown() {
 		wsg = null;
 		for (File file : dir.listFiles()) {
@@ -30,7 +33,8 @@ public class GoogleMobileSitemapUrlTest extends TestCase {
 		dir = null;
 	}
 	
-	public void testSimpleUrl() throws Exception {
+	@Test
+	void testSimpleUrl() throws Exception {
 		wsg = new GoogleMobileSitemapGenerator("http://www.example.com", dir);
 		GoogleMobileSitemapUrl url = new GoogleMobileSitemapUrl("http://www.example.com/index.html");
 		wsg.addUrl(url);
@@ -48,8 +52,8 @@ public class GoogleMobileSitemapUrlTest extends TestCase {
 	
 	private String writeSingleSiteMap(GoogleMobileSitemapGenerator wsg) {
 		List<File> files = wsg.write();
-		assertEquals("Too many files: " + files.toString(), 1, files.size());
-		assertEquals("Sitemap misnamed", "sitemap.xml", files.get(0).getName());
+		assertEquals(1, files.size(), "Too many files: " + files.toString());
+		assertEquals("sitemap.xml", files.get(0).getName(), "Sitemap misnamed");
 		return TestUtil.slurpFileAndDelete(files.get(0));
 	}
 }

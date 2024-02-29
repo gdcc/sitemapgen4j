@@ -1,5 +1,12 @@
 package com.redfin.sitemapgenerator;
 
+import com.redfin.sitemapgenerator.W3CDateFormat.Pattern;
+import org.junit.jupiter.api.Test;
+
+import java.text.ParseException;
+import java.util.Date;
+import java.util.TimeZone;
+
 import static com.redfin.sitemapgenerator.W3CDateFormat.Pattern.AUTO;
 import static com.redfin.sitemapgenerator.W3CDateFormat.Pattern.DAY;
 import static com.redfin.sitemapgenerator.W3CDateFormat.Pattern.MILLISECOND;
@@ -7,17 +14,11 @@ import static com.redfin.sitemapgenerator.W3CDateFormat.Pattern.MINUTE;
 import static com.redfin.sitemapgenerator.W3CDateFormat.Pattern.MONTH;
 import static com.redfin.sitemapgenerator.W3CDateFormat.Pattern.SECOND;
 import static com.redfin.sitemapgenerator.W3CDateFormat.Pattern.YEAR;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import java.text.ParseException;
-import java.util.Date;
-import java.util.TimeZone;
-
-import junit.framework.TestCase;
-
-import com.redfin.sitemapgenerator.W3CDateFormat.Pattern;
-
-public class W3CDateFormatTest extends TestCase {
-	public void testFormatEpoch() {
+public class W3CDateFormatTest {
+	@Test
+	void testFormatEpoch() {
 		Date epoch = new Date(0);
 		verifyPatternFormat(epoch, MILLISECOND, "1970-01-01T00:00:00.000Z");
 		verifyPatternFormat(epoch, SECOND, "1970-01-01T00:00:00Z");
@@ -28,7 +29,8 @@ public class W3CDateFormatTest extends TestCase {
 		verifyPatternFormat(epoch, AUTO, "1970-01-01");
 	}
 	
-	public void testAutoFormat() {
+	@Test
+	void testAutoFormat() {
 		Date date = new Date(0);
 		verifyPatternFormat(date, AUTO, "1970-01-01");
 		date = new Date(1);
@@ -41,14 +43,16 @@ public class W3CDateFormatTest extends TestCase {
 		verifyPatternFormat(date, AUTO, "1970-01-02");
 	}
 	
-	public void testFormatTimeZone() {
+	@Test
+	void testFormatTimeZone() {
 		Date epoch = new Date(0);
 		TimeZone tz = TimeZone.getTimeZone("PST");
 		verifyPatternFormat(epoch, MILLISECOND, "1969-12-31T16:00:00.000-08:00", tz);
 		verifyPatternFormat(epoch, AUTO, "1969-12-31T16:00-08:00", tz);
 	}
 	
-	public void testParseEpoch() {
+	@Test
+	void testParseEpoch() throws ParseException {
 		Date date = new Date(0);
 		verifyPatternParse("1970-01-01T00:00:00.000Z", MILLISECOND, date);
 		verifyPatternParse("1970-01-01T00:00:00Z", SECOND, date);
@@ -58,8 +62,9 @@ public class W3CDateFormatTest extends TestCase {
 		verifyPatternParse("1970", YEAR, date);
 	}
 	
-
-	public void testAutoParse() {
+	
+	@Test
+	void testAutoParse() throws ParseException {
 		Date date = new Date(0);
 		verifyPatternParse("1970-01-01T00:00:00.000Z", AUTO, date);
 		verifyPatternParse("1970-01-01T00:00:00Z", AUTO, date);
@@ -69,7 +74,8 @@ public class W3CDateFormatTest extends TestCase {
 		verifyPatternParse("1970", AUTO, date);
 	}
 	
-	public void testParseTimeZone() {
+	@Test
+	void testParseTimeZone() throws ParseException {
 		Date epoch = new Date(0);
 		verifyPatternParse("1969-12-31T16:00:00.000-08:00", MILLISECOND, epoch);
 		verifyPatternParse("1969-12-31T16:00:00.000-08:00", AUTO, epoch);
@@ -82,21 +88,18 @@ public class W3CDateFormatTest extends TestCase {
 	private void verifyPatternFormat(Date date, Pattern pattern, String expected, TimeZone tz) {
 		W3CDateFormat format = new W3CDateFormat(pattern);
 		format.setTimeZone(tz);
-		assertEquals(date.toString() + " " + pattern, expected, format.format(date));
+		assertEquals(expected, format.format(date), date.toString() + " " + pattern);
 	}
 	
-	private void verifyPatternParse(String source, Pattern pattern, Date expected) {
+	private void verifyPatternParse(String source, Pattern pattern, Date expected) throws ParseException {
 		verifyPatternParse(source, pattern, expected, W3CDateFormat.ZULU);
 	}
 	
-	private void verifyPatternParse(String source, Pattern pattern, Date expected, TimeZone tz) {
+	private void verifyPatternParse(String source, Pattern pattern, Date expected, TimeZone tz) throws ParseException {
 		W3CDateFormat format = new W3CDateFormat(pattern);
 		format.setTimeZone(tz);
-		Date actual = null;
-		try {
-			actual = format.parse(source);
-		} catch (ParseException e) {}
-		assertEquals(source + " " + pattern, expected, actual);
+		Date actual = format.parse(source);
+		assertEquals(expected, actual, source + " " + pattern);
 	}
 	
 }

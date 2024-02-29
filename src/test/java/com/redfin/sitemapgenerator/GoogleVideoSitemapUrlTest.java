@@ -1,19 +1,20 @@
 package com.redfin.sitemapgenerator;
 
+import com.redfin.sitemapgenerator.GoogleVideoSitemapUrl.Options;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
 import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Date;
 import java.util.List;
 
-import junit.framework.TestCase;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import com.redfin.sitemapgenerator.GoogleVideoSitemapGenerator;
-import com.redfin.sitemapgenerator.GoogleVideoSitemapUrl;
-import com.redfin.sitemapgenerator.W3CDateFormat;
-import com.redfin.sitemapgenerator.GoogleVideoSitemapUrl.Options;
-
-public class GoogleVideoSitemapUrlTest extends TestCase {
+class GoogleVideoSitemapUrlTest {
 	
 	private static final URL LANDING_URL = newURL("http://www.example.com/index.html");
 	private static final URL CONTENT_URL = newURL("http://www.example.com/index.flv");
@@ -27,6 +28,7 @@ public class GoogleVideoSitemapUrlTest extends TestCase {
 		return null;
 	}
 	
+	@BeforeEach
 	public void setUp() throws Exception {
 		dir = File.createTempFile(GoogleVideoSitemapUrlTest.class.getSimpleName(), "");
 		dir.delete();
@@ -34,6 +36,7 @@ public class GoogleVideoSitemapUrlTest extends TestCase {
 		dir.deleteOnExit();
 	}
 	
+	@AfterEach
 	public void tearDown() {
 		wsg = null;
 		for (File file : dir.listFiles()) {
@@ -44,7 +47,8 @@ public class GoogleVideoSitemapUrlTest extends TestCase {
 		dir = null;
 	}
 	
-	public void testSimpleUrl() throws Exception {
+	@Test
+	void testSimpleUrl() throws Exception {
 		wsg = new GoogleVideoSitemapGenerator("http://www.example.com", dir);
 		GoogleVideoSitemapUrl url = new GoogleVideoSitemapUrl(LANDING_URL, CONTENT_URL);
 		wsg.addUrl(url);
@@ -61,7 +65,8 @@ public class GoogleVideoSitemapUrlTest extends TestCase {
 		assertEquals(expected, sitemap);
 	}
 
-	public void testOptions() throws Exception {
+	@Test
+	void testOptions() throws Exception {
 		W3CDateFormat dateFormat = new W3CDateFormat();
 		dateFormat.setTimeZone(W3CDateFormat.ZULU);
 		wsg = GoogleVideoSitemapGenerator.builder("http://www.example.com", dir)
@@ -100,75 +105,62 @@ public class GoogleVideoSitemapUrlTest extends TestCase {
 		assertEquals(expected, sitemap);
 	}
 	
-	public void testLongTitle() {
-		try {
-			new Options(LANDING_URL, CONTENT_URL).title("Unfortunately, this title is far longer than 100 characters" +
-					"by virtue of having a great deal to say but not much content.");
-			fail("Long title inappropriately allowed");
-		} catch (RuntimeException e) {}
+	@Test
+	void testLongTitle() {
+		var sut = new Options(LANDING_URL, CONTENT_URL);
+		assertThrows(RuntimeException.class, () -> sut.title(
+			"Unfortunately, this title is far longer than 100 characters" +
+			" by virtue of having a great deal to say but not much content."),
+			"Long title inappropriately allowed");
 	}
-	public void testLongDescription() {
-		StringBuilder sb = new StringBuilder(2049);
-		for (int i = 0; i < 2049; i++) {
-			sb.append('x');
-		}
-		try {
-			new Options(LANDING_URL, CONTENT_URL).description(sb.toString());
-			fail("Long description inappropriately allowed");
-		} catch (RuntimeException e) {}
-	}
-	public void testWrongRating() {
-		Options o = new Options(LANDING_URL, CONTENT_URL);
-		try {
-			o.rating(-1.0);
-			fail("Negative rating allowed");
-		} catch (RuntimeException e) {}
+	
+	@Test
+	void testLongDescription() {
+        String description = "x".repeat(2049);
 		
-		try {
-			o.rating(10.0);
-			fail(">5 rating allowed");
-		} catch (RuntimeException e) {}
+		var sut = new Options(LANDING_URL, CONTENT_URL);
+		assertThrows(RuntimeException.class, () -> sut.description(description),
+			"Long description inappropriately allowed");
 	}
-	public void testTooManyTags() {
+	
+	@Test
+	void testWrongRating() {
+		Options o = new Options(LANDING_URL, CONTENT_URL);
+		assertThrows(RuntimeException.class, () -> o.rating(-1.0), "Negative rating allowed");
+		assertThrows(RuntimeException.class, () -> o.rating(10.0),">5 rating allowed");
+	}
+	
+	@Test
+	void testTooManyTags() {
 		int maxTags = 32;
 		String[] tags = new String[maxTags+1];
 		for (int i = 0; i < maxTags+1; i++) {
 			tags[i] = "tag" + i;
 		}
-		try {
-			new Options(LANDING_URL, CONTENT_URL).tags(tags).build();
-			fail("Too many tags allowed");
-		} catch (RuntimeException e) {}
 		
-	}
-	public void testLongCategory() {
-		StringBuilder sb = new StringBuilder(257);
-		for (int i = 0; i < 257; i++) {
-			sb.append('x');
-		}
-		try {
-			new Options(LANDING_URL, CONTENT_URL).category(sb.toString());
-			fail("Long category inappropriately allowed");
-		} catch (RuntimeException e) {}
+		var sut = new Options(LANDING_URL, CONTENT_URL).tags(tags);
+		assertThrows(RuntimeException.class, sut::build,"Too many tags allowed");
 	}
 	
-	public void testWrongDuration() {
-		Options o = new Options(LANDING_URL, CONTENT_URL);
-		try {
-			o.durationInSeconds(-1);
-			fail("Negative duration allowed");
-		} catch (RuntimeException e) {}
+	@Test
+	void testLongCategory() {
+        String category = "x".repeat(257);
 		
-		try {
-			o.durationInSeconds(Integer.MAX_VALUE);
-			fail(">8hr duration allowed");
-		} catch (RuntimeException e) {}
+		var sut = new Options(LANDING_URL, CONTENT_URL);
+		assertThrows(RuntimeException.class, () -> sut.category(category), "Long category inappropriately allowed");
+	}
+	
+	@Test
+	void testWrongDuration() {
+		Options o = new Options(LANDING_URL, CONTENT_URL);
+		assertThrows(RuntimeException.class, () -> o.durationInSeconds(-1), "Negative duration allowed");
+		assertThrows(RuntimeException.class, () -> o.durationInSeconds(Integer.MAX_VALUE), ">8hr duration allowed");
 	}
 	
 	private String writeSingleSiteMap(GoogleVideoSitemapGenerator wsg) {
 		List<File> files = wsg.write();
-		assertEquals("Too many files: " + files.toString(), 1, files.size());
-		assertEquals("Sitemap misnamed", "sitemap.xml", files.get(0).getName());
+		assertEquals(1, files.size(), "Too many files: " + files.toString());
+		assertEquals("sitemap.xml", files.get(0).getName(), "Sitemap misnamed");
 		return TestUtil.slurpFileAndDelete(files.get(0));
 	}
 }

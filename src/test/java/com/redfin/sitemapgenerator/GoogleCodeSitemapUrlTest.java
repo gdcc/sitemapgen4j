@@ -1,24 +1,25 @@
 package com.redfin.sitemapgenerator;
 
+import com.redfin.sitemapgenerator.GoogleCodeSitemapUrl.FileType;
+import com.redfin.sitemapgenerator.GoogleCodeSitemapUrl.License;
+import com.redfin.sitemapgenerator.GoogleCodeSitemapUrl.Options;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
 import java.io.File;
 import java.util.Date;
 import java.util.List;
 
-import junit.framework.TestCase;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import com.redfin.sitemapgenerator.ChangeFreq;
-import com.redfin.sitemapgenerator.GoogleCodeSitemapGenerator;
-import com.redfin.sitemapgenerator.GoogleCodeSitemapUrl;
-import com.redfin.sitemapgenerator.W3CDateFormat;
-import com.redfin.sitemapgenerator.GoogleCodeSitemapUrl.FileType;
-import com.redfin.sitemapgenerator.GoogleCodeSitemapUrl.License;
-import com.redfin.sitemapgenerator.GoogleCodeSitemapUrl.Options;
-
-public class GoogleCodeSitemapUrlTest extends TestCase {
+class GoogleCodeSitemapUrlTest {
 	
 	File dir;
 	GoogleCodeSitemapGenerator wsg;
 	
+	@BeforeEach
 	public void setUp() throws Exception {
 		dir = File.createTempFile(GoogleCodeSitemapUrlTest.class.getSimpleName(), "");
 		dir.delete();
@@ -26,6 +27,7 @@ public class GoogleCodeSitemapUrlTest extends TestCase {
 		dir.deleteOnExit();
 	}
 	
+	@AfterEach
 	public void tearDown() {
 		wsg = null;
 		for (File file : dir.listFiles()) {
@@ -36,7 +38,8 @@ public class GoogleCodeSitemapUrlTest extends TestCase {
 		dir = null;
 	}
 	
-	public void testSimpleUrl() throws Exception {
+	@Test
+	void testSimpleUrl() throws Exception {
 		wsg = new GoogleCodeSitemapGenerator("http://www.example.com", dir);
 		GoogleCodeSitemapUrl url = new GoogleCodeSitemapUrl("http://www.example.com/Foo.java", FileType.JAVA);
 		wsg.addUrl(url);
@@ -54,7 +57,8 @@ public class GoogleCodeSitemapUrlTest extends TestCase {
 		assertEquals(expected, sitemap);
 	}
 	
-	public void testOptions() throws Exception {
+	@Test
+	void testOptions() throws Exception {
 		W3CDateFormat dateFormat = new W3CDateFormat();
 		dateFormat.setTimeZone(W3CDateFormat.ZULU);
 		wsg = GoogleCodeSitemapGenerator.builder("http://www.example.com", dir)
@@ -83,7 +87,8 @@ public class GoogleCodeSitemapUrlTest extends TestCase {
 		assertEquals(expected, sitemap);
 	}
 	
-	public void testPackageOptions() throws Exception {
+	@Test
+	void testPackageOptions() throws Exception {
 		wsg = new GoogleCodeSitemapGenerator("http://www.example.com", dir);
 		GoogleCodeSitemapUrl url = new Options("http://www.example.com/foo/Foo.zip", FileType.ARCHIVE)
 			.license(License.GPL).fileName("Foo.java").packageUrl("http://www.example.com/foo/")
@@ -106,18 +111,16 @@ public class GoogleCodeSitemapUrlTest extends TestCase {
 		assertEquals(expected, sitemap);
 	}
 	
-	public void testPackageMapNonArchive() throws Exception {
+	@Test
+	void testPackageMapNonArchive() throws Exception {
 		Options options = new Options("http://www.example.com/foo/Foo.java", FileType.JAVA);
-		try {
-			options.packageMap("packagemap.xml");
-			fail("I was allowed to set packagemap on non-archive");
-		} catch (RuntimeException e) {}
+		assertThrows(RuntimeException.class, () -> options.packageMap("packagemap.xml"), "I was allowed to set packagemap on non-archive");
 	}
 	
 	private String writeSingleSiteMap(GoogleCodeSitemapGenerator wsg) {
 		List<File> files = wsg.write();
-		assertEquals("Too many files: " + files.toString(), 1, files.size());
-		assertEquals("Sitemap misnamed", "sitemap.xml", files.get(0).getName());
+		assertEquals(1, files.size(), "Too many files: " + files.toString());
+		assertEquals("sitemap.xml", files.get(0).getName(), "Sitemap misnamed");
 		return TestUtil.slurpFileAndDelete(files.get(0));
 	}
 }

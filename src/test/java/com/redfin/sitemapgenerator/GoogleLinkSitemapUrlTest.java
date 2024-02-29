@@ -1,16 +1,24 @@
 package com.redfin.sitemapgenerator;
 
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
 import java.io.File;
-import java.util.*;
+import java.util.Collections;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
-import junit.framework.TestCase;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class GoogleLinkSitemapUrlTest extends TestCase {
+class GoogleLinkSitemapUrlTest {
 
 	File dir;
 	GoogleLinkSitemapGenerator wsg;
 
-	@Override
+	@BeforeEach
 	public void setUp() throws Exception {
 
 		dir = File.createTempFile(GoogleLinkSitemapUrlTest.class.getSimpleName(), "");
@@ -19,7 +27,7 @@ public class GoogleLinkSitemapUrlTest extends TestCase {
 		dir.deleteOnExit();
 	}
 
-	@Override
+	@AfterEach
 	public void tearDown() {
 
 		wsg = null;
@@ -31,7 +39,8 @@ public class GoogleLinkSitemapUrlTest extends TestCase {
 		dir = null;
 	}
 
-	public void testSimpleUrlWithHrefLang() throws Exception {
+	@Test
+	void testSimpleUrlWithHrefLang() throws Exception {
 
 		wsg = new GoogleLinkSitemapGenerator("http://www.example.com", dir);
 		final Map<String, Map<String, String>> alternates = new LinkedHashMap<String, Map<String, String>>();
@@ -67,7 +76,8 @@ public class GoogleLinkSitemapUrlTest extends TestCase {
 		assertEquals(expected, sitemap);
 	}
 
-	public void testSimpleUrlWithMedia() throws Exception {
+	@Test
+	void testSimpleUrlWithMedia() throws Exception {
 
 		wsg = new GoogleLinkSitemapGenerator("http://www.example.com", dir);
 		final Map<String, Map<String, String>> alternates = new LinkedHashMap<String, Map<String, String>>();
@@ -106,8 +116,8 @@ public class GoogleLinkSitemapUrlTest extends TestCase {
 	private String writeSingleSiteMap(final GoogleLinkSitemapGenerator wsg) {
 
 		final List<File> files = wsg.write();
-		assertEquals("Too many files: " + files.toString(), 1, files.size());
-		assertEquals("Sitemap misnamed", "sitemap.xml", files.get(0).getName());
+		assertEquals(1, files.size(), "Too many files: " + files.toString());
+		assertEquals("sitemap.xml", files.get(0).getName(), "Sitemap misnamed");
 		return TestUtil.slurpFileAndDelete(files.get(0));
 	}
 }

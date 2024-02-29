@@ -128,3 +128,6 @@ crashlytics.properties
 crashlytics-build.properties
 fabric.properties
 
+
+# Maven
+.flattened-pom.xml

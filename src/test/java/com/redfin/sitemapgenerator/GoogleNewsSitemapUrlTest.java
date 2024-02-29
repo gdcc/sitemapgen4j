@@ -1,18 +1,22 @@
 package com.redfin.sitemapgenerator;
 
+import com.redfin.sitemapgenerator.W3CDateFormat.Pattern;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
 import java.io.File;
 import java.util.Date;
 import java.util.List;
 
-import junit.framework.TestCase;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import com.redfin.sitemapgenerator.W3CDateFormat.Pattern;
-
-public class GoogleNewsSitemapUrlTest extends TestCase {
+class GoogleNewsSitemapUrlTest {
 	
 	File dir;
 	GoogleNewsSitemapGenerator wsg;
 	
+	@BeforeEach
 	public void setUp() throws Exception {
 		dir = File.createTempFile(GoogleNewsSitemapUrlTest.class.getSimpleName(), "");
 		dir.delete();
@@ -20,6 +24,7 @@ public class GoogleNewsSitemapUrlTest extends TestCase {
 		dir.deleteOnExit();
 	}
 	
+	@AfterEach
 	public void tearDown() {
 		wsg = null;
 		for (File file : dir.listFiles()) {
@@ -30,7 +35,8 @@ public class GoogleNewsSitemapUrlTest extends TestCase {
 		dir = null;
 	}
 	
-	public void testSimpleUrl() throws Exception {
+	@Test
+	void testSimpleUrl() throws Exception {
 		W3CDateFormat dateFormat = new W3CDateFormat(Pattern.SECOND);
 		dateFormat.setTimeZone(W3CDateFormat.ZULU);
 		wsg = GoogleNewsSitemapGenerator.builder("http://www.example.com", dir)
@@ -55,7 +61,8 @@ public class GoogleNewsSitemapUrlTest extends TestCase {
 		assertEquals(expected, sitemap);
 	}
 	
-	public void testKeywords() throws Exception {
+	@Test
+	void testKeywords() throws Exception {
 		W3CDateFormat dateFormat = new W3CDateFormat(Pattern.SECOND);
 		dateFormat.setTimeZone(W3CDateFormat.ZULU);
 		wsg = GoogleNewsSitemapGenerator.builder("http://www.example.com", dir)
@@ -83,7 +90,8 @@ public class GoogleNewsSitemapUrlTest extends TestCase {
 		assertEquals(expected, sitemap);
 	}
 
-	public void testGenres() throws Exception {
+	@Test
+	void testGenres() throws Exception {
 		W3CDateFormat dateFormat = new W3CDateFormat(Pattern.SECOND);
 		dateFormat.setTimeZone(W3CDateFormat.ZULU);
 		wsg = GoogleNewsSitemapGenerator.builder("http://www.example.com", dir)
@@ -113,8 +121,8 @@ public class GoogleNewsSitemapUrlTest extends TestCase {
 	
 	private String writeSingleSiteMap(GoogleNewsSitemapGenerator wsg) {
 		List<File> files = wsg.write();
-		assertEquals("Too many files: " + files.toString(), 1, files.size());
-		assertEquals("Sitemap misnamed", "sitemap.xml", files.get(0).getName());
+		assertEquals(1, files.size(), "Too many files: " + files.toString());
+		assertEquals("sitemap.xml", files.get(0).getName(), "Sitemap misnamed");
 		return TestUtil.slurpFileAndDelete(files.get(0));
 	}
 }

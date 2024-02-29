@@ -1,15 +1,20 @@
 package com.redfin.sitemapgenerator;
 
-import junit.framework.TestCase;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
-public class GoogleImageSitemapUrlTest extends TestCase {
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
+class GoogleImageSitemapUrlTest {
 
     private static final URL LANDING_URL = newURL("http://www.example.com/index.html");
     private static final URL CONTENT_URL = newURL("http://www.example.com/index.flv");
@@ -22,7 +27,8 @@ public class GoogleImageSitemapUrlTest extends TestCase {
         } catch (MalformedURLException e) {}
         return null;
     }
-
+    
+    @BeforeEach
     public void setUp() throws Exception {
         dir = File.createTempFile(GoogleVideoSitemapUrlTest.class.getSimpleName(), "");
         dir.delete();
@@ -30,6 +36,7 @@ public class GoogleImageSitemapUrlTest extends TestCase {
         dir.deleteOnExit();
     }
 
+    @AfterEach
     public void tearDown() {
         wsg = null;
         for (File file : dir.listFiles()) {
@@ -40,7 +47,8 @@ public class GoogleImageSitemapUrlTest extends TestCase {
         dir = null;
     }
 
-    public void testSimpleUrl() throws Exception {
+    @Test
+    void testSimpleUrl() throws Exception {
         wsg = new GoogleImageSitemapGenerator("http://www.example.com", dir);
         GoogleImageSitemapUrl url = new GoogleImageSitemapUrl(LANDING_URL);
         url.addImage(new Image("http://cdn.example.com/image1.jpg"));
@@ -62,7 +70,8 @@ public class GoogleImageSitemapUrlTest extends TestCase {
         assertEquals(expected, sitemap);
     }
 
-    public void testBaseOptions() throws Exception {
+    @Test
+    void testBaseOptions() throws Exception {
         wsg = new GoogleImageSitemapGenerator("http://www.example.com", dir);
         GoogleImageSitemapUrl url = new GoogleImageSitemapUrl.Options(LANDING_URL)
                 .images(new Image("http://cdn.example.com/image1.jpg"), new Image("http://cdn.example.com/image2.jpg"))
@@ -90,7 +99,8 @@ public class GoogleImageSitemapUrlTest extends TestCase {
         assertEquals(expected, sitemap);
     }
 
-    public void testImageOptions() throws Exception {
+    @Test
+    void testImageOptions() throws Exception {
         wsg = new GoogleImageSitemapGenerator("http://www.example.com", dir);
         GoogleImageSitemapUrl url = new GoogleImageSitemapUrl.Options(LANDING_URL)
                 .images(new Image.ImageBuilder("http://cdn.example.com/image1.jpg")
@@ -137,28 +147,29 @@ public class GoogleImageSitemapUrlTest extends TestCase {
         assertEquals(expected, sitemap);
     }
 
-    public void testTooManyImages() throws Exception {
+    @Test
+    void testTooManyImages() throws Exception {
         wsg = new GoogleImageSitemapGenerator("http://www.example.com", dir);
         List<Image> images = new ArrayList<Image>();
         for(int i = 0; i <= 1000; i++) {
             images.add(new Image("http://cdn.example.com/image" + i + ".jpg"));
         }
-        try {
-            GoogleImageSitemapUrl url = new GoogleImageSitemapUrl.Options(LANDING_URL)
-                    .images(images)
-                    .priority(0.5)
-                    .changeFreq(ChangeFreq.WEEKLY)
-                    .build();
-            fail("Too many images allowed");
-        } catch (RuntimeException r) {}
+        
+        var options = new GoogleImageSitemapUrl.Options(LANDING_URL);
+        
+        assertThrows(RuntimeException.class, () -> options.images(images), "Too many images allowed");
+        assertDoesNotThrow(() -> options
+            .priority(0.5)
+            .changeFreq(ChangeFreq.WEEKLY)
+            .build());
     }
 
 
 
     private String writeSingleSiteMap(GoogleImageSitemapGenerator wsg) {
         List<File> files = wsg.write();
-        assertEquals("Too many files: " + files.toString(), 1, files.size());
-        assertEquals("Sitemap misnamed", "sitemap.xml", files.get(0).getName());
+        assertEquals( 1, files.size(), "Too many files: " + files.toString());
+        assertEquals("sitemap.xml", files.get(0).getName(), "Sitemap misnamed");
         return TestUtil.slurpFileAndDelete(files.get(0));
     }
 

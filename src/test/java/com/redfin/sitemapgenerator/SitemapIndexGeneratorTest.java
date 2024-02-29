@@ -1,12 +1,17 @@
 package com.redfin.sitemapgenerator;
 
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
 import java.io.File;
 import java.net.MalformedURLException;
 import java.util.Date;
 
-import junit.framework.TestCase;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
-public class SitemapIndexGeneratorTest extends TestCase {
+public class SitemapIndexGeneratorTest {
 
 	private static final String INDEX = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" + 
 			"<sitemapindex xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\">\n" + 
@@ -56,38 +61,38 @@ public class SitemapIndexGeneratorTest extends TestCase {
 	private static final W3CDateFormat ZULU = new W3CDateFormat();
 	File outFile;
 	SitemapIndexGenerator sig;
+	
+	@BeforeEach
 	public void setUp() throws Exception {
 		ZULU.setTimeZone(W3CDateFormat.ZULU);
 		outFile = File.createTempFile(SitemapGeneratorTest.class.getSimpleName(), ".xml");
 		outFile.deleteOnExit();
 	}
 	
+	@AfterEach
 	public void tearDown() {
 		sig = null;
 		outFile.delete();
 		outFile = null;
 	}
 
-	public void testTooManyUrls() throws Exception {
+	@Test
+	void testTooManyUrls() throws Exception {
 		sig = new SitemapIndexGenerator.Options(EXAMPLE, outFile).maxUrls(10).autoValidate(true).build();
 		for (int i = 0; i < 9; i++) {
 			sig.addUrl(EXAMPLE+i);
 		}
 		sig.addUrl(EXAMPLE+"9");
-		try {
-			sig.addUrl("http://www.example.com/just-one-more");
-			fail("too many URLs allowed");
-		} catch (RuntimeException e) {}
+		assertThrows(RuntimeException.class, () -> sig.addUrl("http://www.example.com/just-one-more"), "too many URLs allowed");
 	}
-	public void testNoUrls() throws Exception {
+	@Test
+	void testNoUrls() throws Exception {
 		sig = new SitemapIndexGenerator(EXAMPLE, outFile);
-		try {
-			sig.write();
-			fail("Allowed write with no URLs");
-		} catch (RuntimeException e) {}
+		assertThrows(RuntimeException.class, () -> sig.write(), "Allowed write with no URLs");
 	}
-
-	public void testNoUrlsEmptyIndexAllowed() throws Exception {
+	
+	@Test
+	void testNoUrlsEmptyIndexAllowed() throws Exception {
 		sig = new SitemapIndexGenerator.Options(EXAMPLE, outFile).allowEmptyIndex(true).build();
 		sig.write();
 		String expected = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
@@ -98,7 +103,8 @@ public class SitemapIndexGeneratorTest extends TestCase {
 		assertEquals(expected, sig.writeAsString());
 	}
 	
-	public void testMaxUrls() throws Exception {
+	@Test
+	void testMaxUrls() throws Exception {
 		sig = new SitemapIndexGenerator.Options(EXAMPLE, outFile).autoValidate(true)
 			.maxUrls(10).defaultLastMod(new Date(0)).dateFormat(ZULU).build();
 		for (int i = 1; i <= 9; i++) {
@@ -111,7 +117,8 @@ public class SitemapIndexGeneratorTest extends TestCase {
 		assertEquals(INDEX, sig.writeAsString());
 	}
 	
-	public void testOneUrl() throws Exception {
+	@Test
+	void testOneUrl() throws Exception {
 		sig = new SitemapIndexGenerator.Options(EXAMPLE, outFile).dateFormat(ZULU).autoValidate(true).build();
 		SitemapIndexUrl url = new SitemapIndexUrl(EXAMPLE+"index.html", new Date(0));
 		sig.addUrl(url);
@@ -128,7 +135,8 @@ public class SitemapIndexGeneratorTest extends TestCase {
 		assertEquals(expected, sig.writeAsString());
 	}
 	
-	public void testAddByPrefix() throws MalformedURLException {
+	@Test
+	void testAddByPrefix() throws MalformedURLException {
 		sig = new SitemapIndexGenerator.Options(EXAMPLE, outFile).autoValidate(true)
 			.defaultLastMod(new Date(0)).dateFormat(ZULU).build();
 		sig.addUrls("sitemap", ".xml", 10);
