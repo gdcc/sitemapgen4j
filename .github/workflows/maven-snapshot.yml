@@ -10,7 +10,7 @@ jobs:
         if: ${{ !contains(github.event.head_commit.message, '[maven-release-plugin]') }}
         strategy:
             matrix:
-                java: [11]
+                java: [17]
         steps:
             - uses: actions/checkout@v4
             - name: Set up Maven Central Repository
@@ -28,10 +28,10 @@ jobs:
                   key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
                   restore-keys: ${{ runner.os }}-m2
             - name: Build, test, verify and publish snapshot
-              run: mvn -B verify -Djdk.version=${{ matrix.java }}
+              run: mvn -B verify
             - name: Publish snapshot
-              if: ${{ matrix.java == '11' }}
-              run: mvn deploy -DskipUT -DskipIT -Djdk.version=${{ matrix.java }}
+              if: ${{ matrix.java == '17' }}
+              run: mvn deploy -DskipUT -DskipIT
               env:
                   MAVEN_USERNAME: ${{ secrets.DATAVERSEBOT_SONATYPE_USERNAME }}
                   MAVEN_PASSWORD: ${{ secrets.DATAVERSEBOT_SONATYPE_TOKEN }}
