@@ -16,8 +16,8 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class GoogleImageSitemapUrlTest {
 
-    private static final URL LANDING_URL = newURL("http://www.example.com/index.html");
-    private static final URL CONTENT_URL = newURL("http://www.example.com/index.flv");
+    private static final URL LANDING_URL = newURL("https://www.example.com/index.html");
+    private static final URL CONTENT_URL = newURL("https://www.example.com/index.flv");
     File dir;
     GoogleImageSitemapGenerator wsg;
 
@@ -49,20 +49,20 @@ class GoogleImageSitemapUrlTest {
 
     @Test
     void testSimpleUrl() throws Exception {
-        wsg = new GoogleImageSitemapGenerator("http://www.example.com", dir);
+        wsg = new GoogleImageSitemapGenerator("https://www.example.com", dir);
         GoogleImageSitemapUrl url = new GoogleImageSitemapUrl(LANDING_URL);
-        url.addImage(new Image("http://cdn.example.com/image1.jpg"));
-        url.addImage(new Image("http://cdn.example.com/image2.jpg"));
+        url.addImage(new Image("https://cdn.example.com/image1.jpg"));
+        url.addImage(new Image("https://cdn.example.com/image2.jpg"));
         wsg.addUrl(url);
         String expected = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
-                "<urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\" xmlns:image=\"http://www.google.com/schemas/sitemap-image/1.1\" >\n" +
+                "<urlset xmlns=\"https://www.sitemaps.org/schemas/sitemap/0.9\" xmlns:image=\"https://www.google.com/schemas/sitemap-image/1.1\" >\n" +
                 "  <url>\n" +
-                "    <loc>http://www.example.com/index.html</loc>\n" +
+                "    <loc>https://www.example.com/index.html</loc>\n" +
                 "    <image:image>\n" +
-                "      <image:loc>http://cdn.example.com/image1.jpg</image:loc>\n" +
+                "      <image:loc>https://cdn.example.com/image1.jpg</image:loc>\n" +
                 "    </image:image>\n" +
                 "    <image:image>\n" +
-                "      <image:loc>http://cdn.example.com/image2.jpg</image:loc>\n" +
+                "      <image:loc>https://cdn.example.com/image2.jpg</image:loc>\n" +
                 "    </image:image>\n" +
                 "  </url>\n" +
                 "</urlset>";
@@ -72,25 +72,25 @@ class GoogleImageSitemapUrlTest {
 
     @Test
     void testBaseOptions() throws Exception {
-        wsg = new GoogleImageSitemapGenerator("http://www.example.com", dir);
+        wsg = new GoogleImageSitemapGenerator("https://www.example.com", dir);
         GoogleImageSitemapUrl url = new GoogleImageSitemapUrl.Options(LANDING_URL)
-                .images(new Image("http://cdn.example.com/image1.jpg"), new Image("http://cdn.example.com/image2.jpg"))
+                .images(new Image("https://cdn.example.com/image1.jpg"), new Image("https://cdn.example.com/image2.jpg"))
                 .priority(0.5)
                 .changeFreq(ChangeFreq.WEEKLY)
                 .build();
         wsg.addUrl(url);
 
         String expected = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
-                "<urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\" xmlns:image=\"http://www.google.com/schemas/sitemap-image/1.1\" >\n" +
+                "<urlset xmlns=\"https://www.sitemaps.org/schemas/sitemap/0.9\" xmlns:image=\"https://www.google.com/schemas/sitemap-image/1.1\" >\n" +
                 "  <url>\n" +
-                "    <loc>http://www.example.com/index.html</loc>\n" +
+                "    <loc>https://www.example.com/index.html</loc>\n" +
                 "    <changefreq>weekly</changefreq>\n" +
                 "    <priority>0.5</priority>\n" +
                 "    <image:image>\n" +
-                "      <image:loc>http://cdn.example.com/image1.jpg</image:loc>\n" +
+                "      <image:loc>https://cdn.example.com/image1.jpg</image:loc>\n" +
                 "    </image:image>\n" +
                 "    <image:image>\n" +
-                "      <image:loc>http://cdn.example.com/image2.jpg</image:loc>\n" +
+                "      <image:loc>https://cdn.example.com/image2.jpg</image:loc>\n" +
                 "    </image:image>\n" +
                 "  </url>\n" +
                 "</urlset>";
@@ -101,19 +101,19 @@ class GoogleImageSitemapUrlTest {
 
     @Test
     void testImageOptions() throws Exception {
-        wsg = new GoogleImageSitemapGenerator("http://www.example.com", dir);
+        wsg = new GoogleImageSitemapGenerator("https://www.example.com", dir);
         GoogleImageSitemapUrl url = new GoogleImageSitemapUrl.Options(LANDING_URL)
-                .images(new Image.ImageBuilder("http://cdn.example.com/image1.jpg")
+                .images(new Image.ImageBuilder("https://cdn.example.com/image1.jpg")
                         .title("image1.jpg")
                         .caption("An image of the number 1")
                         .geoLocation("Pyongyang, North Korea")
-                        .license("http://cdn.example.com/licenses/imagelicense.txt")
+                        .license("https://cdn.example.com/licenses/imagelicense.txt")
                         .build(),
-                        new Image.ImageBuilder("http://cdn.example.com/image2.jpg")
+                        new Image.ImageBuilder("https://cdn.example.com/image2.jpg")
                                 .title("image2.jpg")
                                 .caption("An image of the number 2")
                                 .geoLocation("Pyongyang, North Korea")
-                                .license("http://cdn.example.com/licenses/imagelicense.txt")
+                                .license("https://cdn.example.com/licenses/imagelicense.txt")
                                 .build())
                 .priority(0.5)
                 .changeFreq(ChangeFreq.WEEKLY)
@@ -121,24 +121,24 @@ class GoogleImageSitemapUrlTest {
         wsg.addUrl(url);
 
         String expected = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
-                "<urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\" xmlns:image=\"http://www.google.com/schemas/sitemap-image/1.1\" >\n" +
+                "<urlset xmlns=\"https://www.sitemaps.org/schemas/sitemap/0.9\" xmlns:image=\"https://www.google.com/schemas/sitemap-image/1.1\" >\n" +
                 "  <url>\n" +
-                "    <loc>http://www.example.com/index.html</loc>\n" +
+                "    <loc>https://www.example.com/index.html</loc>\n" +
                 "    <changefreq>weekly</changefreq>\n" +
                 "    <priority>0.5</priority>\n" +
                 "    <image:image>\n" +
-                "      <image:loc>http://cdn.example.com/image1.jpg</image:loc>\n" +
+                "      <image:loc>https://cdn.example.com/image1.jpg</image:loc>\n" +
                 "      <image:caption>An image of the number 1</image:caption>\n" +
                 "      <image:title>image1.jpg</image:title>\n" +
                 "      <image:geo_location>Pyongyang, North Korea</image:geo_location>\n" +
-                "      <image:license>http://cdn.example.com/licenses/imagelicense.txt</image:license>\n" +
+                "      <image:license>https://cdn.example.com/licenses/imagelicense.txt</image:license>\n" +
                 "    </image:image>\n" +
                 "    <image:image>\n" +
-                "      <image:loc>http://cdn.example.com/image2.jpg</image:loc>\n" +
+                "      <image:loc>https://cdn.example.com/image2.jpg</image:loc>\n" +
                 "      <image:caption>An image of the number 2</image:caption>\n" +
                 "      <image:title>image2.jpg</image:title>\n" +
                 "      <image:geo_location>Pyongyang, North Korea</image:geo_location>\n" +
-                "      <image:license>http://cdn.example.com/licenses/imagelicense.txt</image:license>\n" +
+                "      <image:license>https://cdn.example.com/licenses/imagelicense.txt</image:license>\n" +
                 "    </image:image>\n" +
                 "  </url>\n" +
                 "</urlset>";
@@ -149,10 +149,10 @@ class GoogleImageSitemapUrlTest {
 
     @Test
     void testTooManyImages() throws Exception {
-        wsg = new GoogleImageSitemapGenerator("http://www.example.com", dir);
+        wsg = new GoogleImageSitemapGenerator("https://www.example.com", dir);
         List<Image> images = new ArrayList<Image>();
         for(int i = 0; i <= 1000; i++) {
-            images.add(new Image("http://cdn.example.com/image" + i + ".jpg"));
+            images.add(new Image("https://cdn.example.com/image" + i + ".jpg"));
         }
         
         var options = new GoogleImageSitemapUrl.Options(LANDING_URL);

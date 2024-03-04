@@ -82,7 +82,7 @@ public class GoogleVideoSitemapGenerator extends SitemapGenerator<GoogleVideoSit
 		}
 		
 		public String getXmlNamespaces() {
-			return "xmlns:video=\"http://www.google.com/schemas/sitemap-video/1.1\"";
+			return "xmlns:video=\"https://www.google.com/schemas/sitemap-video/1.1\"";
 		}
 
 		public void render(GoogleVideoSitemapUrl url, StringBuilder sb, W3CDateFormat dateFormat) {

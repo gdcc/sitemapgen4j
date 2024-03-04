@@ -82,7 +82,7 @@ public class GoogleImageSitemapGenerator extends SitemapGenerator<GoogleImageSit
         }
 
         public String getXmlNamespaces() {
-            return "xmlns:image=\"http://www.google.com/schemas/sitemap-image/1.1\"";
+            return "xmlns:image=\"https://www.google.com/schemas/sitemap-image/1.1\"";
         }
 
         public void render(GoogleImageSitemapUrl url, StringBuilder sb, W3CDateFormat dateFormat) {

@@ -94,7 +94,7 @@ public class GoogleNewsSitemapGenerator extends SitemapGenerator<GoogleNewsSitem
 		}
 
 		public String getXmlNamespaces() {
-			return "xmlns:news=\"http://www.google.com/schemas/sitemap-news/0.9\"";
+			return "xmlns:news=\"https://www.google.com/schemas/sitemap-news/0.9\"";
 		}
 
 		public void render(GoogleNewsSitemapUrl url, StringBuilder sb, W3CDateFormat dateFormat) {

@@ -39,14 +39,14 @@ class GoogleNewsSitemapUrlTest {
 	void testSimpleUrl() throws Exception {
 		W3CDateFormat dateFormat = new W3CDateFormat(Pattern.SECOND);
 		dateFormat.setTimeZone(W3CDateFormat.ZULU);
-		wsg = GoogleNewsSitemapGenerator.builder("http://www.example.com", dir)
+		wsg = GoogleNewsSitemapGenerator.builder("https://www.example.com", dir)
 			.dateFormat(dateFormat).build();
-		GoogleNewsSitemapUrl url = new GoogleNewsSitemapUrl("http://www.example.com/index.html", new Date(0), "Example Title", "The Example Times", "en");
+		GoogleNewsSitemapUrl url = new GoogleNewsSitemapUrl("https://www.example.com/index.html", new Date(0), "Example Title", "The Example Times", "en");
 		wsg.addUrl(url);
 		String expected = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" + 
-			"<urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\" xmlns:news=\"http://www.google.com/schemas/sitemap-news/0.9\" >\n" + 
+			"<urlset xmlns=\"https://www.sitemaps.org/schemas/sitemap/0.9\" xmlns:news=\"https://www.google.com/schemas/sitemap-news/0.9\" >\n" +
 			"  <url>\n" + 
-			"    <loc>http://www.example.com/index.html</loc>\n" + 
+			"    <loc>https://www.example.com/index.html</loc>\n" +
 			"    <news:news>\n" + 
 			"      <news:publication>\n" +
 			"        <news:name>The Example Times</news:name>\n" +
@@ -65,16 +65,16 @@ class GoogleNewsSitemapUrlTest {
 	void testKeywords() throws Exception {
 		W3CDateFormat dateFormat = new W3CDateFormat(Pattern.SECOND);
 		dateFormat.setTimeZone(W3CDateFormat.ZULU);
-		wsg = GoogleNewsSitemapGenerator.builder("http://www.example.com", dir)
+		wsg = GoogleNewsSitemapGenerator.builder("https://www.example.com", dir)
 			.dateFormat(dateFormat).build();
-		GoogleNewsSitemapUrl url = new GoogleNewsSitemapUrl.Options("http://www.example.com/index.html", new Date(0), "Example Title", "The Example Times", "en")
+		GoogleNewsSitemapUrl url = new GoogleNewsSitemapUrl.Options("https://www.example.com/index.html", new Date(0), "Example Title", "The Example Times", "en")
 			.keywords("Klaatu", "Barrata", "Nicto")
 			.build();
 		wsg.addUrl(url);
 		String expected = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" + 
-			"<urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\" xmlns:news=\"http://www.google.com/schemas/sitemap-news/0.9\" >\n" + 
+			"<urlset xmlns=\"https://www.sitemaps.org/schemas/sitemap/0.9\" xmlns:news=\"https://www.google.com/schemas/sitemap-news/0.9\" >\n" +
 			"  <url>\n" + 
-			"    <loc>http://www.example.com/index.html</loc>\n" + 
+			"    <loc>https://www.example.com/index.html</loc>\n" +
 			"    <news:news>\n" + 
 			"      <news:publication>\n" +
 			"        <news:name>The Example Times</news:name>\n" +
@@ -94,16 +94,16 @@ class GoogleNewsSitemapUrlTest {
 	void testGenres() throws Exception {
 		W3CDateFormat dateFormat = new W3CDateFormat(Pattern.SECOND);
 		dateFormat.setTimeZone(W3CDateFormat.ZULU);
-		wsg = GoogleNewsSitemapGenerator.builder("http://www.example.com", dir)
+		wsg = GoogleNewsSitemapGenerator.builder("https://www.example.com", dir)
 			.dateFormat(dateFormat).build();
-		GoogleNewsSitemapUrl url = new GoogleNewsSitemapUrl.Options("http://www.example.com/index.html", new Date(0), "Example Title", "The Example Times", "en")
+		GoogleNewsSitemapUrl url = new GoogleNewsSitemapUrl.Options("https://www.example.com/index.html", new Date(0), "Example Title", "The Example Times", "en")
 			.genres("persbericht")
 			.build();
 		wsg.addUrl(url);
 		String expected = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
-			"<urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\" xmlns:news=\"http://www.google.com/schemas/sitemap-news/0.9\" >\n" +
+			"<urlset xmlns=\"https://www.sitemaps.org/schemas/sitemap/0.9\" xmlns:news=\"https://www.google.com/schemas/sitemap-news/0.9\" >\n" +
 			"  <url>\n" +
-			"    <loc>http://www.example.com/index.html</loc>\n" +
+			"    <loc>https://www.example.com/index.html</loc>\n" +
 			"    <news:news>\n" +
 			"      <news:publication>\n" +
 			"        <news:name>The Example Times</news:name>\n" +
