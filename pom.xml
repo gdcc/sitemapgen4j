@@ -325,9 +325,6 @@
                 <sonar.projectKey>gdcc_sitemapgen4j</sonar.projectKey>
                 <sonar.moduleKey>${project.groupId}:${project.artifactId}</sonar.moduleKey>
                 <sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>
-                <sonar.coverage.jacoco.xmlReportPaths>
-                    ${maven.multiModuleProjectDirectory}/report/target/site/jacoco-aggregate/jacoco.xml
-                </sonar.coverage.jacoco.xmlReportPaths>
             </properties>
             <build>
                 <pluginManagement>
@@ -349,6 +346,13 @@
                                 <id>prepare-agent</id>
                                 <goals>
                                     <goal>prepare-agent</goal>
+                                </goals>
+                            </execution>
+                            <execution>
+                                <id>report</id>
+                                <phase>test</phase>
+                                <goals>
+                                    <goal>report</goal>
                                 </goals>
                             </execution>
                         </executions>
