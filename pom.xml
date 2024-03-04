@@ -319,34 +319,6 @@
                     </execution>
                 </executions>
             </plugin>
-            
-            <!-- DOCUMENTATION -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-resources-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>readme-md</id>
-                        <phase>process-resources</phase>
-                        <goals>
-                            <goal>copy-resources</goal>
-                        </goals>
-                        <configuration>
-                            <outputDirectory>${project.basedir}/docs</outputDirectory>
-                            <resources>
-                                <resource>
-                                    <directory>${project.build.resources[0].directory}</directory>
-                                    <includes>
-                                        <include>version.svg</include>
-                                    </includes>
-                                    <filtering>true</filtering>
-                                </resource>
-                            </resources>
-                            <encoding>UTF-8</encoding>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
         </plugins>
     </build>
     

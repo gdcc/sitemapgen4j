@@ -30,7 +30,13 @@ Sitemap 0.90 is offered under the terms of the Attribution-ShareAlike Creative C
 
 First, add this as a dependency to your POM:
 
-![mvn dependency](docs/version.svg)
+```xml
+<dependency>
+    <groupId>io.gdcc</groupId>
+    <artifactId>sitemapgen4j</artifactId>
+    <version>2.0.0</version>
+</dependency>
+```
 
 The easiest way to get started is to just use the WebSitemapGenerator class, like this:
 
