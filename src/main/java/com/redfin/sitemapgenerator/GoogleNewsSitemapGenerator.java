@@ -43,7 +43,7 @@ public class GoogleNewsSitemapGenerator extends SitemapGenerator<GoogleNewsSitem
 	GoogleNewsSitemapGenerator(AbstractSitemapGeneratorOptions<?> options) {
 		super(options, new Renderer());
 		if (options.maxUrls > GoogleNewsSitemapGenerator.MAX_URLS_PER_SITEMAP) {
-			throw new RuntimeException("Google News sitemaps can have only 1000 URLs per sitemap: " + options.maxUrls);
+			throw new SitemapException("Google News sitemaps can have only 1000 URLs per sitemap: " + options.maxUrls);
 		}
 	}
 

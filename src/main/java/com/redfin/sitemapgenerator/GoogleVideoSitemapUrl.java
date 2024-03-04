@@ -109,6 +109,7 @@ public class GoogleVideoSitemapUrl extends WebSitemapUrl {
 				if (title.length() > 100) {
 					throw new RuntimeException("Video title is limited to 100 characters: " + title);
 				}
+				throw new SitemapException("Video title is limited to 100 characters: " + title);
 			}
 			this.title = title;
 			return this;
@@ -120,6 +121,7 @@ public class GoogleVideoSitemapUrl extends WebSitemapUrl {
 				if (description.length() > 2048) {
 					throw new RuntimeException("Truncate video descriptions to 2048 characters: " + description);
 				}
+				throw new SitemapException("Truncate video descriptions to 2048 characters: " + description);
 			}
 			this.description = description;
 			return this;
@@ -131,6 +133,7 @@ public class GoogleVideoSitemapUrl extends WebSitemapUrl {
 				if (rating < 0 || rating > 5.0) {
 					throw new RuntimeException("Rating must be between 0.0 and 5.0:" + rating);
 				}
+				throw new SitemapException("Rating must be between 0.0 and 5.0:" + rating);
 			}
 			this.rating = rating;
 			return this;
@@ -204,6 +207,7 @@ public class GoogleVideoSitemapUrl extends WebSitemapUrl {
 				if (category.length() > 256) {
 					throw new RuntimeException("Video category is limited to 256 characters: " + title);
 				}
+				throw new SitemapException("Video category is limited to 256 characters: " + title);
 			}
 			this.category = category;
 			return this;
@@ -218,7 +222,7 @@ public class GoogleVideoSitemapUrl extends WebSitemapUrl {
 		/** The duration of the video in seconds; value must be between 0 and 28800 (8 hours). */
 		public Options durationInSeconds(int durationInSeconds) {
 			if (durationInSeconds < 0 || durationInSeconds > 28800) {
-				throw new RuntimeException("Duration must be between 0 and 28800 (8 hours):" + durationInSeconds);
+				throw new SitemapException("Duration must be between 0 and 28800 (8 hours):" + durationInSeconds);
 			}
 			this.durationInSeconds = durationInSeconds;
 			return this;
@@ -251,11 +255,11 @@ public class GoogleVideoSitemapUrl extends WebSitemapUrl {
 		contentUrl = options.contentUrl;
 		playerUrl = options.playerUrl;
 		if (playerUrl == null && contentUrl == null) {
-			throw new RuntimeException("You must specify either contentUrl or playerUrl or both; neither were specified");
+			throw new SitemapException("You must specify either contentUrl or playerUrl or both; neither were specified");
 		}
 		allowEmbed = convertBooleanToYesOrNo(options.allowEmbed);
 		if (playerUrl != null && allowEmbed == null) {
-			throw new RuntimeException("allowEmbed must be specified if playerUrl is specified");
+			throw new SitemapException("allowEmbed must be specified if playerUrl is specified");
 		}
 		category = options.category;
 		
@@ -267,7 +271,7 @@ public class GoogleVideoSitemapUrl extends WebSitemapUrl {
 		rating = options.rating;
 		tags = options.tags;
 		if (tags != null && tags.size() > 32) {
-			throw new RuntimeException("A maximum of 32 tags is permitted");
+			throw new SitemapException("A maximum of 32 tags is permitted");
 		}
 		thumbnailUrl = options.thumbnailUrl;
 		title = options.title;

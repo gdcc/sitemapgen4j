@@ -14,6 +14,7 @@ import java.util.List;
 public class GoogleImageSitemapUrl extends WebSitemapUrl {
 
     private final List<Image> images;
+    private static final String ERROR_MORE_1000_IMG = "A URL cannot have more than 1000 image tags";
 
     public GoogleImageSitemapUrl(String url) throws MalformedURLException {
         this(new Options(url));
@@ -31,7 +32,7 @@ public class GoogleImageSitemapUrl extends WebSitemapUrl {
     public void addImage(Image image) {
         this.images.add(image);
         if(this.images.size() > 1000) {
-            throw new RuntimeException("A URL cannot have more than 1000 image tags");
+            throw new SitemapException(ERROR_MORE_1000_IMG);
         }
     }
 
@@ -52,7 +53,7 @@ public class GoogleImageSitemapUrl extends WebSitemapUrl {
 
         public Options images(List<Image> images) {
             if(images != null && images.size() > 1000) {
-                throw new RuntimeException("A URL cannot have more than 1000 image tags");
+                throw new SitemapException(ERROR_MORE_1000_IMG);
             }
             this.images = images;
             return this;
@@ -60,7 +61,7 @@ public class GoogleImageSitemapUrl extends WebSitemapUrl {
 
         public Options images(Image...images) {
             if(images.length > 1000) {
-                throw new RuntimeException("A URL cannot have more than 1000 image tags");
+                throw new SitemapException(ERROR_MORE_1000_IMG);
             }
             return images(Arrays.asList(images));
 

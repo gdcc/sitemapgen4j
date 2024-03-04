@@ -105,7 +105,7 @@ abstract class AbstractSitemapUrlOptions<U extends WebSitemapUrl, T extends Abst
 		try {
 			return clazz.getConstructor(getClass()).newInstance(this);
 		} catch (Exception e) {
-			throw new RuntimeException(e);
+			throw new SitemapException(e);
 		}
 	}
 	

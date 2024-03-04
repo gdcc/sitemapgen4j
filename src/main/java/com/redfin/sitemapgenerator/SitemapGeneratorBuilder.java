@@ -46,7 +46,7 @@ public class SitemapGeneratorBuilder<G extends SitemapGenerator<?,?>> extends Ab
 		try {
 			return sitemapGeneratorClass.getDeclaredConstructor(AbstractSitemapGeneratorOptions.class).newInstance(this);
 		} catch (Exception e) {
-			throw new RuntimeException(e);
+			throw new SitemapException(e);
 		}
 	}
 

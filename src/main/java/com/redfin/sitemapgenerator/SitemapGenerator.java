@@ -65,7 +65,7 @@ abstract class SitemapGenerator<U extends ISitemapUrl, T extends SitemapGenerato
 		if (finished) throw new SitemapException("Sitemap already printed; you must create a new generator to make more sitemaps");
 		UrlUtils.checkUrl(url.getUrl(), baseUrl);
 		if (urls.size() == maxUrls) {
-			if (!allowMultipleSitemaps) throw new RuntimeException("More than " + maxUrls + " urls, but allowMultipleSitemaps is false.  Enable allowMultipleSitemaps to split the sitemap into multiple files with a sitemap index.");
+			if (!allowMultipleSitemaps) throw new SitemapException("More than " + maxUrls + " urls, but allowMultipleSitemaps is false.  Enable allowMultipleSitemaps to split the sitemap into multiple files with a sitemap index.");
 			if (baseDir != null) {
 				if (mapCount == 0) mapCount++;
 				try {
@@ -126,7 +126,7 @@ abstract class SitemapGenerator<U extends ISitemapUrl, T extends SitemapGenerato
 			sitemapUrl = renderer.getUrlClass().getConstructor(String.class).newInstance(url);
 			return addUrl(sitemapUrl);
 		} catch (Exception e) {
-			throw new RuntimeException(e);
+			throw new SitemapException(e);
 		}
 	}
 	
@@ -153,7 +153,7 @@ abstract class SitemapGenerator<U extends ISitemapUrl, T extends SitemapGenerato
 			sitemapUrl = renderer.getUrlClass().getConstructor(URL.class).newInstance(url);
 			return addUrl(sitemapUrl);
 		} catch (Exception e) {
-			throw new RuntimeException(e);
+			throw new SitemapException(e);
 		}
 	}
 	
@@ -167,13 +167,9 @@ abstract class SitemapGenerator<U extends ISitemapUrl, T extends SitemapGenerato
 	 * @return a list of files we wrote out to disk
 	 */
 	public List<File> write() {
-		if (finished) throw new RuntimeException("Sitemap already printed; you must create a new generator to make more sitemaps");
-		if (!allowEmptySitemap && urls.isEmpty() && mapCount == 0) throw new RuntimeException("No URLs added, sitemap would be empty; you must add some URLs with addUrls");
-		try {
-			writeSiteMap();
-		} catch (IOException ex) {
-			throw new RuntimeException("Closing of streams has failed at some point.", ex);
-		}
+		if (finished) throw new SitemapException("Sitemap already printed; you must create a new generator to make more sitemaps");
+		if (!allowEmptySitemap && urls.isEmpty() && mapCount == 0) throw new SitemapException("No URLs added, sitemap would be empty; you must add some URLs with addUrls");
+		writeSiteMap();
 		finished = true;
 		return outFiles;
 	}
@@ -239,7 +235,7 @@ abstract class SitemapGenerator<U extends ISitemapUrl, T extends SitemapGenerato
 	}
 
 	private SitemapIndexGenerator prepareSitemapIndexGenerator(File outFile) {
-		if (!finished) throw new RuntimeException("Sitemaps not generated yet; call write() first");
+		if (!finished) throw new SitemapException("Sitemaps not generated yet; call write() first");
 		SitemapIndexGenerator sig;
 		sig = new SitemapIndexGenerator.Options(baseUrl, outFile).dateFormat(dateFormat).autoValidate(autoValidate).build();
 		sig.addUrls(fileNamePrefix, fileNameSuffix, mapCount);
@@ -273,15 +269,16 @@ abstract class SitemapGenerator<U extends ISitemapUrl, T extends SitemapGenerato
 			writeSiteMap(out);
 			out.flush();
 
+			throw new SitemapException("Problem writing sitemap file " + outFile, e);
 			if (autoValidate) SitemapValidator.validateWebSitemap(outFile);
 		} catch (IOException e) {
 			throw new RuntimeException("Problem writing sitemap file " + outFile, e);
 		} catch (SAXException e) {
-			throw new RuntimeException("Sitemap file failed to validate (bug?)", e);
 		} finally {
 			if(out != null) {
 				out.close();
 			}
+			throw new SitemapException("Sitemap file failed to validate (bug?)", e);
 		}
 	}
 	

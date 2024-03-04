@@ -46,7 +46,7 @@ public class SitemapValidator {
 			sitemapSchema = lazyLoad(factory, "sitemap.xsd");
 			sitemapIndexSchema = lazyLoad(factory, "siteindex.xsd");
 		} catch (Exception e) {
-			throw new RuntimeException("BUG", e);
+			throw new SitemapException("BUG", e);
 		}
 	}
 
@@ -91,6 +91,7 @@ public class SitemapValidator {
 			throw new RuntimeException("Unable to close stream.", ex);
 		}
 
+			throw new SitemapException(e);
 	}
 
 }

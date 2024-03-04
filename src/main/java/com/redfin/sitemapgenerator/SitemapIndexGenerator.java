@@ -80,7 +80,7 @@ public class SitemapIndexGenerator {
 		 */
 		Options maxUrls(int maxUrls) {
 			if (maxUrls > MAX_SITEMAPS_PER_INDEX) {
-				throw new RuntimeException("You can't have more than 1000 sitemaps per index");
+				throw new SitemapException("You can't have more than 1000 sitemaps per index");
 			}
 			this.maxUrls = maxUrls;
 			return this;
@@ -144,7 +144,7 @@ public class SitemapIndexGenerator {
 	public SitemapIndexGenerator addUrl(SitemapIndexUrl url) { 
 		UrlUtils.checkUrl(url.url, baseUrl);
 		if (urls.size() >= maxUrls) {
-			throw new RuntimeException("More than " + maxUrls + " urls");
+			throw new SitemapException("More than " + maxUrls + " urls");
 		}
 		urls.add(url);
 		return this;
@@ -205,7 +205,7 @@ public class SitemapIndexGenerator {
 			try {
 				addUrl(new URL(baseUrl, prefix + suffix));
 			} catch (MalformedURLException e) {
-				throw new RuntimeException(e);
+				throw new SitemapException(e);
 			}
 		} else {
 			for (int i = 1; i <= count; i++) {
@@ -213,7 +213,7 @@ public class SitemapIndexGenerator {
 				try {
 					addUrl(new URL(baseUrl, fileName));
 				} catch (MalformedURLException e) {
-					throw new RuntimeException(e);
+					throw new SitemapException(e);
 				}
 			}
 		}
@@ -226,7 +226,7 @@ public class SitemapIndexGenerator {
 			// TODO gzip? is that legal for a sitemap index?
 			write(new FileWriter(outFile));
 		} catch (IOException e) {
-			throw new RuntimeException("Problem writing sitemap index file " + outFile, e);
+			throw new SitemapException("Problem writing sitemap index file " + outFile, e);
 		}
 	}
 
@@ -244,8 +244,9 @@ public class SitemapIndexGenerator {
 					out.close();
 				}
 			}
+			throw new SitemapException("Problem validating sitemap index file (bug?)", e);
 		} catch (IOException ex) {
-			throw new RuntimeException("Closing of stream has failed.", ex);
+			throw new SitemapException("Error writing to output", ex);
 		}
 
 	}

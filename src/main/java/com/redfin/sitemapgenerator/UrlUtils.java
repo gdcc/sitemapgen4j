@@ -35,16 +35,12 @@ class UrlUtils {
 		// Is there a better test to use here?
 		
 		if (baseUrl.getHost() == null) {
-			throw new RuntimeException("base URL is null");
+			throw new SitemapException("base URL is null");
 		}
 		
 		if (!baseUrl.getHost().equalsIgnoreCase(url.getHost())) {
-			throw new RuntimeException("Domain of URL " + url + " doesn't match base URL " + baseUrl);
+			throw new SitemapException("Domain of URL " + url + " doesn't match base URL " + baseUrl);
 		}
-	}
-
-	static <K,V> HashMap<K,V> newHashMap() {
-		return new HashMap<K,V>();
 	}
 	
 }
