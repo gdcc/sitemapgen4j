@@ -7,7 +7,7 @@ import java.net.URL;
 /**
  * Builds a sitemap for Google Video search.  To configure options, use {@link #builder(URL, File)}
  * @author Dan Fabulich
- * @see <a href="http://www.google.com/support/webmasters/bin/answer.py?answer=80472">Creating Video Sitemaps</a>
+ * @see <a href="https://developers.google.com/search/docs/crawling-indexing/sitemaps/video-sitemaps">Google Developer: Video Sitemaps</a>
  */
 public class GoogleVideoSitemapGenerator extends SitemapGenerator<GoogleVideoSitemapUrl,GoogleVideoSitemapGenerator> {
 

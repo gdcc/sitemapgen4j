@@ -7,7 +7,7 @@ import java.net.URL;
 /**
  * Builds a sitemap for Google News.  To configure options, use {@link #builder(URL, File)}
  * @author Dan Fabulich
- * @see <a href="http://www.google.com/support/news_pub/bin/answer.py?answer=74288">Creating a News Sitemap</a>
+ * @see <a href="https://developers.google.com/search/docs/crawling-indexing/sitemaps/news-sitemap">Google Developer: News Sitemap</a>
  */
 public class GoogleNewsSitemapGenerator extends SitemapGenerator<GoogleNewsSitemapUrl,GoogleNewsSitemapGenerator> {
 

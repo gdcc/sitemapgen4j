@@ -9,7 +9,7 @@ import java.util.Date;
  * 
  * @author Dan Fabulich
  * @see Options
- * @see <a href="http://www.google.com/support/webmasters/bin/answer.py?answer=80472">Creating Video Sitemaps</a>
+ * @see <a href="https://developers.google.com/search/docs/crawling-indexing/sitemaps/video-sitemaps">Google Developer: Video Sitemaps</a>
  */
 public class GoogleVideoSitemapUrl extends WebSitemapUrl {
 

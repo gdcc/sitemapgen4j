@@ -6,7 +6,7 @@ import java.net.URL;
 
 /**
  * Builds a sitemap for Google Image search. To configure options use {@link #builder(URL, File)}
- * @see <a href="https://support.google.com/webmasters/answer/183668">Manage your sitemaps</a>
+ * @see <a href="https://developers.google.com/search/docs/crawling-indexing/sitemaps/image-sitemaps">Google Developer: Image Sitemaps</a>
  * */
 public class GoogleImageSitemapGenerator extends SitemapGenerator<GoogleImageSitemapUrl, GoogleImageSitemapGenerator> {
 

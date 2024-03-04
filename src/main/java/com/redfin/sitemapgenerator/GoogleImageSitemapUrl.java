@@ -9,7 +9,7 @@ import java.util.List;
 /** One configurable Google Image Search URL.  To configure, use {@link Options}
  *
  * @see Options
- * @see <a href="http://www.google.com/support/webmasters/bin/answer.py?answer=183668">Creating Image Sitemaps</a>
+ * @see <a href="https://developers.google.com/search/docs/crawling-indexing/sitemaps/image-sitemaps">Google Developer: Image Sitemaps</a>
  */
 public class GoogleImageSitemapUrl extends WebSitemapUrl {
 

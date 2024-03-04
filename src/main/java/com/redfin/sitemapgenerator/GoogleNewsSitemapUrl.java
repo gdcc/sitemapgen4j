@@ -9,7 +9,7 @@ import java.util.Date;
  * One configurable Google News Search URL.  To configure, use {@link Options}
  * @author Dan Fabulich
  * @see Options
- * @see <a href="http://www.google.com/support/news_pub/bin/answer.py?answer=74288">Creating a News Sitemap</a>
+ * @see <a href="https://developers.google.com/search/docs/crawling-indexing/sitemaps/news-sitemap">Google Developer: News Sitemap</a>
  */
 public class GoogleNewsSitemapUrl extends WebSitemapUrl {
 
