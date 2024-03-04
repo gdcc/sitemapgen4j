@@ -77,6 +77,8 @@ public class GoogleVideoSitemapGenerator extends SitemapGenerator<GoogleVideoSit
 
 	private static class Renderer extends AbstractSitemapUrlRenderer<GoogleVideoSitemapUrl> implements ISitemapUrlRenderer<GoogleVideoSitemapUrl> {
 
+		private static final String VIDEO_NS = "video";
+		
 		public Class<GoogleVideoSitemapUrl> getUrlClass() {
 			return GoogleVideoSitemapUrl.class;
 		}
@@ -87,32 +89,30 @@ public class GoogleVideoSitemapGenerator extends SitemapGenerator<GoogleVideoSit
 
 		public void render(GoogleVideoSitemapUrl url, StringBuilder sb, W3CDateFormat dateFormat) {
 			StringBuilder tagSb = new StringBuilder();
-			tagSb.append("    <video:video>\n");
-			renderTag(tagSb, "video", "content_loc", url.getContentUrl());
+			tagSb.append("    <").append(VIDEO_NS).append(":video>\n");
+			renderTag(tagSb, VIDEO_NS, "content_loc", url.getContentUrl());
 			if (url.getPlayerUrl() != null) {
-				tagSb.append("      <video:player_loc allow_embed=\"");
-				tagSb.append(url.getAllowEmbed());
-				tagSb.append("\">");
+				tagSb.append("      <").append(VIDEO_NS).append(":player_loc allow_embed=\"").append(url.getAllowEmbed()).append("\">");
 				tagSb.append(url.getPlayerUrl());
-				tagSb.append("</video:player_loc>\n");
+				tagSb.append("</").append(VIDEO_NS).append(":player_loc>\n");
 			}
-			renderTag(tagSb, "video", "thumbnail_loc", url.getThumbnailUrl());
-			renderTag(tagSb, "video", "title", url.getTitle());
-			renderTag(tagSb, "video", "description", url.getDescription());
-			renderTag(tagSb, "video", "rating", url.getRating());
-			renderTag(tagSb, "video", "view_count", url.getViewCount());
+			renderTag(tagSb, VIDEO_NS, "thumbnail_loc", url.getThumbnailUrl());
+			renderTag(tagSb, VIDEO_NS, "title", url.getTitle());
+			renderTag(tagSb, VIDEO_NS, "description", url.getDescription());
+			renderTag(tagSb, VIDEO_NS, "rating", url.getRating());
+			renderTag(tagSb, VIDEO_NS, "view_count", url.getViewCount());
 			if (url.getPublicationDate() != null) {
-				renderTag(tagSb, "video", "publication_date", dateFormat.format(url.getPublicationDate()));
+				renderTag(tagSb, VIDEO_NS, "publication_date", dateFormat.format(url.getPublicationDate()));
 			}
 			if (url.getTags() != null) {
 				for (String tag : url.getTags()) {
-					renderTag(tagSb, "video", "tag", tag);
+					renderTag(tagSb, VIDEO_NS, "tag", tag);
 				}
 			}
-			renderTag(tagSb, "video", "category", url.getCategory());
-			renderTag(tagSb, "video", "family_friendly", url.getFamilyFriendly());
-			renderTag(tagSb, "video", "duration", url.getDurationInSeconds());
-			tagSb.append("    </video:video>\n");
+			renderTag(tagSb, VIDEO_NS, "category", url.getCategory());
+			renderTag(tagSb, VIDEO_NS, "family_friendly", url.getFamilyFriendly());
+			renderTag(tagSb, VIDEO_NS, "duration", url.getDurationInSeconds());
+			tagSb.append("    </").append(VIDEO_NS).append(":video>\n");
 			super.render(url, sb, dateFormat, tagSb.toString());
 		}
 		

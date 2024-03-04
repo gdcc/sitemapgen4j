@@ -89,6 +89,8 @@ public class GoogleNewsSitemapGenerator extends SitemapGenerator<GoogleNewsSitem
 	
 	private static class Renderer extends AbstractSitemapUrlRenderer<GoogleNewsSitemapUrl> implements ISitemapUrlRenderer<GoogleNewsSitemapUrl> {
 
+		private static final String NEWS_NS = "news";
+		
 		public Class<GoogleNewsSitemapUrl> getUrlClass() {
 			return GoogleNewsSitemapUrl.class;
 		}
@@ -99,16 +101,16 @@ public class GoogleNewsSitemapGenerator extends SitemapGenerator<GoogleNewsSitem
 
 		public void render(GoogleNewsSitemapUrl url, StringBuilder sb, W3CDateFormat dateFormat) {
 			StringBuilder tagSb = new StringBuilder();
-			tagSb.append("    <news:news>\n");
-			tagSb.append("      <news:publication>\n");
-			renderSubTag(tagSb, "news", "name", url.getPublication().getName());
-			renderSubTag(tagSb, "news", "language", url.getPublication().getLanguage());
-			tagSb.append("      </news:publication>\n");
-			renderTag(tagSb, "news", "genres", url.getGenres());
-			renderTag(tagSb, "news", "publication_date", dateFormat.format(url.getPublicationDate()));
-			renderTag(tagSb, "news", "title", url.getTitle());
-			renderTag(tagSb, "news", "keywords", url.getKeywords());
-			tagSb.append("    </news:news>\n");
+			tagSb.append("    <").append(NEWS_NS).append(":news>\n");
+			tagSb.append("      <").append(NEWS_NS).append(":publication>\n");
+			renderSubTag(tagSb, NEWS_NS, "name", url.getPublication().getName());
+			renderSubTag(tagSb, NEWS_NS, "language", url.getPublication().getLanguage());
+			tagSb.append("      </").append(NEWS_NS).append(":publication>\n");
+			renderTag(tagSb, NEWS_NS, "genres", url.getGenres());
+			renderTag(tagSb, NEWS_NS, "publication_date", dateFormat.format(url.getPublicationDate()));
+			renderTag(tagSb, NEWS_NS, "title", url.getTitle());
+			renderTag(tagSb, NEWS_NS, "keywords", url.getKeywords());
+			tagSb.append("    </").append(NEWS_NS).append(":news>\n");
 			super.render(url, sb, dateFormat, tagSb.toString());
 		}
 		

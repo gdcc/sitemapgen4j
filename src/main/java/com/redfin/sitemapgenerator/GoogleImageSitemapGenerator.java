@@ -77,6 +77,8 @@ public class GoogleImageSitemapGenerator extends SitemapGenerator<GoogleImageSit
 
     private static class Renderer extends AbstractSitemapUrlRenderer<GoogleImageSitemapUrl> implements ISitemapUrlRenderer<GoogleImageSitemapUrl> {
 
+        private static final String IMAGE_NS = "image";
+        
         public Class<GoogleImageSitemapUrl> getUrlClass() {
             return GoogleImageSitemapUrl.class;
         }
@@ -89,13 +91,13 @@ public class GoogleImageSitemapGenerator extends SitemapGenerator<GoogleImageSit
             StringBuilder tagSb = new StringBuilder();
 
             for(Image image : url.getImages()) {
-                tagSb.append("    <image:image>\n");
-                renderTag(tagSb, "image", "loc", image.getUrl());
-                renderTag(tagSb, "image", "caption", image.getCaption());
-                renderTag(tagSb, "image", "title", image.getTitle());
-                renderTag(tagSb, "image", "geo_location", image.getGeoLocation());
-                renderTag(tagSb, "image", "license", image.getLicense());
-                tagSb.append("    </image:image>\n");
+                tagSb.append("    <").append(IMAGE_NS).append(":image>\n");
+                renderTag(tagSb, IMAGE_NS, "loc", image.getUrl());
+                renderTag(tagSb, IMAGE_NS, "caption", image.getCaption());
+                renderTag(tagSb, IMAGE_NS, "title", image.getTitle());
+                renderTag(tagSb, IMAGE_NS, "geo_location", image.getGeoLocation());
+                renderTag(tagSb, IMAGE_NS, "license", image.getLicense());
+                tagSb.append("    </").append(IMAGE_NS).append(":image>\n");
             }
             super.render(url, sb, dateFormat, tagSb.toString());
         }

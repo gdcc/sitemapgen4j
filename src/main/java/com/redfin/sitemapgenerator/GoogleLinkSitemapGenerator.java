@@ -34,9 +34,9 @@ public class GoogleLinkSitemapGenerator extends SitemapGenerator<GoogleLinkSitem
 				tagSb.append("    <xhtml:link\n");
 				tagSb.append("      rel=\"alternate\"\n");
 				for(final Entry<String, String> innerEntry : entry.getValue().entrySet()){
-					tagSb.append("      " + innerEntry.getKey() + "=\"" + innerEntry.getValue() + "\"\n");
+					tagSb.append("      ").append(innerEntry.getKey()).append("=\"").append(innerEntry.getValue()).append("\"\n");
 				}
-				tagSb.append("      href=\"" + UrlUtils.escapeXml(entry.getKey().toString()) + "\"\n");
+				tagSb.append("      href=\"").append(UrlUtils.escapeXml(entry.getKey().toString())).append("\"\n");
 				tagSb.append("    />\n");
 			}
 			super.render(url, sb, dateFormat, tagSb.toString());
