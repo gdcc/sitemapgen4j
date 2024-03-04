@@ -50,20 +50,13 @@ public class SitemapValidator {
 		}
 	}
 
-	private synchronized static Schema lazyLoad(SchemaFactory factory, String resource) throws IOException, SAXException {
-		InputStream stream = null;
-
-		try {
-			stream = SitemapValidator.class.getResourceAsStream(resource);
-			if (stream == null) throw new RuntimeException("BUG Couldn't load " + resource);
-			StreamSource source = new StreamSource(stream);
-			return factory.newSchema(source);
-		} finally {
-			if(stream != null) {
-				stream.close();
-			}
-		}
 	private static synchronized Schema lazyLoad(SchemaFactory factory, String resource) throws IOException, SAXException {
+        
+        try (InputStream stream = SitemapValidator.class.getResourceAsStream(resource)) {
+            if (stream == null) throw new SitemapException("BUG Couldn't load " + resource);
+            StreamSource source = new StreamSource(stream);
+            return factory.newSchema(source);
+        }
 
 	}
 	

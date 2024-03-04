@@ -3,18 +3,19 @@
  */
 package com.redfin.sitemapgenerator;
 
-import static java.util.Calendar.HOUR_OF_DAY;
-import static java.util.Calendar.MILLISECOND;
-import static java.util.Calendar.MINUTE;
-import static java.util.Calendar.SECOND;
-
 import java.text.DateFormat;
 import java.text.FieldPosition;
 import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.Objects;
 import java.util.TimeZone;
+
+import static java.util.Calendar.HOUR_OF_DAY;
+import static java.util.Calendar.MILLISECOND;
+import static java.util.Calendar.MINUTE;
+import static java.util.Calendar.SECOND;
 
 /**
  * <p>Formats and parses dates in the six defined W3C date time formats.  These formats are described in 
@@ -138,6 +139,20 @@ public class W3CDateFormat extends SimpleDateFormat {
 			return autoParse(text, pos);
 		}
 		return super.parse(text, pos);
+	}
+	
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (!(o instanceof W3CDateFormat)) return false;
+		if (!super.equals(o)) return false;
+		W3CDateFormat that = (W3CDateFormat) o;
+		return pattern == that.pattern;
+	}
+	
+	@Override
+	public int hashCode() {
+		return Objects.hash(super.hashCode(), pattern);
 	}
 	
 	private Date autoParse(String text, ParsePosition pos) {
