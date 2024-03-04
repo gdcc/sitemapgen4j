@@ -253,7 +253,7 @@ public class SitemapIndexGenerator {
 
 	private void writeAsString(StringBuilder sb) {
 		sb.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"); 
-		sb.append("<sitemapindex xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\">\n");
+		sb.append("<sitemapindex xmlns=\"https://www.sitemaps.org/schemas/sitemap/0.9\">\n");
 		for (SitemapIndexUrl url : urls) {
 			sb.append("  <sitemap>\n");
 			sb.append("    <loc>");

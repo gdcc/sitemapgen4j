@@ -26,7 +26,7 @@ public class GoogleVideoSitemapUrl extends WebSitemapUrl {
 	private final String category;
 	// TODO can there be multiple categories?
 	// "Usually a video will belong to a single category."
-	// http://www.google.com/support/webmasters/bin/answer.py?answer=80472
+	// https://www.google.com/support/webmasters/bin/answer.py?answer=80472
 	private final String familyFriendly;
 	private final Integer durationInSeconds;
 	private final String allowEmbed;
@@ -45,7 +45,7 @@ public class GoogleVideoSitemapUrl extends WebSitemapUrl {
 		private String category;
 		// TODO can there be multiple categories?
 		// "Usually a video will belong to a single category."
-		// http://www.google.com/support/webmasters/bin/answer.py?answer=80472
+		// https://www.google.com/support/webmasters/bin/answer.py?answer=80472
 		private Boolean familyFriendly;
 		private Integer durationInSeconds;
 		private Boolean allowEmbed;

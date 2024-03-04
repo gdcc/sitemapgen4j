@@ -7,7 +7,7 @@ import java.net.URL;
 /** A convenience class to let you configure options straightforwardly; don't instantiate by hand.
  * 
  * <p>Instead, get one statically from a SitemapGenerator class.  For example: <code>WebSitemapGenerator g =<br>
- * WebSitemapGenerator.builder("http://example.com", myDir).gzip(true).autoValidate(true).build()</code></p>
+ * WebSitemapGenerator.builder("https://example.com", myDir).gzip(true).autoValidate(true).build()</code></p>
  * 
  * 
  * @author Dan Fabulich
@@ -15,7 +15,7 @@ import java.net.URL;
  * @param <G>
  */
 //that weird thing with generics is so sub-classed objects will return themselves
-//It makes sense, I swear! http://madbean.com/2004/mb2004-3/
+//It makes sense, I swear! https://madbean.com/2004/mb2004-3/
 public class SitemapGeneratorBuilder<G extends SitemapGenerator<?,?>> extends AbstractSitemapGeneratorOptions<SitemapGeneratorBuilder<G>> {
 
 	Class<G> sitemapGeneratorClass;

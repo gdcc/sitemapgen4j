@@ -21,75 +21,75 @@ class SitemapGeneratorTest {
 	
 	
 	private static final String SITEMAP_PLUS_ONE = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" + 
-		"<urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\" >\n" + 
+		"<urlset xmlns=\"https://www.sitemaps.org/schemas/sitemap/0.9\" >\n" + 
 		"  <url>\n" + 
-		"    <loc>http://www.example.com/just-one-more</loc>\n" + 
+		"    <loc>https://www.example.com/just-one-more</loc>\n" + 
 		"  </url>\n" + 
 		"</urlset>";
 	private static final String SITEMAP1 = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" + 
-		"<urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\" >\n" + 
+		"<urlset xmlns=\"https://www.sitemaps.org/schemas/sitemap/0.9\" >\n" + 
 		"  <url>\n" + 
-		"    <loc>http://www.example.com/0</loc>\n" + 
+		"    <loc>https://www.example.com/0</loc>\n" + 
 		"  </url>\n" + 
 		"  <url>\n" + 
-		"    <loc>http://www.example.com/1</loc>\n" + 
+		"    <loc>https://www.example.com/1</loc>\n" + 
 		"  </url>\n" + 
 		"  <url>\n" + 
-		"    <loc>http://www.example.com/2</loc>\n" + 
+		"    <loc>https://www.example.com/2</loc>\n" + 
 		"  </url>\n" + 
 		"  <url>\n" + 
-		"    <loc>http://www.example.com/3</loc>\n" + 
+		"    <loc>https://www.example.com/3</loc>\n" + 
 		"  </url>\n" + 
 		"  <url>\n" + 
-		"    <loc>http://www.example.com/4</loc>\n" + 
+		"    <loc>https://www.example.com/4</loc>\n" + 
 		"  </url>\n" + 
 		"  <url>\n" + 
-		"    <loc>http://www.example.com/5</loc>\n" + 
+		"    <loc>https://www.example.com/5</loc>\n" + 
 		"  </url>\n" + 
 		"  <url>\n" + 
-		"    <loc>http://www.example.com/6</loc>\n" + 
+		"    <loc>https://www.example.com/6</loc>\n" + 
 		"  </url>\n" + 
 		"  <url>\n" + 
-		"    <loc>http://www.example.com/7</loc>\n" + 
+		"    <loc>https://www.example.com/7</loc>\n" + 
 		"  </url>\n" + 
 		"  <url>\n" + 
-		"    <loc>http://www.example.com/8</loc>\n" + 
+		"    <loc>https://www.example.com/8</loc>\n" + 
 		"  </url>\n" + 
 		"  <url>\n" + 
-		"    <loc>http://www.example.com/9</loc>\n" + 
+		"    <loc>https://www.example.com/9</loc>\n" + 
 		"  </url>\n" + 
 		"</urlset>";
 	private static final String SITEMAP2 = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" + 
-		"<urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\" >\n" + 
+		"<urlset xmlns=\"https://www.sitemaps.org/schemas/sitemap/0.9\" >\n" + 
 		"  <url>\n" + 
-		"    <loc>http://www.example.com/10</loc>\n" + 
+		"    <loc>https://www.example.com/10</loc>\n" + 
 		"  </url>\n" + 
 		"  <url>\n" + 
-		"    <loc>http://www.example.com/11</loc>\n" + 
+		"    <loc>https://www.example.com/11</loc>\n" + 
 		"  </url>\n" + 
 		"  <url>\n" + 
-		"    <loc>http://www.example.com/12</loc>\n" + 
+		"    <loc>https://www.example.com/12</loc>\n" + 
 		"  </url>\n" + 
 		"  <url>\n" + 
-		"    <loc>http://www.example.com/13</loc>\n" + 
+		"    <loc>https://www.example.com/13</loc>\n" + 
 		"  </url>\n" + 
 		"  <url>\n" + 
-		"    <loc>http://www.example.com/14</loc>\n" + 
+		"    <loc>https://www.example.com/14</loc>\n" + 
 		"  </url>\n" + 
 		"  <url>\n" + 
-		"    <loc>http://www.example.com/15</loc>\n" + 
+		"    <loc>https://www.example.com/15</loc>\n" + 
 		"  </url>\n" + 
 		"  <url>\n" + 
-		"    <loc>http://www.example.com/16</loc>\n" + 
+		"    <loc>https://www.example.com/16</loc>\n" + 
 		"  </url>\n" + 
 		"  <url>\n" + 
-		"    <loc>http://www.example.com/17</loc>\n" + 
+		"    <loc>https://www.example.com/17</loc>\n" + 
 		"  </url>\n" + 
 		"  <url>\n" + 
-		"    <loc>http://www.example.com/18</loc>\n" + 
+		"    <loc>https://www.example.com/18</loc>\n" + 
 		"  </url>\n" + 
 		"  <url>\n" + 
-		"    <loc>http://www.example.com/19</loc>\n" + 
+		"    <loc>https://www.example.com/19</loc>\n" + 
 		"  </url>\n" + 
 		"</urlset>";
 	File dir;
@@ -116,12 +116,12 @@ class SitemapGeneratorTest {
 	
 	@Test
 	void testSimpleUrl() throws Exception {
-		wsg = new WebSitemapGenerator("http://www.example.com", dir);
-		wsg.addUrl("http://www.example.com/index.html");
+		wsg = new WebSitemapGenerator("https://www.example.com", dir);
+		wsg.addUrl("https://www.example.com/index.html");
 		String expected = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" + 
-			"<urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\" >\n" + 
+			"<urlset xmlns=\"https://www.sitemaps.org/schemas/sitemap/0.9\" >\n" + 
 			"  <url>\n" + 
-			"    <loc>http://www.example.com/index.html</loc>\n" + 
+			"    <loc>https://www.example.com/index.html</loc>\n" + 
 			"  </url>\n" + 
 			"</urlset>";
 		String sitemap = writeSingleSiteMap(wsg);
@@ -130,15 +130,15 @@ class SitemapGeneratorTest {
 	
 	@Test
 	void testTwoUrl() throws Exception {
-		wsg = new WebSitemapGenerator("http://www.example.com", dir);
-		wsg.addUrls("http://www.example.com/index.html", "http://www.example.com/index2.html");
+		wsg = new WebSitemapGenerator("https://www.example.com", dir);
+		wsg.addUrls("https://www.example.com/index.html", "https://www.example.com/index2.html");
 		String expected = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" + 
-			"<urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\" >\n" + 
+			"<urlset xmlns=\"https://www.sitemaps.org/schemas/sitemap/0.9\" >\n" + 
 			"  <url>\n" + 
-			"    <loc>http://www.example.com/index.html</loc>\n" + 
+			"    <loc>https://www.example.com/index.html</loc>\n" + 
 			"  </url>\n" + 
 			"  <url>\n" + 
-			"    <loc>http://www.example.com/index2.html</loc>\n" + 
+			"    <loc>https://www.example.com/index2.html</loc>\n" + 
 			"  </url>\n" + 
 			"</urlset>";
 		String sitemap = writeSingleSiteMap(wsg);
@@ -149,14 +149,14 @@ class SitemapGeneratorTest {
 	void testAllUrlOptions() throws Exception {
 		W3CDateFormat df = new W3CDateFormat();
 		df.setTimeZone(W3CDateFormat.ZULU);
-		wsg = WebSitemapGenerator.builder("http://www.example.com", dir).dateFormat(df).autoValidate(true).build();
-		WebSitemapUrl url = new WebSitemapUrl.Options("http://www.example.com/index.html")
+		wsg = WebSitemapGenerator.builder("https://www.example.com", dir).dateFormat(df).autoValidate(true).build();
+		WebSitemapUrl url = new WebSitemapUrl.Options("https://www.example.com/index.html")
 			.changeFreq(ChangeFreq.DAILY).lastMod(new Date(0)).priority(1.0).build();
 		wsg.addUrl(url);
 		String expected = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" + 
-			"<urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\" >\n" + 
+			"<urlset xmlns=\"https://www.sitemaps.org/schemas/sitemap/0.9\" >\n" + 
 			"  <url>\n" + 
-			"    <loc>http://www.example.com/index.html</loc>\n" + 
+			"    <loc>https://www.example.com/index.html</loc>\n" + 
 			"    <lastmod>1970-01-01</lastmod>\n" + 
 			"    <changefreq>daily</changefreq>\n" + 
 			"    <priority>1.0</priority>\n" + 
@@ -168,18 +168,18 @@ class SitemapGeneratorTest {
 	
 	@Test
 	void testBadUrl() throws Exception {
-		wsg = new WebSitemapGenerator("http://www.example.com", dir);
-		assertThrows(RuntimeException.class, () -> wsg.addUrl("http://example.com/index.html"), "wrong domain allowed to be added");
+		wsg = new WebSitemapGenerator("https://www.example.com", dir);
+		assertThrows(RuntimeException.class, () -> wsg.addUrl("https://example.com/index.html"), "wrong domain allowed to be added");
 	}
 	
 	@Test
 	void testSameDomainDifferentSchemeOK() throws Exception {
-		wsg = new WebSitemapGenerator("http://www.example.com", dir);
+		wsg = new WebSitemapGenerator("https://www.example.com", dir);
 			
 		wsg.addUrl("https://www.example.com/index.html");
 		
 		String expected = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" + 
-				"<urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\" >\n" + 
+				"<urlset xmlns=\"https://www.sitemaps.org/schemas/sitemap/0.9\" >\n" + 
 				"  <url>\n" + 
 				"    <loc>https://www.example.com/index.html</loc>\n" + 
 				"  </url>\n" + 
@@ -196,45 +196,45 @@ class SitemapGeneratorTest {
 	
 	@Test
 	void testEmptyWrite() throws Exception {
-		wsg = new WebSitemapGenerator("http://www.example.com", dir);
+		wsg = new WebSitemapGenerator("https://www.example.com", dir);
 		assertThrows(RuntimeException.class, () -> 	wsg.write(), "Empty write is not allowed");
 	}
 	
 	@Test
 	void testSuffixPresent() throws MalformedURLException {
-		wsg = WebSitemapGenerator.builder("http://www.example.com", dir).suffixStringPattern("01").build();
-        wsg.addUrl("http://www.example.com/url1");
-        wsg.addUrl("http://www.example.com/url2");
+		wsg = WebSitemapGenerator.builder("https://www.example.com", dir).suffixStringPattern("01").build();
+        wsg.addUrl("https://www.example.com/url1");
+        wsg.addUrl("https://www.example.com/url2");
 		List<File> files = wsg.write();
 		assertEquals("sitemap01.xml", files.get(0).getName(), "Sitemap has a suffix now");
 	}
 	
 	@Test
 	void testNullSuffixPassed() throws MalformedURLException {
-        wsg = WebSitemapGenerator.builder("http://www.example.com", dir).suffixStringPattern("").build();
-        wsg.addUrl("http://www.example.com/url1");
-        wsg.addUrl("http://www.example.com/url2");
+        wsg = WebSitemapGenerator.builder("https://www.example.com", dir).suffixStringPattern("").build();
+        wsg.addUrl("https://www.example.com/url1");
+        wsg.addUrl("https://www.example.com/url2");
         List<File> files = wsg.write();
         assertEquals("sitemap.xml", files.get(0).getName(), "Sitemap has a suffix now");
     }
 	
 	@Test
 	void testTooManyUrls() throws Exception {
-		wsg = WebSitemapGenerator.builder("http://www.example.com", dir).allowMultipleSitemaps(false).build();
+		wsg = WebSitemapGenerator.builder("https://www.example.com", dir).allowMultipleSitemaps(false).build();
 		for (int i = 0; i < SitemapGenerator.MAX_URLS_PER_SITEMAP; i++) {
-			wsg.addUrl("http://www.example.com/"+i);
+			wsg.addUrl("https://www.example.com/"+i);
 		}
-		assertThrows(RuntimeException.class, () -> wsg.addUrl("http://www.example.com/just-one-more"), "too many URLs allowed");
+		assertThrows(RuntimeException.class, () -> wsg.addUrl("https://www.example.com/just-one-more"), "too many URLs allowed");
 	}
 	
 	@Test
 	void testMaxUrlsPlusOne() throws Exception {
-		wsg = WebSitemapGenerator.builder("http://www.example.com", dir).autoValidate(true).maxUrls(10).build();
+		wsg = WebSitemapGenerator.builder("https://www.example.com", dir).autoValidate(true).maxUrls(10).build();
 		for (int i = 0; i < 9; i++) {
-			wsg.addUrl("http://www.example.com/"+i);
+			wsg.addUrl("https://www.example.com/"+i);
 		}
-		wsg.addUrl("http://www.example.com/9");
-		wsg.addUrl("http://www.example.com/just-one-more");
+		wsg.addUrl("https://www.example.com/9");
+		wsg.addUrl("https://www.example.com/just-one-more");
 		String actual = TestUtil.slurpFileAndDelete(new File(dir, "sitemap1.xml"));
 		assertEquals(SITEMAP1, actual, "sitemap1 didn't match");
 		List<File> files = wsg.write();
@@ -247,22 +247,22 @@ class SitemapGeneratorTest {
 	
 	@Test
 	void testMaxUrls() throws Exception {
-		wsg = WebSitemapGenerator.builder("http://www.example.com", dir).autoValidate(true).maxUrls(10).build();
+		wsg = WebSitemapGenerator.builder("https://www.example.com", dir).autoValidate(true).maxUrls(10).build();
 		for (int i = 0; i < 9; i++) {
-			wsg.addUrl("http://www.example.com/"+i);
+			wsg.addUrl("https://www.example.com/"+i);
 		}
-		wsg.addUrl("http://www.example.com/9");
+		wsg.addUrl("https://www.example.com/9");
 		String actual = writeSingleSiteMap(wsg);
 		assertEquals(SITEMAP1, actual, "sitemap didn't match");
 	}
 	
 	@Test
 	void testMaxUrlsTimesTwo() throws Exception {
-		wsg = WebSitemapGenerator.builder("http://www.example.com", dir).autoValidate(true).maxUrls(10).build();
+		wsg = WebSitemapGenerator.builder("https://www.example.com", dir).autoValidate(true).maxUrls(10).build();
 		for (int i = 0; i < 19; i++) {
-			wsg.addUrl("http://www.example.com/"+i);
+			wsg.addUrl("https://www.example.com/"+i);
 		}
-		wsg.addUrl("http://www.example.com/19");
+		wsg.addUrl("https://www.example.com/19");
 		List<File> files = wsg.write();
 		
 		assertEquals(2, files.size());
@@ -278,12 +278,12 @@ class SitemapGeneratorTest {
 	
 	@Test
 	void testMaxUrlsTimesTwoPlusOne() throws Exception {
-		wsg = WebSitemapGenerator.builder("http://www.example.com", dir).autoValidate(true).maxUrls(10).build();
+		wsg = WebSitemapGenerator.builder("https://www.example.com", dir).autoValidate(true).maxUrls(10).build();
 		for (int i = 0; i < 19; i++) {
-			wsg.addUrl("http://www.example.com/"+i);
+			wsg.addUrl("https://www.example.com/"+i);
 		}
-		wsg.addUrl("http://www.example.com/19");
-		wsg.addUrl("http://www.example.com/just-one-more");
+		wsg.addUrl("https://www.example.com/19");
+		wsg.addUrl("https://www.example.com/just-one-more");
 		List<File> files = wsg.write();
 		
 		assertEquals(3, files.size());
@@ -306,12 +306,12 @@ class SitemapGeneratorTest {
 	
 	@Test
 	void testGzip() throws Exception {
-		wsg = WebSitemapGenerator.builder("http://www.example.com", dir)
+		wsg = WebSitemapGenerator.builder("https://www.example.com", dir)
 			.gzip(true).build();
 		for (int i = 0; i < 9; i++) {
-			wsg.addUrl("http://www.example.com/"+i);
+			wsg.addUrl("https://www.example.com/"+i);
 		}
-		wsg.addUrl("http://www.example.com/9");
+		wsg.addUrl("https://www.example.com/9");
 		List<File> files = wsg.write();
 		assertEquals(1, files.size(), "Too many files: " + files.toString());
 		assertEquals("sitemap.xml.gz", files.get(0).getName(), "Sitemap misnamed");
@@ -337,8 +337,8 @@ class SitemapGeneratorTest {
 	
 	@Test
 	void testBaseDirIsNullThrowsNullPointerException() throws Exception {
-		wsg = WebSitemapGenerator.builder("http://www.example.com", null).autoValidate(true).maxUrls(10).build();
-		wsg.addUrl("http://www.example.com/index.html");
+		wsg = WebSitemapGenerator.builder("https://www.example.com", null).autoValidate(true).maxUrls(10).build();
+		wsg.addUrl("https://www.example.com/index.html");
 		Exception e = null;
 		try {
 			wsg.write();
@@ -351,12 +351,12 @@ class SitemapGeneratorTest {
 	
 	@Test
 	void testWriteAsStringsMoreThanOneString() throws Exception {
-		wsg = WebSitemapGenerator.builder("http://www.example.com", null).autoValidate(true).maxUrls(10).build();
+		wsg = WebSitemapGenerator.builder("https://www.example.com", null).autoValidate(true).maxUrls(10).build();
 		for (int i = 0; i < 9; i++) {
-			wsg.addUrl("http://www.example.com/"+i);
+			wsg.addUrl("https://www.example.com/"+i);
 		}
-		wsg.addUrl("http://www.example.com/9");
-		wsg.addUrl("http://www.example.com/just-one-more");
+		wsg.addUrl("https://www.example.com/9");
+		wsg.addUrl("https://www.example.com/just-one-more");
 		List<String> siteMapsAsStrings = wsg.writeAsStrings();
 		assertEquals(SITEMAP1, siteMapsAsStrings.get(0), "First string didn't match");
 		assertEquals(SITEMAP_PLUS_ONE, siteMapsAsStrings.get(1), "Second string didn't match");
@@ -364,9 +364,9 @@ class SitemapGeneratorTest {
 	
 	@Test
 	void testWriteEmptySitemap() throws Exception {
-		wsg = WebSitemapGenerator.builder("http://www.example.com", dir).allowEmptySitemap(true).build();
+		wsg = WebSitemapGenerator.builder("https://www.example.com", dir).allowEmptySitemap(true).build();
 		String expected = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
-				"<urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\" >\n" +
+				"<urlset xmlns=\"https://www.sitemaps.org/schemas/sitemap/0.9\" >\n" +
 				"</urlset>";
 		String sitemap = writeSingleSiteMap(wsg);
 		assertEquals(expected, sitemap);
@@ -374,9 +374,9 @@ class SitemapGeneratorTest {
 	
 	@Test
 	void testMaxUrlsAllowingEmptyDoesNotWriteExtraSitemap() throws Exception {
-		wsg = WebSitemapGenerator.builder("http://www.example.com", dir).allowEmptySitemap(true).maxUrls(10).build();
+		wsg = WebSitemapGenerator.builder("https://www.example.com", dir).allowEmptySitemap(true).maxUrls(10).build();
 		for (int i = 0; i < 10; i++) {
-			wsg.addUrl("http://www.example.com/"+i);
+			wsg.addUrl("https://www.example.com/"+i);
 		}
 		String sitemap = writeSingleSiteMap(wsg);
 		assertEquals(SITEMAP1, sitemap);

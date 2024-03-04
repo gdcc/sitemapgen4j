@@ -20,7 +20,7 @@ import static java.util.Calendar.SECOND;
 /**
  * <p>Formats and parses dates in the six defined W3C date time formats.  These formats are described in 
  * "Date and Time Formats",
- * <a href="http://www.w3.org/TR/NOTE-datetime">http://www.w3.org/TR/NOTE-datetime</a>.</p>
+ * <a href="https://www.w3.org/TR/NOTE-datetime">https://www.w3.org/TR/NOTE-datetime</a>.</p>
  * 
  * <p>The formats are:
  * 
@@ -50,7 +50,7 @@ import static java.util.Calendar.SECOND;
  * can explicitly specify the timezone to use for formatting using the {@link #setTimeZone(TimeZone)} method.
  * 
  * @author Dan Fabulich
- * @see <a href="http://www.w3.org/TR/NOTE-datetime">Date and Time Formats</a>
+ * @see <a href="https://www.w3.org/TR/NOTE-datetime">Date and Time Formats</a>
  */
 public class W3CDateFormat extends SimpleDateFormat {
 	private static final long serialVersionUID = -5733368073260485802L;

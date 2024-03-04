@@ -7,7 +7,7 @@ import java.util.Date;
 
 /** Container for optional URL parameters */
 //that weird thing with generics is so sub-classed objects will return themselves
-//It makes sense, I swear! http://madbean.com/2004/mb2004-3/
+//It makes sense, I swear! https://madbean.com/2004/mb2004-3/
 abstract class AbstractSitemapUrlOptions<U extends WebSitemapUrl, T extends AbstractSitemapUrlOptions<U,T>> {
 	Date lastMod;
 	ChangeFreq changeFreq;

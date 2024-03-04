@@ -15,7 +15,7 @@ It will receive bug fixes and security updates as necessary and can be found as 
 
 <h2>What's an XML sitemap?</h2>
 
-Quoting from <a href="http://sitemaps.org/index.php">sitemaps.org</a>:
+Quoting from <a href="https://sitemaps.org/index.php">sitemaps.org</a>:
 
 <blockquote>Sitemaps are an easy way for webmasters to inform search engines about pages on their sites that are available for crawling. In its simplest form, a Sitemap is an XML file that lists URLs for a site along with additional metadata about each URL (when it was last updated, how often it usually changes, and how important it is, relative to other URLs in the site) so that search engines can more intelligently crawl the site.
 
@@ -41,8 +41,8 @@ First, add this as a dependency to your POM:
 The easiest way to get started is to just use the WebSitemapGenerator class, like this:
 
 ```java
-WebSitemapGenerator wsg = new WebSitemapGenerator("http://www.example.com", myDir);
-wsg.addUrl("http://www.example.com/index.html"); // repeat multiple times
+WebSitemapGenerator wsg = new WebSitemapGenerator("https://www.example.com", myDir);
+wsg.addUrl("https://www.example.com/index.html"); // repeat multiple times
 wsg.write();
 ```
 
@@ -51,17 +51,17 @@ wsg.write();
 But there are a lot of nifty options available for URLs and for the generator as a whole.  To configure the generator, use a builder:
 
 ```java
-WebSitemapGenerator wsg = WebSitemapGenerator.builder("http://www.example.com", myDir)
+WebSitemapGenerator wsg = WebSitemapGenerator.builder("https://www.example.com", myDir)
     .gzip(true).build(); // enable gzipped output
-wsg.addUrl("http://www.example.com/index.html");
+wsg.addUrl("https://www.example.com/index.html");
 wsg.write();
 ```
 
 To configure the URLs, construct a WebSitemapUrl with WebSitemapUrl.Options.
 
 ```java
-WebSitemapGenerator wsg = new WebSitemapGenerator("http://www.example.com", myDir);
-WebSitemapUrl url = new WebSitemapUrl.Options("http://www.example.com/index.html")
+WebSitemapGenerator wsg = new WebSitemapGenerator("https://www.example.com", myDir);
+WebSitemapUrl url = new WebSitemapUrl.Options("https://www.example.com/index.html")
     .lastMod(new Date()).priority(1.0).changeFreq(ChangeFreq.HOURLY).build();
 // this will configure the URL with lastmod=now, priority=1.0, changefreq=hourly 
 wsg.addUrl(url);
@@ -70,16 +70,16 @@ wsg.write();
 
 <h2>Configuring the date format</h2>
 
-One important configuration option for the sitemap generator is the date format.  The <a href="http://www.w3.org/TR/NOTE-datetime">W3C datetime standard</a> allows you to choose the precision of your datetime (anything from just specifying the year like "1997" to specifying the fraction of the second like "1997-07-16T19:20:30.45+01:00"); if you don't specify one, we'll try to guess which one you want, and we'll use the default timezone of the local machine, which might not be what you prefer.
+One important configuration option for the sitemap generator is the date format.  The <a href="https://www.w3.org/TR/NOTE-datetime">W3C datetime standard</a> allows you to choose the precision of your datetime (anything from just specifying the year like "1997" to specifying the fraction of the second like "1997-07-16T19:20:30.45+01:00"); if you don't specify one, we'll try to guess which one you want, and we'll use the default timezone of the local machine, which might not be what you prefer.
 
 ```java
 
 // Use DAY pattern (2009-02-07), Greenwich Mean Time timezone
 W3CDateFormat dateFormat = new W3CDateFormat(Pattern.DAY); 
 dateFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
-WebSitemapGenerator wsg = WebSitemapGenerator.builder("http://www.example.com", myDir)
+WebSitemapGenerator wsg = WebSitemapGenerator.builder("https://www.example.com", myDir)
     .dateFormat(dateFormat).build(); // actually use the configured dateFormat
-wsg.addUrl("http://www.example.com/index.html");
+wsg.addUrl("https://www.example.com/index.html");
 wsg.write();
 ```
 
@@ -88,8 +88,8 @@ wsg.write();
 One sitemap can contain a maximum of 50,000 URLs.  (Some sitemaps, like Google News sitemaps, can contain only 1,000 URLs.) If you need to put more URLs than that in a sitemap, you'll have to use a sitemap index file.  Fortunately,  WebSitemapGenerator can manage the whole thing for you. 
 
 ```java
-WebSitemapGenerator wsg = new WebSitemapGenerator("http://www.example.com", myDir);
-for (int i = 0; i < 60000; i++) wsg.addUrl("http://www.example.com/doc"+i+".html");
+WebSitemapGenerator wsg = new WebSitemapGenerator("https://www.example.com", myDir);
+for (int i = 0; i < 60000; i++) wsg.addUrl("https://www.example.com/doc"+i+".html");
 wsg.write();
 wsg.writeSitemapsWithIndex(); // generate the sitemap_index.xml
 
@@ -102,19 +102,19 @@ It's also possible to carefully organize your sub-sitemaps.  For example, it's r
 ```java
 WebSitemapGenerator wsg;
 // generate foo sitemap
-wsg = WebSitemapGenerator.builder("http://www.example.com", myDir)
+wsg = WebSitemapGenerator.builder("https://www.example.com", myDir)
     .fileNamePrefix("foo").build();
-for (int i = 0; i < 5; i++) wsg.addUrl("http://www.example.com/foo"+i+".html");
+for (int i = 0; i < 5; i++) wsg.addUrl("https://www.example.com/foo"+i+".html");
 wsg.write();
 // generate bar sitemap
-wsg = WebSitemapGenerator.builder("http://www.example.com", myDir)
+wsg = WebSitemapGenerator.builder("https://www.example.com", myDir)
     .fileNamePrefix("bar").build();
-for (int i = 0; i < 5; i++) wsg.addUrl("http://www.example.com/bar"+i+".html");
+for (int i = 0; i < 5; i++) wsg.addUrl("https://www.example.com/bar"+i+".html");
 wsg.write();
 // generate sitemap index for foo + bar 
-SitemapIndexGenerator sig = new SitemapIndexGenerator("http://www.example.com", myFile);
-sig.addUrl("http://www.example.com/foo.xml");
-sig.addUrl("http://www.example.com/bar.xml");
+SitemapIndexGenerator sig = new SitemapIndexGenerator("https://www.example.com", myFile);
+sig.addUrl("https://www.example.com/foo.xml");
+sig.addUrl("https://www.example.com/bar.xml");
 sig.write();
 ```
 
@@ -127,9 +127,9 @@ SitemapGen4j can also validate your sitemaps using the official XML Schema Defin
 It's easy to configure the WebSitemapGenerator to automatically validate your sitemaps right after you write them (but this does slow things down, naturally). 
 
 ```java
-WebSitemapGenerator wsg = WebSitemapGenerator.builder("http://www.example.com", myDir)
+WebSitemapGenerator wsg = WebSitemapGenerator.builder("https://www.example.com", myDir)
     .autoValidate(true).build(); // validate the sitemap after writing
-wsg.addUrl("http://www.example.com/index.html");
+wsg.addUrl("https://www.example.com/index.html");
 wsg.write();
 ```
 

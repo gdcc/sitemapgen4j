@@ -14,50 +14,50 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 public class SitemapIndexGeneratorTest {
 
 	private static final String INDEX = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" + 
-			"<sitemapindex xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\">\n" + 
+			"<sitemapindex xmlns=\"https://www.sitemaps.org/schemas/sitemap/0.9\">\n" + 
 			"  <sitemap>\n" + 
-			"    <loc>http://www.example.com/sitemap1.xml</loc>\n" + 
+			"    <loc>https://www.example.com/sitemap1.xml</loc>\n" + 
 			"    <lastmod>1970-01-01</lastmod>\n" + 
 			"  </sitemap>\n" + 
 			"  <sitemap>\n" + 
-			"    <loc>http://www.example.com/sitemap2.xml</loc>\n" + 
+			"    <loc>https://www.example.com/sitemap2.xml</loc>\n" + 
 			"    <lastmod>1970-01-01</lastmod>\n" + 
 			"  </sitemap>\n" + 
 			"  <sitemap>\n" + 
-			"    <loc>http://www.example.com/sitemap3.xml</loc>\n" + 
+			"    <loc>https://www.example.com/sitemap3.xml</loc>\n" + 
 			"    <lastmod>1970-01-01</lastmod>\n" + 
 			"  </sitemap>\n" + 
 			"  <sitemap>\n" + 
-			"    <loc>http://www.example.com/sitemap4.xml</loc>\n" + 
+			"    <loc>https://www.example.com/sitemap4.xml</loc>\n" + 
 			"    <lastmod>1970-01-01</lastmod>\n" + 
 			"  </sitemap>\n" + 
 			"  <sitemap>\n" + 
-			"    <loc>http://www.example.com/sitemap5.xml</loc>\n" + 
+			"    <loc>https://www.example.com/sitemap5.xml</loc>\n" + 
 			"    <lastmod>1970-01-01</lastmod>\n" + 
 			"  </sitemap>\n" + 
 			"  <sitemap>\n" + 
-			"    <loc>http://www.example.com/sitemap6.xml</loc>\n" + 
+			"    <loc>https://www.example.com/sitemap6.xml</loc>\n" + 
 			"    <lastmod>1970-01-01</lastmod>\n" + 
 			"  </sitemap>\n" + 
 			"  <sitemap>\n" + 
-			"    <loc>http://www.example.com/sitemap7.xml</loc>\n" + 
+			"    <loc>https://www.example.com/sitemap7.xml</loc>\n" + 
 			"    <lastmod>1970-01-01</lastmod>\n" + 
 			"  </sitemap>\n" + 
 			"  <sitemap>\n" + 
-			"    <loc>http://www.example.com/sitemap8.xml</loc>\n" + 
+			"    <loc>https://www.example.com/sitemap8.xml</loc>\n" + 
 			"    <lastmod>1970-01-01</lastmod>\n" + 
 			"  </sitemap>\n" + 
 			"  <sitemap>\n" + 
-			"    <loc>http://www.example.com/sitemap9.xml</loc>\n" + 
+			"    <loc>https://www.example.com/sitemap9.xml</loc>\n" + 
 			"    <lastmod>1970-01-01</lastmod>\n" + 
 			"  </sitemap>\n" + 
 			"  <sitemap>\n" + 
-			"    <loc>http://www.example.com/sitemap10.xml</loc>\n" + 
+			"    <loc>https://www.example.com/sitemap10.xml</loc>\n" + 
 			"    <lastmod>1970-01-01</lastmod>\n" + 
 			"  </sitemap>\n" + 
 			"</sitemapindex>";
 	
-	private static final String EXAMPLE = "http://www.example.com/";
+	private static final String EXAMPLE = "https://www.example.com/";
 	private static final W3CDateFormat ZULU = new W3CDateFormat();
 	File outFile;
 	SitemapIndexGenerator sig;
@@ -83,7 +83,7 @@ public class SitemapIndexGeneratorTest {
 			sig.addUrl(EXAMPLE+i);
 		}
 		sig.addUrl(EXAMPLE+"9");
-		assertThrows(RuntimeException.class, () -> sig.addUrl("http://www.example.com/just-one-more"), "too many URLs allowed");
+		assertThrows(RuntimeException.class, () -> sig.addUrl("https://www.example.com/just-one-more"), "too many URLs allowed");
 	}
 	@Test
 	void testNoUrls() throws Exception {
@@ -96,7 +96,7 @@ public class SitemapIndexGeneratorTest {
 		sig = new SitemapIndexGenerator.Options(EXAMPLE, outFile).allowEmptyIndex(true).build();
 		sig.write();
 		String expected = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
-				"<sitemapindex xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\">\n" +
+				"<sitemapindex xmlns=\"https://www.sitemaps.org/schemas/sitemap/0.9\">\n" +
 				"</sitemapindex>";
 		String actual = TestUtil.slurpFileAndDelete(outFile);
 		assertEquals(expected, actual);
@@ -125,9 +125,9 @@ public class SitemapIndexGeneratorTest {
 		sig.write();
 		String actual = TestUtil.slurpFileAndDelete(outFile);
 		String expected = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" + 
-				"<sitemapindex xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\">\n" + 
+				"<sitemapindex xmlns=\"https://www.sitemaps.org/schemas/sitemap/0.9\">\n" + 
 				"  <sitemap>\n" + 
-				"    <loc>http://www.example.com/index.html</loc>\n" + 
+				"    <loc>https://www.example.com/index.html</loc>\n" + 
 				"    <lastmod>1970-01-01</lastmod>\n" + 
 				"  </sitemap>\n" + 
 				"</sitemapindex>";

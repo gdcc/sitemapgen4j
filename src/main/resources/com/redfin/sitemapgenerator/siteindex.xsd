@@ -40,7 +40,7 @@
   <xsd:annotation>
     <xsd:documentation>
       REQUIRED: The location URI of a sitemap.
-      The URI must conform to RFC 2396 (http://www.ietf.org/rfc/rfc2396.txt).
+      The URI must conform to RFC 2396 (https://www.ietf.org/rfc/rfc2396.txt).
     </xsd:documentation>
   </xsd:annotation>
   <xsd:restriction base="xsd:anyURI">
@@ -53,7 +53,7 @@
   <xsd:annotation>
     <xsd:documentation>
       OPTIONAL: The date the document was last modified. The date must conform
-      to the W3C DATETIME format (http://www.w3.org/TR/NOTE-datetime).
+      to the W3C DATETIME format (https://www.w3.org/TR/NOTE-datetime).
       Example: 2005-05-10
       Lastmod may also contain a timestamp.
       Example: 2005-05-10T17:33:30+08:00

@@ -193,7 +193,7 @@ abstract class SitemapGenerator<U extends ISitemapUrl, T extends SitemapGenerato
 	
 	private void writeSiteMapAsString(StringBuilder sb, List<U> urls) {
 		sb.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
-		sb.append("<urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\" ");
+		sb.append("<urlset xmlns=\"https://www.sitemaps.org/schemas/sitemap/0.9\" ");
 		if (renderer.getXmlNamespaces() != null) {
 			sb.append(renderer.getXmlNamespaces());
 			sb.append(' ');

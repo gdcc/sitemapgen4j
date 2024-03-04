@@ -35,23 +35,23 @@ public class TutorialExampleTest {
 	
 	@Test
 	void testGettingStarted() throws Exception {
-		WebSitemapGenerator wsg = new WebSitemapGenerator("http://www.example.com", myDir);
-		wsg.addUrl("http://www.example.com/index.html"); // repeat multiple times
+		WebSitemapGenerator wsg = new WebSitemapGenerator("https://www.example.com", myDir);
+		wsg.addUrl("https://www.example.com/index.html"); // repeat multiple times
 		wsg.write();
 	}
 	
 	@Test
 	void testConfiguringWsgOptions() throws Exception {
-		WebSitemapGenerator wsg = WebSitemapGenerator.builder("http://www.example.com", myDir)
+		WebSitemapGenerator wsg = WebSitemapGenerator.builder("https://www.example.com", myDir)
 			.gzip(true).build(); // enable gzipped output
-		wsg.addUrl("http://www.example.com/index.html");
+		wsg.addUrl("https://www.example.com/index.html");
 		wsg.write();
 	}
 	
 	@Test
 	void testConfiguringUrlOptions() throws Exception {
-		WebSitemapGenerator wsg = new WebSitemapGenerator("http://www.example.com", myDir);
-		WebSitemapUrl url = new WebSitemapUrl.Options("http://www.example.com/index.html")
+		WebSitemapGenerator wsg = new WebSitemapGenerator("https://www.example.com", myDir);
+		WebSitemapUrl url = new WebSitemapUrl.Options("https://www.example.com/index.html")
 			.lastMod(new Date()).priority(1.0).changeFreq(ChangeFreq.HOURLY).build();
 		// this will configure the URL with lastmod=now, priority=1.0, changefreq=hourly 
 		wsg.addUrl(url);
@@ -62,16 +62,16 @@ public class TutorialExampleTest {
 	void testConfiguringDateFormat() throws Exception {
 		W3CDateFormat dateFormat = new W3CDateFormat(Pattern.DAY); // e.g. 2008-01-29
 		dateFormat.setTimeZone(TimeZone.getTimeZone("GMT")); // Use Greenwich Mean Time timezone
-		WebSitemapGenerator wsg = WebSitemapGenerator.builder("http://www.example.com", myDir)
+		WebSitemapGenerator wsg = WebSitemapGenerator.builder("https://www.example.com", myDir)
 			.dateFormat(dateFormat).build(); // actually use the configured dateFormat
-		wsg.addUrl("http://www.example.com/index.html");
+		wsg.addUrl("https://www.example.com/index.html");
 		wsg.write();
 	}
 	
 	@Test
 	void testLotsOfUrlsWsg() throws Exception {
-		WebSitemapGenerator wsg = new WebSitemapGenerator("http://www.example.com", myDir);
-		for (int i = 0; i < 60000; i++) wsg.addUrl("http://www.example.com/index.html");
+		WebSitemapGenerator wsg = new WebSitemapGenerator("https://www.example.com", myDir);
+		for (int i = 0; i < 60000; i++) wsg.addUrl("https://www.example.com/index.html");
 		wsg.write();
 		wsg.writeSitemapsWithIndex(); // generate the sitemap_index.xml
 	}
@@ -80,25 +80,25 @@ public class TutorialExampleTest {
 	void testLotsOfUrlsSig() throws Exception {
 		WebSitemapGenerator wsg;
 		// generate foo sitemap
-		wsg = WebSitemapGenerator.builder("http://www.example.com", myDir).fileNamePrefix("foo").build();
-		for (int i = 0; i < 5; i++) wsg.addUrl("http://www.example.com/foo"+i+".html");
+		wsg = WebSitemapGenerator.builder("https://www.example.com", myDir).fileNamePrefix("foo").build();
+		for (int i = 0; i < 5; i++) wsg.addUrl("https://www.example.com/foo"+i+".html");
 		wsg.write();
 		// generate bar sitemap
-		wsg = WebSitemapGenerator.builder("http://www.example.com", myDir).fileNamePrefix("bar").build();
-		for (int i = 0; i < 5; i++) wsg.addUrl("http://www.example.com/bar"+i+".html");
+		wsg = WebSitemapGenerator.builder("https://www.example.com", myDir).fileNamePrefix("bar").build();
+		for (int i = 0; i < 5; i++) wsg.addUrl("https://www.example.com/bar"+i+".html");
 		wsg.write();
 		// generate sitemap index for foo + bar 
-		SitemapIndexGenerator sig = new SitemapIndexGenerator("http://www.example.com", myFile);
-		sig.addUrl("http://www.example.com/foo.html");
-		sig.addUrl("http://www.example.com/bar.html");
+		SitemapIndexGenerator sig = new SitemapIndexGenerator("https://www.example.com", myFile);
+		sig.addUrl("https://www.example.com/foo.html");
+		sig.addUrl("https://www.example.com/bar.html");
 		sig.write();
 	}
 	
 	@Test
 	void testAutoValidate() throws Exception {
-		WebSitemapGenerator wsg = WebSitemapGenerator.builder("http://www.example.com", myDir)
+		WebSitemapGenerator wsg = WebSitemapGenerator.builder("https://www.example.com", myDir)
 			.autoValidate(true).build(); // validate the sitemap after writing
-		wsg.addUrl("http://www.example.com/index.html");
+		wsg.addUrl("https://www.example.com/index.html");
 		wsg.write();
 	} 
 }
