@@ -1,7 +1,17 @@
 sitemapgen4j
 ============
 
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=gdcc_sitemapgen4j&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=gdcc_sitemapgen4j)
+[![Bugs](https://sonarcloud.io/api/project_badges/measure?project=gdcc_sitemapgen4j&metric=bugs)](https://sonarcloud.io/summary/new_code?id=gdcc_sitemapgen4j)
+[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=gdcc_sitemapgen4j&metric=coverage)](https://sonarcloud.io/summary/new_code?id=gdcc_sitemapgen4j)
+[![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=gdcc_sitemapgen4j&metric=reliability_rating)](https://sonarcloud.io/summary/new_code?id=gdcc_sitemapgen4j)
+[![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=gdcc_sitemapgen4j&metric=security_rating)](https://sonarcloud.io/summary/new_code?id=gdcc_sitemapgen4j)
+[![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=gdcc_sitemapgen4j&metric=vulnerabilities)](https://sonarcloud.io/summary/new_code?id=gdcc_sitemapgen4j)
+
 SitemapGen4j is a library to generate XML sitemaps in Java.
+
+**NOTE:** This is a modernized fork of the upstream https://github.com/dfabulich/sitemapgen4j.
+It will receive bug fixes and security updates as necessary and can be found as ``io.gdcc:sitemapgen4j`` on Maven Central.
 
 <h2>What's an XML sitemap?</h2>
 
@@ -15,6 +25,12 @@ Sitemap 0.90 is offered under the terms of the Attribution-ShareAlike Creative C
 </blockquote>
 
 <h2>Getting started</h2>
+
+**NOTE: As of v2.0.0, sitemapgen4j is compatible with Java 11+ only.**
+
+First, add this as a dependency to your POM:
+
+![mvn dependency](docs/version.svg)
 
 The easiest way to get started is to just use the WebSitemapGenerator class, like this:
 
