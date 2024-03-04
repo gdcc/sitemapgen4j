@@ -362,6 +362,12 @@
                                 </goals>
                             </execution>
                         </executions>
+                        <configuration>
+                            <excludes>
+                                <exclude>**/SitemapException.*</exclude>
+                                <exclude>**/SitemapGeneratorOptions.*</exclude>
+                            </excludes>
+                        </configuration>
                     </plugin>
                 </plugins>
             </build>
