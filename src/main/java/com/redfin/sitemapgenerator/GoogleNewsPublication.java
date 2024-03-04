@@ -1,6 +1,6 @@
 package com.redfin.sitemapgenerator;
 
-public class GoogleNewsPublication {
+public final class GoogleNewsPublication {
 
 	private String name;
 	private String language;

@@ -4,6 +4,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 
 /** One configurable Google Video Search URL.  To configure, use {@link Options}
  * 
@@ -21,7 +22,7 @@ public class GoogleVideoSitemapUrl extends WebSitemapUrl {
 	private final Double rating;
 	private final Integer viewCount;
 	private final Date publicationDate;
-	private final ArrayList<String> tags;
+	private final List<String> tags;
 	private final String category;
 	// TODO can there be multiple categories?
 	// "Usually a video will belong to a single category."
@@ -40,7 +41,7 @@ public class GoogleVideoSitemapUrl extends WebSitemapUrl {
 		private Double rating;
 		private Integer viewCount;
 		private Date publicationDate;
-		private ArrayList<String> tags;
+		private List<String> tags;
 		private String category;
 		// TODO can there be multiple categories?
 		// "Usually a video will belong to a single category."
@@ -156,7 +157,7 @@ public class GoogleVideoSitemapUrl extends WebSitemapUrl {
 		 * "meat", "summer", and "outdoor". Create a new <video:tag> element for
 		 * each tag associated with a video. A maximum of 32 tags is permitted.
 		 */
-		public Options tags(ArrayList<String> tags) {
+		public Options tags(List<String> tags) {
 			this.tags = tags;
 			return this;
 		}
@@ -171,7 +172,7 @@ public class GoogleVideoSitemapUrl extends WebSitemapUrl {
 		 * each tag associated with a video. A maximum of 32 tags is permitted.
 		 */
 		public Options tags(Iterable<String> tags) {
-			this.tags = new ArrayList<String>();
+			this.tags = new ArrayList<>();
 			for (String tag : tags) {
 				this.tags.add(tag);
 			}
@@ -320,7 +321,7 @@ public class GoogleVideoSitemapUrl extends WebSitemapUrl {
 	}
 
 	/** Retrieves the {@link Options#tags}*/
-	public ArrayList<String> getTags() {
+	public List<String> getTags() {
 		return tags;
 	}
 

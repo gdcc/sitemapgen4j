@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.zip.GZIPOutputStream;
 
-abstract class SitemapGenerator<U extends ISitemapUrl, THIS extends SitemapGenerator<U,THIS>> {
+abstract class SitemapGenerator<U extends ISitemapUrl, T extends SitemapGenerator<U,T>> {
 	/** 50000 URLs per sitemap maximum */
 	public static final int MAX_URLS_PER_SITEMAP = 50000;
 	
@@ -22,7 +22,7 @@ abstract class SitemapGenerator<U extends ISitemapUrl, THIS extends SitemapGener
 	private final String fileNameSuffix;
 	private final boolean allowEmptySitemap;
 	private final boolean allowMultipleSitemaps;
-	private final ArrayList<U> urls = new ArrayList<U>();
+	private final List<U> urls = new ArrayList<>();
 	private final W3CDateFormat dateFormat;
 	private final int maxUrls;
 	private final boolean autoValidate;
@@ -31,7 +31,7 @@ abstract class SitemapGenerator<U extends ISitemapUrl, THIS extends SitemapGener
 	private int mapCount = 0;
 	private boolean finished = false;
 	
-	private final ArrayList<File> outFiles = new ArrayList<File>();
+	private final List<File> outFiles = new ArrayList<>();
 	
 	public SitemapGenerator(AbstractSitemapGeneratorOptions<?> options, ISitemapUrlRenderer<U> renderer) {
 		baseDir = options.baseDir;
@@ -63,6 +63,7 @@ abstract class SitemapGenerator<U extends ISitemapUrl, THIS extends SitemapGener
 	 */
 	public THIS addUrl(U url) {
 		if (finished) throw new RuntimeException("Sitemap already printed; you must create a new generator to make more sitemaps"); 
+	public T addUrl(U url) {
 		UrlUtils.checkUrl(url.getUrl(), baseUrl);
 		if (urls.size() == maxUrls) {
 			if (!allowMultipleSitemaps) throw new RuntimeException("More than " + maxUrls + " urls, but allowMultipleSitemaps is false.  Enable allowMultipleSitemaps to split the sitemap into multiple files with a sitemap index.");
@@ -87,7 +88,7 @@ abstract class SitemapGenerator<U extends ISitemapUrl, THIS extends SitemapGener
 	 * @param urls the URLs to add to this sitemap
 	 * @return this
 	 */
-	public THIS addUrls(Iterable<? extends U> urls) {
+	public T addUrls(Iterable<? extends U> urls) {
 		for (U url : urls) addUrl(url);
 		return getThis();
 	}
@@ -98,7 +99,7 @@ abstract class SitemapGenerator<U extends ISitemapUrl, THIS extends SitemapGener
 	 * @param urls the URLs to add to this sitemap
 	 * @return this
 	 */
-	public THIS addUrls(U... urls) {
+	public T addUrls(U... urls) {
 		for (U url : urls) addUrl(url);
 		return getThis();
 	}
@@ -109,7 +110,7 @@ abstract class SitemapGenerator<U extends ISitemapUrl, THIS extends SitemapGener
 	 * @param urls the URLs to add to this sitemap
 	 * @return this
 	 */
-	public THIS addUrls(String... urls) {
+	public T addUrls(String... urls) {
 		for (String url : urls) addUrl(url);
 		return getThis();
 	}
@@ -120,7 +121,7 @@ abstract class SitemapGenerator<U extends ISitemapUrl, THIS extends SitemapGener
 	 * @param url the URL to add to this sitemap
 	 * @return this
 	 */
-	public THIS addUrl(String url) {
+	public T addUrl(String url) {
 		U sitemapUrl;
 		try {
 			sitemapUrl = renderer.getUrlClass().getConstructor(String.class).newInstance(url);
@@ -136,7 +137,7 @@ abstract class SitemapGenerator<U extends ISitemapUrl, THIS extends SitemapGener
 	 * @param urls the URLs to add to this sitemap
 	 * @return this
 	 */
-	public THIS addUrls(URL... urls) {
+	public T addUrls(URL... urls) {
 		for (URL url : urls) addUrl(url);
 		return getThis();
 	}
@@ -147,7 +148,7 @@ abstract class SitemapGenerator<U extends ISitemapUrl, THIS extends SitemapGener
 	 * @param url the URL to add to this sitemap
 	 * @return this
 	 */
-	public THIS addUrl(URL url) {
+	public T addUrl(URL url) {
 		U sitemapUrl;
 		try {
 			sitemapUrl = renderer.getUrlClass().getConstructor(URL.class).newInstance(url);
@@ -158,8 +159,8 @@ abstract class SitemapGenerator<U extends ISitemapUrl, THIS extends SitemapGener
 	}
 	
 	@SuppressWarnings("unchecked")
-	THIS getThis() {
-		return (THIS)this;
+	T getThis() {
+		return (T)this;
 	}
 	
 	/** Write out remaining URLs; this method can only be called once.  This is necessary so we can keep an accurate count for {@link #writeSitemapsWithIndex()}.
@@ -186,7 +187,7 @@ abstract class SitemapGenerator<U extends ISitemapUrl, THIS extends SitemapGener
 	 * @return a list of XML-formatted strings
 	 */
 	public List<String> writeAsStrings() {
-		List<String> listOfSiteMapStrings = new ArrayList<String>();
+		List<String> listOfSiteMapStrings = new ArrayList<>();
 		for (int start = 0; start < urls.size(); start += maxUrls) {
 			int end = start + maxUrls;
 			if (end > urls.size()) {

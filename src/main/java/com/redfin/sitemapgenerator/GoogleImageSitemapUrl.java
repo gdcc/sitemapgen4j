@@ -42,12 +42,12 @@ public class GoogleImageSitemapUrl extends WebSitemapUrl {
 
         public Options(URL url) {
             super(url, GoogleImageSitemapUrl.class);
-            images = new ArrayList<Image>();
+            images = new ArrayList<>();
         }
 
         public Options(String url) throws MalformedURLException {
             super(url, GoogleImageSitemapUrl.class);
-            images = new ArrayList<Image>();
+            images = new ArrayList<>();
         }
 
         public Options images(List<Image> images) {

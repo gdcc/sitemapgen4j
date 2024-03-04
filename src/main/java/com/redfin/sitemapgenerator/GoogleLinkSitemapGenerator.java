@@ -57,7 +57,7 @@ public class GoogleLinkSitemapGenerator extends SitemapGenerator<GoogleLinkSitem
 	public static SitemapGeneratorBuilder<GoogleLinkSitemapGenerator> builder(final String baseUrl, final File baseDir)
 		throws MalformedURLException {
 
-		return new SitemapGeneratorBuilder<GoogleLinkSitemapGenerator>(baseUrl, baseDir,
+		return new SitemapGeneratorBuilder<>(baseUrl, baseDir,
 				GoogleLinkSitemapGenerator.class);
 	}
 
@@ -73,7 +73,7 @@ public class GoogleLinkSitemapGenerator extends SitemapGenerator<GoogleLinkSitem
 	 */
 	public static SitemapGeneratorBuilder<GoogleLinkSitemapGenerator> builder(final URL baseUrl, final File baseDir) {
 
-		return new SitemapGeneratorBuilder<GoogleLinkSitemapGenerator>(baseUrl, baseDir,
+		return new SitemapGeneratorBuilder<>(baseUrl, baseDir,
 				GoogleLinkSitemapGenerator.class);
 	}
 
@@ -97,7 +97,7 @@ public class GoogleLinkSitemapGenerator extends SitemapGenerator<GoogleLinkSitem
 	 * @param baseDir
 	 *			Sitemap files will be generated in this directory as either "sitemap.xml" or
 	 *			"sitemap1.xml" "sitemap2.xml" and so on.
-	 * @throws MalformedURLException
+	 * @throws MalformedURLException In case the given baseUrl is invalid
 	 */
 	public GoogleLinkSitemapGenerator(final String baseUrl, final File baseDir) throws MalformedURLException {
 		this(new SitemapGeneratorOptions(baseUrl, baseDir));

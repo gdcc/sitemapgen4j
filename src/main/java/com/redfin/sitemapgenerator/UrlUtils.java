@@ -7,7 +7,10 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 class UrlUtils {
-	private static Map<String,String> ENTITIES = new HashMap<String,String>();
+	
+	private UrlUtils() {}
+	
+	private static final Map<String,String> ENTITIES = new HashMap<>();
 	static {
 		ENTITIES.put("&", "&amp;");
 		ENTITIES.put("'", "&apos;");
@@ -15,11 +18,11 @@ class UrlUtils {
 		ENTITIES.put(">", "&gt;");
 		ENTITIES.put("<", "&lt;");
 	}
-	private static Pattern PATTERN = Pattern.compile("(&|'|\"|>|<)");
+	private static final Pattern PATTERN = Pattern.compile("([&'\"><])");
 
 	static String escapeXml(String string){
 		Matcher matcher = PATTERN.matcher(string);
-		StringBuffer sb = new StringBuffer();
+		StringBuilder sb = new StringBuilder();
 		while(matcher.find()) {
 		    matcher.appendReplacement(sb, ENTITIES.get(matcher.group(1)));
 		}

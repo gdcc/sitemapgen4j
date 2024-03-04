@@ -22,7 +22,7 @@ public class WebSitemapGenerator extends SitemapGenerator<WebSitemapUrl,WebSitem
 	 * @return a builder; call .build() on it to make a sitemap generator
 	 */
 	public static SitemapGeneratorBuilder<WebSitemapGenerator> builder(URL baseUrl, File baseDir) {
-		return new SitemapGeneratorBuilder<WebSitemapGenerator>(baseUrl, baseDir, WebSitemapGenerator.class);
+		return new SitemapGeneratorBuilder<>(baseUrl, baseDir, WebSitemapGenerator.class);
 	}
 	
 	/** Configures a builder so you can specify sitemap generator options
@@ -32,7 +32,7 @@ public class WebSitemapGenerator extends SitemapGenerator<WebSitemapUrl,WebSitem
 	 * @return a builder; call .build() on it to make a sitemap generator
 	 */
 	public static SitemapGeneratorBuilder<WebSitemapGenerator> builder(String baseUrl, File baseDir) throws MalformedURLException {
-		return new SitemapGeneratorBuilder<WebSitemapGenerator>(baseUrl, baseDir, WebSitemapGenerator.class);
+		return new SitemapGeneratorBuilder<>(baseUrl, baseDir, WebSitemapGenerator.class);
 	}
 
 	/**Configures the generator with a base URL and directory to write the sitemap files.

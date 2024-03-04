@@ -21,13 +21,13 @@ public class GoogleNewsSitemapUrl extends WebSitemapUrl {
 	
 	/** Options to configure Google News URLs */
 	public static class Options extends AbstractSitemapUrlOptions<GoogleNewsSitemapUrl, Options> {
-		private Date publicationDate;
+		private final Date publicationDate;
 		private String keywords;
 		private String genres;
-		private String title;
-		private GoogleNewsPublication publication;
+		private final String title;
+		private final GoogleNewsPublication publication;
 	
-		/** Specifies an URL and publication date (which is mandatory for Google News) */
+		/** Specifies a URL and publication date (which is mandatory for Google News) */
 		public Options(String url, Date publicationDate, String title, GoogleNewsPublication publication) throws MalformedURLException {
 			this(new URL(url), publicationDate, title, publication);
 		}
@@ -40,7 +40,7 @@ public class GoogleNewsSitemapUrl extends WebSitemapUrl {
 			this(url, publicationDate, title, new GoogleNewsPublication(name, language));
 		}
 
-		/** Specifies an URL and publication date (which is mandatory for Google News) */
+		/** Specifies a URL and publication date (which is mandatory for Google News) */
 		public Options(URL url, Date publicationDate, String title, GoogleNewsPublication publication) {
 			super(url, GoogleNewsSitemapUrl.class);
 			if (publicationDate == null) throw new NullPointerException("publicationDate must not be null");
@@ -100,27 +100,27 @@ public class GoogleNewsSitemapUrl extends WebSitemapUrl {
 		
 	}
 	
-	/** Specifies an URL and publication date, title and publication (which are mandatory for Google News) */
+	/** Specifies a URL and publication date, title and publication (which are mandatory for Google News) */
 	public GoogleNewsSitemapUrl(URL url, Date publicationDate, String title, String name, String language) {
 		this(new Options(url, publicationDate, title, name, language));
 	}
 	
-	/** Specifies an URL and publication date, title and publication (which are mandatory for Google News) */
+	/** Specifies a URL and publication date, title and publication (which are mandatory for Google News) */
 	public GoogleNewsSitemapUrl(URL url, Date publicationDate, String title, GoogleNewsPublication publication) {
 		this(new Options(url, publicationDate, title, publication));
 	}
 
-	/** Specifies an URL and publication date, title and publication (which are mandatory for Google News) */
+	/** Specifies a URL and publication date, title and publication (which are mandatory for Google News) */
 	public GoogleNewsSitemapUrl(String url, Date publicationDate, String title, String name, String language) throws MalformedURLException {
 		this(new Options(url, publicationDate, title, name, language));
 	}
 
-	/** Specifies an URL and publication date, title and publication (which are mandatory for Google News) */
+	/** Specifies a URL and publication date, title and publication (which are mandatory for Google News) */
 	public GoogleNewsSitemapUrl(String url, Date publicationDate, String title, GoogleNewsPublication publication) throws MalformedURLException {
 		this(new Options(url, publicationDate, title, publication));
 	}
 
-	/** Configures an URL with options */
+	/** Configures a URL with options */
 	public GoogleNewsSitemapUrl(Options options) {
 		super(options);
 		publicationDate = options.publicationDate;

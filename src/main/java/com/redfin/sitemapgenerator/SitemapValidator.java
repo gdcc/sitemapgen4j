@@ -21,6 +21,8 @@ import java.io.InputStream;
  */
 public class SitemapValidator {
 	
+	private SitemapValidator() {}
+	
 	//TODO support gzip
 	//TODO confirm < 10MB
 	//TODO confirm single host
@@ -33,9 +35,10 @@ public class SitemapValidator {
 		//TODO video restrictions: title, player_loc/content_loc, no non-video urls
 		//IMO news should have no non-news urls, geo should have no non-geo urls, code should have no non-code urls
 	
-	private static Schema sitemapSchema, sitemapIndexSchema;
+	private static Schema sitemapSchema;
+	private static Schema sitemapIndexSchema;
 	
-	private synchronized static void lazyLoad() {
+	private static synchronized void lazyLoad() {
 		if (sitemapSchema != null)  return;
 		SchemaFactory factory =
 			SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
@@ -60,6 +63,7 @@ public class SitemapValidator {
 				stream.close();
 			}
 		}
+	private static synchronized Schema lazyLoad(SchemaFactory factory, String resource) throws IOException, SAXException {
 
 	}
 	

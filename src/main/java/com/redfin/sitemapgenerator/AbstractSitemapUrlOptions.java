@@ -8,18 +8,18 @@ import java.util.Date;
 /** Container for optional URL parameters */
 //that weird thing with generics is so sub-classed objects will return themselves
 //It makes sense, I swear! http://madbean.com/2004/mb2004-3/
-abstract class AbstractSitemapUrlOptions<U extends WebSitemapUrl, THIS extends AbstractSitemapUrlOptions<U,THIS>> {
+abstract class AbstractSitemapUrlOptions<U extends WebSitemapUrl, T extends AbstractSitemapUrlOptions<U,T>> {
 	Date lastMod;
 	ChangeFreq changeFreq;
 	Double priority;
 	URL url;
 	Class<U> clazz;
 	
-	public AbstractSitemapUrlOptions(String url, Class<U> clazz) throws MalformedURLException {
+	AbstractSitemapUrlOptions(String url, Class<U> clazz) throws MalformedURLException {
 		this(new URL(url), clazz);
 	}
 	
-	public AbstractSitemapUrlOptions(URL url, Class<U> clazz) {
+	AbstractSitemapUrlOptions(URL url, Class<U> clazz) {
 		if (url == null) throw new NullPointerException("URL may not be null");
 		this.url = url;
 		this.clazz = clazz;
@@ -31,7 +31,7 @@ abstract class AbstractSitemapUrlOptions<U extends WebSitemapUrl, THIS extends A
 	 * return, and search engines may use the information from both sources
 	 * differently.
 	 */
-	public THIS lastMod(Date lastMod) {
+	public T lastMod(Date lastMod) {
 		this.lastMod = lastMod;
 		return getThis();
 	}
@@ -44,7 +44,7 @@ abstract class AbstractSitemapUrlOptions<U extends WebSitemapUrl, THIS extends A
 	 * @throws ParseException if the string isn't a valid W3C date time
 	 * @see W3CDateFormat
 	 */
-	public THIS lastMod(String lastMod) throws ParseException {
+	public T lastMod(String lastMod) throws ParseException {
 		this.lastMod = new W3CDateFormat().parse(lastMod);
 		return getThis();
 	}
@@ -64,7 +64,7 @@ abstract class AbstractSitemapUrlOptions<U extends WebSitemapUrl, THIS extends A
 	 * that. Crawlers may periodically crawl pages marked {@link ChangeFreq#NEVER} so that
 	 * they can handle unexpected changes to those pages.</p>
 	 */
-	public THIS changeFreq(ChangeFreq changeFreq) {
+	public T changeFreq(ChangeFreq changeFreq) {
 		this.changeFreq = changeFreq;
 		return getThis();
 	}
@@ -88,7 +88,7 @@ abstract class AbstractSitemapUrlOptions<U extends WebSitemapUrl, THIS extends A
 	 * on your site is not likely to help you. Since the priority is
 	 * relative, it is only used to select between URLs on your site.</p>
 	 */
-	public THIS priority(Double priority) {
+	public T priority(Double priority) {
 		if (priority > 1.0) throw new IllegalArgumentException("Priority may not be greater than 1.0: " + priority);
 		if (priority < 0) throw new IllegalArgumentException("Priority may not be less than 0: " + priority);
 		this.priority = priority;
@@ -96,11 +96,11 @@ abstract class AbstractSitemapUrlOptions<U extends WebSitemapUrl, THIS extends A
 	}
 	
 	@SuppressWarnings("unchecked")
-	THIS getThis() {
-		return (THIS)this;
+	T getThis() {
+		return (T)this;
 	}
 	
-	/** Return an URL based on these settings */
+	/** Return a URL based on these settings */
 	public U build() {
 		try {
 			return clazz.getConstructor(getClass()).newInstance(this);

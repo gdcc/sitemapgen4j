@@ -10,6 +10,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Builds a sitemap index, which points only to other sitemaps.
@@ -20,7 +21,7 @@ public class SitemapIndexGenerator {
 	private final URL baseUrl;	
 	private final File outFile;
 	private final boolean allowEmptyIndex;
-	private final ArrayList<SitemapIndexUrl> urls = new ArrayList<SitemapIndexUrl>();
+	private final List<SitemapIndexUrl> urls = new ArrayList<>();
 	private final int maxUrls;
 	private final W3CDateFormat dateFormat;
 	private final Date defaultLastMod;
@@ -30,8 +31,8 @@ public class SitemapIndexGenerator {
 	
 	/** Options to configure sitemap index generation */
 	public static class Options {
-		private URL baseUrl;
-		private File outFile;
+		private final URL baseUrl;
+		private final File outFile;
 		private W3CDateFormat dateFormat = null;
 		private boolean allowEmptyIndex = false;
 		private int maxUrls = MAX_SITEMAPS_PER_INDEX;
@@ -85,7 +86,7 @@ public class SitemapIndexGenerator {
 			return this;
 		}
 		/**
-		 * The default lastMod date for sitemap indexes; the default default is
+		 * The default lastMod date for sitemap indexes; the default is
 		 * now, but you can pass in null to omit a lastMod entirely. We don't
 		 * recommend this; Google may not like you as much.
 		 */

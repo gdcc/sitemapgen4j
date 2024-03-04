@@ -24,9 +24,9 @@ public class GoogleLinkSitemapUrl extends WebSitemapUrl {
 		private static Map<URI, Map<String, String>> convertAlternates(final Map<String, Map<String, String>> alternates)
 				throws URISyntaxException {
 
-			final Map<URI, Map<String, String>> converted = new LinkedHashMap<URI, Map<String, String>>();
+			final Map<URI, Map<String, String>> converted = new LinkedHashMap<>();
 			for (final Map.Entry<String, Map<String, String>> entry : alternates.entrySet()) {
-				converted.put(new URI(entry.getKey()), new LinkedHashMap<String, String>(entry.getValue()));
+				converted.put(new URI(entry.getKey()), new LinkedHashMap<>(entry.getValue()));
 			}
 			return converted;
 		}
@@ -54,7 +54,7 @@ public class GoogleLinkSitemapUrl extends WebSitemapUrl {
 		 */
 		public Options(final URL url, final Map<URI, Map<String, String>> alternates) {
 			super(url, GoogleLinkSitemapUrl.class);
-			this.alternates = new LinkedHashMap<URI, Map<String, String>>(alternates);
+			this.alternates = new LinkedHashMap<>(alternates);
 		}
 	}
 

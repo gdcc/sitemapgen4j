@@ -18,7 +18,7 @@ public class GoogleVideoSitemapGenerator extends SitemapGenerator<GoogleVideoSit
 	 * @return a builder; call .build() on it to make a sitemap generator
 	 */
 	public static SitemapGeneratorBuilder<GoogleVideoSitemapGenerator> builder(URL baseUrl, File baseDir) {
-		return new SitemapGeneratorBuilder<GoogleVideoSitemapGenerator>(baseUrl, baseDir, GoogleVideoSitemapGenerator.class);
+		return new SitemapGeneratorBuilder<>(baseUrl, baseDir, GoogleVideoSitemapGenerator.class);
 	}
 	
 	/** Configures a builder so you can specify sitemap generator options
@@ -28,7 +28,7 @@ public class GoogleVideoSitemapGenerator extends SitemapGenerator<GoogleVideoSit
 	 * @return a builder; call .build() on it to make a sitemap generator
 	 */
 	public static SitemapGeneratorBuilder<GoogleVideoSitemapGenerator> builder(String baseUrl, File baseDir) throws MalformedURLException {
-		return new SitemapGeneratorBuilder<GoogleVideoSitemapGenerator>(baseUrl, baseDir, GoogleVideoSitemapGenerator.class);
+		return new SitemapGeneratorBuilder<>(baseUrl, baseDir, GoogleVideoSitemapGenerator.class);
 	}
 
 	GoogleVideoSitemapGenerator(AbstractSitemapGeneratorOptions<?> options) {
@@ -39,7 +39,7 @@ public class GoogleVideoSitemapGenerator extends SitemapGenerator<GoogleVideoSit
 	 * 
 	 * @param baseUrl All URLs in the generated sitemap(s) should appear under this base URL
 	 * @param baseDir Sitemap files will be generated in this directory as either "sitemap.xml" or "sitemap1.xml" "sitemap2.xml" and so on.
-	 * @throws MalformedURLException
+	 * @throws MalformedURLException In case the given baseUrl is invalid
 	 */
 	public GoogleVideoSitemapGenerator(String baseUrl, File baseDir)
 			throws MalformedURLException {

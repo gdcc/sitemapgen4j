@@ -17,8 +17,8 @@ package com.redfin.sitemapgenerator;
  */
 public enum ChangeFreq {
 	ALWAYS, HOURLY, DAILY, WEEKLY, MONTHLY, YEARLY, NEVER;
-	String lowerCase;
-	private ChangeFreq() {
+	final String lowerCase;
+	ChangeFreq() {
 		lowerCase = this.name().toLowerCase();
 	}
 	

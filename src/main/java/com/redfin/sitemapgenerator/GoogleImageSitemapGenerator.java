@@ -18,7 +18,7 @@ public class GoogleImageSitemapGenerator extends SitemapGenerator<GoogleImageSit
      *
      * @param baseUrl All URLs in the generated sitemap(s) should appear under this base URL
      * @param baseDir Sitemap files will be generated in this directory as either "sitemap.xml" or "sitemap1.xml" "sitemap2.xml" and so on.
-     * @throws MalformedURLException
+     * @throws MalformedURLException In case the given baseUrl is invalid
      */
     public GoogleImageSitemapGenerator(String baseUrl, File baseDir)
             throws MalformedURLException {
@@ -61,7 +61,7 @@ public class GoogleImageSitemapGenerator extends SitemapGenerator<GoogleImageSit
      * @return a builder; call .build() on it to make a sitemap generator
      */
     public static SitemapGeneratorBuilder<GoogleImageSitemapGenerator> builder(URL baseUrl, File baseDir) {
-        return new SitemapGeneratorBuilder<GoogleImageSitemapGenerator>(baseUrl, baseDir, GoogleImageSitemapGenerator.class);
+        return new SitemapGeneratorBuilder<>(baseUrl, baseDir, GoogleImageSitemapGenerator.class);
     }
 
     /** Configures a builder so you can specify sitemap generator options
@@ -69,10 +69,10 @@ public class GoogleImageSitemapGenerator extends SitemapGenerator<GoogleImageSit
      * @param baseUrl All URLs in the generated sitemap(s) should appear under this base URL
      * @param baseDir Sitemap files will be generated in this directory as either "sitemap.xml" or "sitemap1.xml" "sitemap2.xml" and so on.
      * @return a builder; call .build() on it to make a sitemap generator
-     * @throws MalformedURLException
+     * @throws MalformedURLException In case the given baseUrl is invalid
      */
     public static SitemapGeneratorBuilder<GoogleImageSitemapGenerator> builder(String baseUrl, File baseDir) throws MalformedURLException {
-        return new SitemapGeneratorBuilder<GoogleImageSitemapGenerator>(baseUrl, baseDir, GoogleImageSitemapGenerator.class);
+        return new SitemapGeneratorBuilder<>(baseUrl, baseDir, GoogleImageSitemapGenerator.class);
     }
 
     private static class Renderer extends AbstractSitemapUrlRenderer<GoogleImageSitemapUrl> implements ISitemapUrlRenderer<GoogleImageSitemapUrl> {

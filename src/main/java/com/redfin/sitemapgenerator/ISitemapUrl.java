@@ -5,8 +5,8 @@ import java.util.Date;
 
 public interface ISitemapUrl {
 
-	public abstract Date getLastMod();
+	Date getLastMod();
 
-	public abstract URL getUrl();
+	URL getUrl();
 
 }
