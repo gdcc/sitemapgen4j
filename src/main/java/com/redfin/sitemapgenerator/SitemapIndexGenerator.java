@@ -231,19 +231,13 @@ public class SitemapIndexGenerator {
 	}
 
 	private void write(OutputStreamWriter out) {
-		if (!allowEmptyIndex && urls.isEmpty()) throw new RuntimeException("No URLs added, sitemap index would be empty; you must add some URLs with addUrls");
-		try {
-			try {
-				writeSiteMap(out);
-				out.flush();
-				if (autoValidate) SitemapValidator.validateSitemapIndex(outFile);
-			} catch (SAXException e) {
-				throw new RuntimeException("Problem validating sitemap index file (bug?)", e);
-			} finally {
-				if(out != null) {
-					out.close();
-				}
-			}
+		if (!allowEmptyIndex && urls.isEmpty()) throw new SitemapException("No URLs added, sitemap index would be empty; you must add some URLs with addUrls");
+		// Auto-close the stream after use
+		try (out) {
+			writeSiteMap(out);
+			out.flush();
+			if (autoValidate) SitemapValidator.validateSitemapIndex(outFile);
+		} catch (SAXException e) {
 			throw new SitemapException("Problem validating sitemap index file (bug?)", e);
 		} catch (IOException ex) {
 			throw new SitemapException("Error writing to output", ex);

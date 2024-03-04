@@ -73,25 +73,13 @@ public class SitemapValidator {
 	}
 
 	private static void validateXml(File sitemap, Schema schema) throws SAXException {
-		try {
-			Validator validator = schema.newValidator();
-			FileReader reader = null;
-			try {
-				reader = new FileReader(sitemap);
-				SAXSource source = new SAXSource(new InputSource(reader));
-				validator.validate(source);
-			} catch (IOException e) {
-				throw new RuntimeException(e);
-			} finally {
-				if(reader != null) {
-					reader.close();
-				}
-			}
-		} catch (IOException ex) {
-			throw new RuntimeException("Unable to close stream.", ex);
-		}
-
+		Validator validator = schema.newValidator();
+		try (FileReader reader = new FileReader(sitemap)) {
+			SAXSource source = new SAXSource(new InputSource(reader));
+			validator.validate(source);
+		} catch (IOException e) {
 			throw new SitemapException(e);
+		}
 	}
 
 }

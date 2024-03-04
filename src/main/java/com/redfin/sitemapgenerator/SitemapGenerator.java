@@ -7,7 +7,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.net.URL;
-import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.zip.GZIPOutputStream;
@@ -68,11 +68,7 @@ abstract class SitemapGenerator<U extends ISitemapUrl, T extends SitemapGenerato
 			if (!allowMultipleSitemaps) throw new SitemapException("More than " + maxUrls + " urls, but allowMultipleSitemaps is false.  Enable allowMultipleSitemaps to split the sitemap into multiple files with a sitemap index.");
 			if (baseDir != null) {
 				if (mapCount == 0) mapCount++;
-				try {
-					writeSiteMap();
-				} catch(IOException ex) {
-					throw new RuntimeException("Closing of stream failed.", ex);
-				}
+				writeSiteMap();
 				mapCount++;
 				urls.clear();
 			}
@@ -242,7 +238,7 @@ abstract class SitemapGenerator<U extends ISitemapUrl, T extends SitemapGenerato
 		return sig;
 	}
 	
-	private void writeSiteMap() throws IOException {
+	private void writeSiteMap() {
 		if (baseDir == null) {
 			throw new NullPointerException("To write to files, baseDir must not be null");
 		}
@@ -255,29 +251,20 @@ abstract class SitemapGenerator<U extends ISitemapUrl, T extends SitemapGenerato
 		}
 		File outFile = new File(baseDir, fileNamePrefix+fileNameSuffix);
 		outFiles.add(outFile);
-
-		OutputStreamWriter out = null;
-		try {
-			if (gzip) {
-				FileOutputStream fileStream = new FileOutputStream(outFile);
-				GZIPOutputStream gzipStream = new GZIPOutputStream(fileStream);
-				out = new OutputStreamWriter(gzipStream, Charset.forName("UTF-8").newEncoder());
-			} else {
-				out = new OutputStreamWriter(new FileOutputStream(outFile), Charset.forName("UTF-8").newEncoder());
-			}
-
+		
+		try (FileOutputStream fileStream = new FileOutputStream(outFile);
+			OutputStreamWriter out =
+				gzip ? new OutputStreamWriter(new GZIPOutputStream(fileStream), StandardCharsets.UTF_8.newEncoder())
+					 : new OutputStreamWriter(fileStream, StandardCharsets.UTF_8.newEncoder())) {
 			writeSiteMap(out);
 			out.flush();
-
-			throw new SitemapException("Problem writing sitemap file " + outFile, e);
-			if (autoValidate) SitemapValidator.validateWebSitemap(outFile);
 		} catch (IOException e) {
-			throw new RuntimeException("Problem writing sitemap file " + outFile, e);
+			throw new SitemapException("Problem writing sitemap file " + outFile, e);
+		}
+		
+		try {
+			if (autoValidate) SitemapValidator.validateWebSitemap(outFile);
 		} catch (SAXException e) {
-		} finally {
-			if(out != null) {
-				out.close();
-			}
 			throw new SitemapException("Sitemap file failed to validate (bug?)", e);
 		}
 	}
