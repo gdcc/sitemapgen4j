@@ -105,10 +105,7 @@ public class GoogleVideoSitemapUrl extends WebSitemapUrl {
 		
 		/** The title of the video. Limited to 100 characters. */
 		public Options title(String title) {
-			if (title != null) {
-				if (title.length() > 100) {
-					throw new RuntimeException("Video title is limited to 100 characters: " + title);
-				}
+			if (title != null && title.length() > 100) {
 				throw new SitemapException("Video title is limited to 100 characters: " + title);
 			}
 			this.title = title;
@@ -117,10 +114,7 @@ public class GoogleVideoSitemapUrl extends WebSitemapUrl {
 		
 		/** The description of the video. Descriptions longer than 2048 characters will be truncated. */
 		public Options description(String description) {
-			if (description != null) {
-				if (description.length() > 2048) {
-					throw new RuntimeException("Truncate video descriptions to 2048 characters: " + description);
-				}
+			if (description != null && description.length() > 2048) {
 				throw new SitemapException("Truncate video descriptions to 2048 characters: " + description);
 			}
 			this.description = description;
@@ -129,10 +123,7 @@ public class GoogleVideoSitemapUrl extends WebSitemapUrl {
 		
 		/** The rating of the video. The value must be number in the range 0.0-5.0. */
 		public Options rating(Double rating) {
-			if (rating != null) {
-				if (rating < 0 || rating > 5.0) {
-					throw new RuntimeException("Rating must be between 0.0 and 5.0:" + rating);
-				}
+			if (rating != null && (rating < 0 || rating > 5.0)) {
 				throw new SitemapException("Rating must be between 0.0 and 5.0:" + rating);
 			}
 			this.rating = rating;
@@ -203,10 +194,7 @@ public class GoogleVideoSitemapUrl extends WebSitemapUrl {
 		 * could have categories for Broiling, Baking, and Grilling
 		 */
 		public Options category(String category) {
-			if (category != null) {
-				if (category.length() > 256) {
-					throw new RuntimeException("Video category is limited to 256 characters: " + title);
-				}
+			if (category != null && category.length() > 256) {
 				throw new SitemapException("Video category is limited to 256 characters: " + title);
 			}
 			this.category = category;
