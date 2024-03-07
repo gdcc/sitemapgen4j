@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
-            targetNamespace="https://www.sitemaps.org/schemas/sitemap/0.9"
-            xmlns="https://www.sitemaps.org/schemas/sitemap/0.9"
+            targetNamespace="http://www.sitemaps.org/schemas/sitemap/0.9"
+            xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
             elementFormDefault="qualified">
 <xsd:annotation>
   <xsd:documentation>
@@ -19,6 +19,7 @@
   </xsd:annotation>
  <xsd:complexType>
    <xsd:sequence>
+     <xsd:any namespace="##other" minOccurs="0" maxOccurs="unbounded" processContents="strict"/>
      <xsd:element name="url" type="tUrl" maxOccurs="unbounded"/>
    </xsd:sequence>
  </xsd:complexType>
