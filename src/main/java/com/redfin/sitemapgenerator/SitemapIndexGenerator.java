@@ -26,8 +26,6 @@ public class SitemapIndexGenerator {
 	private final W3CDateFormat dateFormat;
 	private final Date defaultLastMod;
 	private final boolean autoValidate;
-	/** Maximum 50,000 sitemaps per index allowed */
-	public static final int MAX_SITEMAPS_PER_INDEX = 50000;
 	
 	/** Options to configure sitemap index generation */
 	public static class Options {
@@ -35,7 +33,7 @@ public class SitemapIndexGenerator {
 		private final File outFile;
 		private W3CDateFormat dateFormat = null;
 		private boolean allowEmptyIndex = false;
-		private int maxUrls = MAX_SITEMAPS_PER_INDEX;
+		private int maxUrls = SitemapConstants.MAX_SITEMAPS_PER_INDEX;
 		private Date defaultLastMod = new Date();
 		private boolean autoValidate = false;
 		// TODO GZIP?  Is that legal for a sitemap index?
@@ -76,11 +74,12 @@ public class SitemapIndexGenerator {
 
 		/**
 		 * The maximum number of sitemaps to allow per sitemap index; the default is the
-		 * maximum allowed (1,000), but you can decrease it if you wish (for testing)
+		 * maximum allowed (see {@link SitemapConstants#MAX_SITEMAPS_PER_INDEX}), but
+		 * you can decrease it if you wish (for testing)
 		 */
 		Options maxUrls(int maxUrls) {
-			if (maxUrls > MAX_SITEMAPS_PER_INDEX) {
-				throw new SitemapException("You can't have more than 1000 sitemaps per index");
+			if (maxUrls > SitemapConstants.MAX_SITEMAPS_PER_INDEX) {
+				throw new SitemapException(String.format("You can't have more than %d sitemaps per index", SitemapConstants.MAX_SITEMAPS_PER_INDEX));
 			}
 			this.maxUrls = maxUrls;
 			return this;
@@ -253,7 +252,7 @@ public class SitemapIndexGenerator {
 
 	private void writeAsString(StringBuilder sb) {
 		sb.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"); 
-		sb.append("<sitemapindex xmlns=\"https://www.sitemaps.org/schemas/sitemap/0.9\">\n");
+		sb.append(String.format("<sitemapindex xmlns=\"%s\">\n", SitemapConstants.SITEMAP_NS_URI));
 		for (SitemapIndexUrl url : urls) {
 			sb.append("  <sitemap>\n");
 			sb.append("    <loc>");

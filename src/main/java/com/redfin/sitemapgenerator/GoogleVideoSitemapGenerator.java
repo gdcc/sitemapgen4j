@@ -77,42 +77,41 @@ public class GoogleVideoSitemapGenerator extends SitemapGenerator<GoogleVideoSit
 
 	private static class Renderer extends AbstractSitemapUrlRenderer<GoogleVideoSitemapUrl> implements ISitemapUrlRenderer<GoogleVideoSitemapUrl> {
 
-		private static final String VIDEO_NS = "video";
-		
 		public Class<GoogleVideoSitemapUrl> getUrlClass() {
 			return GoogleVideoSitemapUrl.class;
 		}
 		
 		public String getXmlNamespaces() {
-			return "xmlns:video=\"https://www.google.com/schemas/sitemap-video/1.1\"";
+			return String.format("xmlns:%s=\"%s\"", SitemapConstants.GOOGLE_VIDEO_NS, SitemapConstants.GOOGLE_VIDEO_NS_URI);
 		}
 
 		public void render(GoogleVideoSitemapUrl url, StringBuilder sb, W3CDateFormat dateFormat) {
 			StringBuilder tagSb = new StringBuilder();
-			tagSb.append("    <").append(VIDEO_NS).append(":video>\n");
-			renderTag(tagSb, VIDEO_NS, "content_loc", url.getContentUrl());
+			tagSb.append("    <").append(SitemapConstants.GOOGLE_VIDEO_NS).append(":video>\n");
+			renderTag(tagSb, SitemapConstants.GOOGLE_VIDEO_NS, "content_loc", url.getContentUrl());
 			if (url.getPlayerUrl() != null) {
-				tagSb.append("      <").append(VIDEO_NS).append(":player_loc allow_embed=\"").append(url.getAllowEmbed()).append("\">");
+				tagSb.append("      <").append(SitemapConstants.GOOGLE_VIDEO_NS).append(":player_loc allow_embed=\"")
+						.append(url.getAllowEmbed()).append("\">");
 				tagSb.append(url.getPlayerUrl());
-				tagSb.append("</").append(VIDEO_NS).append(":player_loc>\n");
+				tagSb.append("</").append(SitemapConstants.GOOGLE_VIDEO_NS).append(":player_loc>\n");
 			}
-			renderTag(tagSb, VIDEO_NS, "thumbnail_loc", url.getThumbnailUrl());
-			renderTag(tagSb, VIDEO_NS, "title", url.getTitle());
-			renderTag(tagSb, VIDEO_NS, "description", url.getDescription());
-			renderTag(tagSb, VIDEO_NS, "rating", url.getRating());
-			renderTag(tagSb, VIDEO_NS, "view_count", url.getViewCount());
+			renderTag(tagSb, SitemapConstants.GOOGLE_VIDEO_NS, "thumbnail_loc", url.getThumbnailUrl());
+			renderTag(tagSb, SitemapConstants.GOOGLE_VIDEO_NS, "title", url.getTitle());
+			renderTag(tagSb, SitemapConstants.GOOGLE_VIDEO_NS, "description", url.getDescription());
+			renderTag(tagSb, SitemapConstants.GOOGLE_VIDEO_NS, "rating", url.getRating());
+			renderTag(tagSb, SitemapConstants.GOOGLE_VIDEO_NS, "view_count", url.getViewCount());
 			if (url.getPublicationDate() != null) {
-				renderTag(tagSb, VIDEO_NS, "publication_date", dateFormat.format(url.getPublicationDate()));
+				renderTag(tagSb, SitemapConstants.GOOGLE_VIDEO_NS, "publication_date", dateFormat.format(url.getPublicationDate()));
 			}
 			if (url.getTags() != null) {
 				for (String tag : url.getTags()) {
-					renderTag(tagSb, VIDEO_NS, "tag", tag);
+					renderTag(tagSb, SitemapConstants.GOOGLE_VIDEO_NS, "tag", tag);
 				}
 			}
-			renderTag(tagSb, VIDEO_NS, "category", url.getCategory());
-			renderTag(tagSb, VIDEO_NS, "family_friendly", url.getFamilyFriendly());
-			renderTag(tagSb, VIDEO_NS, "duration", url.getDurationInSeconds());
-			tagSb.append("    </").append(VIDEO_NS).append(":video>\n");
+			renderTag(tagSb, SitemapConstants.GOOGLE_VIDEO_NS, "category", url.getCategory());
+			renderTag(tagSb, SitemapConstants.GOOGLE_VIDEO_NS, "family_friendly", url.getFamilyFriendly());
+			renderTag(tagSb, SitemapConstants.GOOGLE_VIDEO_NS, "duration", url.getDurationInSeconds());
+			tagSb.append("    </").append(SitemapConstants.GOOGLE_VIDEO_NS).append(":video>\n");
 			super.render(url, sb, dateFormat, tagSb.toString());
 		}
 		

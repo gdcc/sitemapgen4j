@@ -44,7 +44,8 @@ class GoogleNewsSitemapUrlTest {
 		GoogleNewsSitemapUrl url = new GoogleNewsSitemapUrl("https://www.example.com/index.html", new Date(0), "Example Title", "The Example Times", "en");
 		wsg.addUrl(url);
 		String expected = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" + 
-			"<urlset xmlns=\"https://www.sitemaps.org/schemas/sitemap/0.9\" xmlns:news=\"https://www.google.com/schemas/sitemap-news/0.9\" >\n" +
+			String.format("<urlset xmlns=\"%s\" xmlns:%s=\"%s\" >\n",
+					SitemapConstants.SITEMAP_NS_URI, SitemapConstants.GOOGLE_NEWS_NS, SitemapConstants.GOOGLE_NEWS_NS_URI) +
 			"  <url>\n" + 
 			"    <loc>https://www.example.com/index.html</loc>\n" +
 			"    <news:news>\n" + 
@@ -72,7 +73,8 @@ class GoogleNewsSitemapUrlTest {
 			.build();
 		wsg.addUrl(url);
 		String expected = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" + 
-			"<urlset xmlns=\"https://www.sitemaps.org/schemas/sitemap/0.9\" xmlns:news=\"https://www.google.com/schemas/sitemap-news/0.9\" >\n" +
+			String.format("<urlset xmlns=\"%s\" xmlns:%s=\"%s\" >\n",
+					SitemapConstants.SITEMAP_NS_URI, SitemapConstants.GOOGLE_NEWS_NS, SitemapConstants.GOOGLE_NEWS_NS_URI) +
 			"  <url>\n" + 
 			"    <loc>https://www.example.com/index.html</loc>\n" +
 			"    <news:news>\n" + 
@@ -101,7 +103,8 @@ class GoogleNewsSitemapUrlTest {
 			.build();
 		wsg.addUrl(url);
 		String expected = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
-			"<urlset xmlns=\"https://www.sitemaps.org/schemas/sitemap/0.9\" xmlns:news=\"https://www.google.com/schemas/sitemap-news/0.9\" >\n" +
+			String.format("<urlset xmlns=\"%s\" xmlns:%s=\"%s\" >\n",
+					SitemapConstants.SITEMAP_NS_URI, SitemapConstants.GOOGLE_NEWS_NS, SitemapConstants.GOOGLE_NEWS_NS_URI) +
 			"  <url>\n" +
 			"    <loc>https://www.example.com/index.html</loc>\n" +
 			"    <news:news>\n" +

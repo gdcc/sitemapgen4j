@@ -10,9 +10,6 @@ import java.net.URL;
  * @see <a href="https://developers.google.com/search/docs/crawling-indexing/sitemaps/news-sitemap">Google Developer: News Sitemap</a>
  */
 public class GoogleNewsSitemapGenerator extends SitemapGenerator<GoogleNewsSitemapUrl,GoogleNewsSitemapGenerator> {
-
-	/** 1000 URLs max in a Google News sitemap. */
-	public static final int MAX_URLS_PER_SITEMAP = 1000;
 	
 	/** Configures a builder so you can specify sitemap generator options
 	 * 
@@ -36,14 +33,15 @@ public class GoogleNewsSitemapGenerator extends SitemapGenerator<GoogleNewsSitem
 	public static SitemapGeneratorBuilder<GoogleNewsSitemapGenerator> builder(String baseUrl, File baseDir) throws MalformedURLException {
 		SitemapGeneratorBuilder<GoogleNewsSitemapGenerator> builder = 
 			new SitemapGeneratorBuilder<>(baseUrl, baseDir, GoogleNewsSitemapGenerator.class);
-		builder.maxUrls = GoogleNewsSitemapGenerator.MAX_URLS_PER_SITEMAP;
+		builder.maxUrls = SitemapConstants.GOOGLE_NEWS_MAX_URLS_PER_SITEMAP;
 		return builder;
 	}
 	
 	GoogleNewsSitemapGenerator(AbstractSitemapGeneratorOptions<?> options) {
 		super(options, new Renderer());
-		if (options.maxUrls > GoogleNewsSitemapGenerator.MAX_URLS_PER_SITEMAP) {
-			throw new SitemapException("Google News sitemaps can have only 1000 URLs per sitemap: " + options.maxUrls);
+		if (options.maxUrls > SitemapConstants.GOOGLE_NEWS_MAX_URLS_PER_SITEMAP) {
+			throw new SitemapException(String.format("Google News sitemaps can have only %d URLs per sitemap: %d",
+					SitemapConstants.GOOGLE_NEWS_MAX_URLS_PER_SITEMAP, options.maxUrls));
 		}
 	}
 
@@ -89,28 +87,26 @@ public class GoogleNewsSitemapGenerator extends SitemapGenerator<GoogleNewsSitem
 	
 	private static class Renderer extends AbstractSitemapUrlRenderer<GoogleNewsSitemapUrl> implements ISitemapUrlRenderer<GoogleNewsSitemapUrl> {
 
-		private static final String NEWS_NS = "news";
-		
 		public Class<GoogleNewsSitemapUrl> getUrlClass() {
 			return GoogleNewsSitemapUrl.class;
 		}
 
 		public String getXmlNamespaces() {
-			return "xmlns:news=\"https://www.google.com/schemas/sitemap-news/0.9\"";
+			return String.format("xmlns:%s=\"%s\"", SitemapConstants.GOOGLE_NEWS_NS, SitemapConstants.GOOGLE_NEWS_NS_URI);
 		}
 
 		public void render(GoogleNewsSitemapUrl url, StringBuilder sb, W3CDateFormat dateFormat) {
 			StringBuilder tagSb = new StringBuilder();
-			tagSb.append("    <").append(NEWS_NS).append(":news>\n");
-			tagSb.append("      <").append(NEWS_NS).append(":publication>\n");
-			renderSubTag(tagSb, NEWS_NS, "name", url.getPublication().getName());
-			renderSubTag(tagSb, NEWS_NS, "language", url.getPublication().getLanguage());
-			tagSb.append("      </").append(NEWS_NS).append(":publication>\n");
-			renderTag(tagSb, NEWS_NS, "genres", url.getGenres());
-			renderTag(tagSb, NEWS_NS, "publication_date", dateFormat.format(url.getPublicationDate()));
-			renderTag(tagSb, NEWS_NS, "title", url.getTitle());
-			renderTag(tagSb, NEWS_NS, "keywords", url.getKeywords());
-			tagSb.append("    </").append(NEWS_NS).append(":news>\n");
+			tagSb.append("    <").append(SitemapConstants.GOOGLE_NEWS_NS).append(":news>\n");
+			tagSb.append("      <").append(SitemapConstants.GOOGLE_NEWS_NS).append(":publication>\n");
+			renderSubTag(tagSb, SitemapConstants.GOOGLE_NEWS_NS, "name", url.getPublication().getName());
+			renderSubTag(tagSb, SitemapConstants.GOOGLE_NEWS_NS, "language", url.getPublication().getLanguage());
+			tagSb.append("      </").append(SitemapConstants.GOOGLE_NEWS_NS).append(":publication>\n");
+			renderTag(tagSb, SitemapConstants.GOOGLE_NEWS_NS, "genres", url.getGenres());
+			renderTag(tagSb, SitemapConstants.GOOGLE_NEWS_NS, "publication_date", dateFormat.format(url.getPublicationDate()));
+			renderTag(tagSb, SitemapConstants.GOOGLE_NEWS_NS, "title", url.getTitle());
+			renderTag(tagSb, SitemapConstants.GOOGLE_NEWS_NS, "keywords", url.getKeywords());
+			tagSb.append("    </").append(SitemapConstants.GOOGLE_NEWS_NS).append(":news>\n");
 			super.render(url, sb, dateFormat, tagSb.toString());
 		}
 		

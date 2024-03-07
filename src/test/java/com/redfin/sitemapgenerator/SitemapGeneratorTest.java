@@ -21,13 +21,13 @@ class SitemapGeneratorTest {
 	
 	
 	private static final String SITEMAP_PLUS_ONE = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" + 
-		"<urlset xmlns=\"https://www.sitemaps.org/schemas/sitemap/0.9\" >\n" + 
+		"<urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\" >\n" + 
 		"  <url>\n" + 
 		"    <loc>https://www.example.com/just-one-more</loc>\n" + 
 		"  </url>\n" + 
 		"</urlset>";
 	private static final String SITEMAP1 = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" + 
-		"<urlset xmlns=\"https://www.sitemaps.org/schemas/sitemap/0.9\" >\n" + 
+		"<urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\" >\n" + 
 		"  <url>\n" + 
 		"    <loc>https://www.example.com/0</loc>\n" + 
 		"  </url>\n" + 
@@ -60,7 +60,7 @@ class SitemapGeneratorTest {
 		"  </url>\n" + 
 		"</urlset>";
 	private static final String SITEMAP2 = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" + 
-		"<urlset xmlns=\"https://www.sitemaps.org/schemas/sitemap/0.9\" >\n" + 
+		"<urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\" >\n" + 
 		"  <url>\n" + 
 		"    <loc>https://www.example.com/10</loc>\n" + 
 		"  </url>\n" + 
@@ -119,7 +119,7 @@ class SitemapGeneratorTest {
 		wsg = new WebSitemapGenerator("https://www.example.com", dir);
 		wsg.addUrl("https://www.example.com/index.html");
 		String expected = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" + 
-			"<urlset xmlns=\"https://www.sitemaps.org/schemas/sitemap/0.9\" >\n" + 
+			"<urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\" >\n" + 
 			"  <url>\n" + 
 			"    <loc>https://www.example.com/index.html</loc>\n" + 
 			"  </url>\n" + 
@@ -133,7 +133,7 @@ class SitemapGeneratorTest {
 		wsg = new WebSitemapGenerator("https://www.example.com", dir);
 		wsg.addUrls("https://www.example.com/index.html", "https://www.example.com/index2.html");
 		String expected = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" + 
-			"<urlset xmlns=\"https://www.sitemaps.org/schemas/sitemap/0.9\" >\n" + 
+			"<urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\" >\n" + 
 			"  <url>\n" + 
 			"    <loc>https://www.example.com/index.html</loc>\n" + 
 			"  </url>\n" + 
@@ -154,7 +154,7 @@ class SitemapGeneratorTest {
 			.changeFreq(ChangeFreq.DAILY).lastMod(new Date(0)).priority(1.0).build();
 		wsg.addUrl(url);
 		String expected = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" + 
-			"<urlset xmlns=\"https://www.sitemaps.org/schemas/sitemap/0.9\" >\n" + 
+			String.format("<urlset xmlns=\"%s\" >\n", SitemapConstants.SITEMAP_NS_URI) +
 			"  <url>\n" + 
 			"    <loc>https://www.example.com/index.html</loc>\n" + 
 			"    <lastmod>1970-01-01</lastmod>\n" + 
@@ -179,7 +179,7 @@ class SitemapGeneratorTest {
 		wsg.addUrl("https://www.example.com/index.html");
 		
 		String expected = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" + 
-				"<urlset xmlns=\"https://www.sitemaps.org/schemas/sitemap/0.9\" >\n" + 
+				String.format("<urlset xmlns=\"%s\" >\n", SitemapConstants.SITEMAP_NS_URI) +
 				"  <url>\n" + 
 				"    <loc>https://www.example.com/index.html</loc>\n" + 
 				"  </url>\n" + 
@@ -221,7 +221,7 @@ class SitemapGeneratorTest {
 	@Test
 	void testTooManyUrls() throws Exception {
 		wsg = WebSitemapGenerator.builder("https://www.example.com", dir).allowMultipleSitemaps(false).build();
-		for (int i = 0; i < SitemapGenerator.MAX_URLS_PER_SITEMAP; i++) {
+		for (int i = 0; i < SitemapConstants.MAX_URLS_PER_SITEMAP; i++) {
 			wsg.addUrl("https://www.example.com/"+i);
 		}
 		assertThrows(RuntimeException.class, () -> wsg.addUrl("https://www.example.com/just-one-more"), "too many URLs allowed");
@@ -366,7 +366,7 @@ class SitemapGeneratorTest {
 	void testWriteEmptySitemap() throws Exception {
 		wsg = WebSitemapGenerator.builder("https://www.example.com", dir).allowEmptySitemap(true).build();
 		String expected = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
-				"<urlset xmlns=\"https://www.sitemaps.org/schemas/sitemap/0.9\" >\n" +
+				String.format("<urlset xmlns=\"%s\" >\n", SitemapConstants.SITEMAP_NS_URI) +
 				"</urlset>";
 		String sitemap = writeSingleSiteMap(wsg);
 		assertEquals(expected, sitemap);
