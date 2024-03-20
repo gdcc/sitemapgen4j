@@ -3,8 +3,6 @@ package com.redfin.sitemapgenerator;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.xmlunit.builder.Input;
-import org.xmlunit.validation.ValidationResult;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -16,6 +14,7 @@ import java.util.List;
 import java.util.zip.GZIPInputStream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -369,8 +368,8 @@ class SitemapGeneratorTest {
 		} catch (Exception ex) {
 			e = ex;
 		}
-		assertTrue(e instanceof NullPointerException);
-		assertEquals(e.getMessage(), "To write to files, baseDir must not be null", "Correct exception was not thrown");
+        assertInstanceOf(NullPointerException.class, e);
+		assertEquals("To write to files, baseDir must not be null", e.getMessage(), "Correct exception was not thrown");
 	}
 	
 	@Test
@@ -408,7 +407,7 @@ class SitemapGeneratorTest {
 	
 	private String writeSingleSiteMap(WebSitemapGenerator wsg) {
 		List<File> files = wsg.write();
-		assertEquals(1, files.size(), "Too many files: " + files.toString());
+		assertEquals(1, files.size(), "Too many files: " + files);
 		assertEquals("sitemap.xml", files.get(0).getName(), "Sitemap misnamed");
 		return TestUtil.slurpFileAndDelete(files.get(0));
 	}
