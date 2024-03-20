@@ -55,7 +55,9 @@ class GoogleImageSitemapUrlTest {
         url.addImage(new Image("https://cdn.example.com/image2.jpg"));
         wsg.addUrl(url);
         String expected = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
-                "<urlset xmlns=\"https://www.sitemaps.org/schemas/sitemap/0.9\" xmlns:image=\"https://www.google.com/schemas/sitemap-image/1.1\" >\n" +
+                String.format("<urlset xmlns=\"%s\" xmlns:%s=\"%s\" >\n",
+                        SitemapConstants.SITEMAP_NS_URI, SitemapConstants.GOOGLE_IMAGE_NS,
+                        SitemapConstants.GOOGLE_IMAGE_NS_URI) +
                 "  <url>\n" +
                 "    <loc>https://www.example.com/index.html</loc>\n" +
                 "    <image:image>\n" +
@@ -81,7 +83,8 @@ class GoogleImageSitemapUrlTest {
         wsg.addUrl(url);
 
         String expected = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
-                "<urlset xmlns=\"https://www.sitemaps.org/schemas/sitemap/0.9\" xmlns:image=\"https://www.google.com/schemas/sitemap-image/1.1\" >\n" +
+                String.format("<urlset xmlns=\"%s\" xmlns:%s=\"%s\" >\n",
+                        SitemapConstants.SITEMAP_NS_URI, SitemapConstants.GOOGLE_IMAGE_NS, SitemapConstants.GOOGLE_IMAGE_NS_URI) +
                 "  <url>\n" +
                 "    <loc>https://www.example.com/index.html</loc>\n" +
                 "    <changefreq>weekly</changefreq>\n" +
@@ -121,7 +124,8 @@ class GoogleImageSitemapUrlTest {
         wsg.addUrl(url);
 
         String expected = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
-                "<urlset xmlns=\"https://www.sitemaps.org/schemas/sitemap/0.9\" xmlns:image=\"https://www.google.com/schemas/sitemap-image/1.1\" >\n" +
+                String.format("<urlset xmlns=\"%s\" xmlns:%s=\"%s\" >\n",
+                        SitemapConstants.SITEMAP_NS_URI, SitemapConstants.GOOGLE_IMAGE_NS, SitemapConstants.GOOGLE_IMAGE_NS_URI) +
                 "  <url>\n" +
                 "    <loc>https://www.example.com/index.html</loc>\n" +
                 "    <changefreq>weekly</changefreq>\n" +

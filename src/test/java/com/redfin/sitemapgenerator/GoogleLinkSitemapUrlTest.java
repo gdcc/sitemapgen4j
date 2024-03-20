@@ -51,8 +51,8 @@ class GoogleLinkSitemapUrlTest {
 		final GoogleLinkSitemapUrl url = new GoogleLinkSitemapUrl("https://www.example.com/index.html", alternates);
 		wsg.addUrl(url);
 		final String expected = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
-			+ "<urlset xmlns=\"https://www.sitemaps.org/schemas/sitemap/0.9\" "
-			+ "xmlns:xhtml=\"https://www.w3.org/1999/xhtml\" >\n"
+			+ String.format("<urlset xmlns=\"%s\" xmlns:xhtml=\"%s\" >\n",
+					SitemapConstants.SITEMAP_NS_URI, SitemapConstants.GOOGLE_LINK_NS_URI)
 			+ "  <url>\n"
 			+ "    <loc>https://www.example.com/index.html</loc>\n"
 			+ "    <xhtml:link\n"
@@ -88,8 +88,8 @@ class GoogleLinkSitemapUrlTest {
 		final GoogleLinkSitemapUrl url = new GoogleLinkSitemapUrl("https://www.example.com/index.html", alternates);
 		wsg.addUrl(url);
 		final String expected = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
-			+ "<urlset xmlns=\"https://www.sitemaps.org/schemas/sitemap/0.9\" "
-			+ "xmlns:xhtml=\"https://www.w3.org/1999/xhtml\" >\n"
+			+ String.format("<urlset xmlns=\"%s\" xmlns:xhtml=\"%s\" >\n",
+					SitemapConstants.SITEMAP_NS_URI, SitemapConstants.GOOGLE_LINK_NS_URI)
 			+ "  <url>\n"
 			+ "    <loc>https://www.example.com/index.html</loc>\n"
 			+ "    <xhtml:link\n"

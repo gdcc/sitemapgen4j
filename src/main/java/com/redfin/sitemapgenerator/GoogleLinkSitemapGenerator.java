@@ -24,7 +24,7 @@ public class GoogleLinkSitemapGenerator extends SitemapGenerator<GoogleLinkSitem
 
 		public String getXmlNamespaces() {
 
-			return "xmlns:xhtml=\"https://www.w3.org/1999/xhtml\"";
+			return String.format("xmlns:xhtml=\"%s\"", SitemapConstants.GOOGLE_LINK_NS_URI);
 		}
 
 		public void render(final GoogleLinkSitemapUrl url, final StringBuilder sb, final W3CDateFormat dateFormat) {

@@ -13,9 +13,6 @@ import java.util.List;
 import java.util.zip.GZIPOutputStream;
 
 abstract class SitemapGenerator<U extends ISitemapUrl, T extends SitemapGenerator<U,T>> {
-	/** 50000 URLs per sitemap maximum */
-	public static final int MAX_URLS_PER_SITEMAP = 50000;
-	
 	private final URL baseUrl;
 	private final File baseDir;
 	private final String fileNamePrefix;
@@ -193,7 +190,7 @@ abstract class SitemapGenerator<U extends ISitemapUrl, T extends SitemapGenerato
 	
 	private void writeSiteMapAsString(StringBuilder sb, List<U> urls) {
 		sb.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
-		sb.append("<urlset xmlns=\"https://www.sitemaps.org/schemas/sitemap/0.9\" ");
+		sb.append(String.format("<urlset xmlns=\"%s\" ", SitemapConstants.SITEMAP_NS_URI));
 		if (renderer.getXmlNamespaces() != null) {
 			sb.append(renderer.getXmlNamespaces());
 			sb.append(' ');
@@ -210,7 +207,7 @@ abstract class SitemapGenerator<U extends ISitemapUrl, T extends SitemapGenerato
 	 * The sitemap index is written to {baseDir}/sitemap_index.xml
 	 */
 	public File writeSitemapsWithIndex() {
-		return writeSitemapsWithIndex(new File(baseDir, "sitemap_index.xml"));
+		return writeSitemapsWithIndex(new File(baseDir, SitemapConstants.SITEMAP_INDEX_FILE));
 	}
 
 	/**

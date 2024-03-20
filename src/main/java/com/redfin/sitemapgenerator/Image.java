@@ -42,20 +42,32 @@ public class Image {
     /** Retrieves URL of Image*/
     public URL getUrl() { return url; }
 
-    /** Retrieves title of image*/
+    /** Retrieves title of image
+     * @deprecated Since May 2022, see <a href="https://developers.google.com/search/blog/2022/05/spring-cleaning-sitemap-extensions">deprecation note</a>. Use IPTC metadata instead.
+     */
+    @Deprecated(since = "2022-05-06")
     public String getTitle() { return title; }
 
-    /** Retrieves captionof image*/
+    /** Retrieves caption of image
+     * @deprecated Since May 2022, see <a href="https://developers.google.com/search/blog/2022/05/spring-cleaning-sitemap-extensions">deprecation note</a>. Use IPTC metadata instead.
+     */
+    @Deprecated(since = "2022-05-06")
     public String getCaption() { return caption; }
 
-    /** Retrieves geolocation string of image*/
+    /** Retrieves geolocation string of image
+     * @deprecated Since May 2022, see <a href="https://developers.google.com/search/blog/2022/05/spring-cleaning-sitemap-extensions">deprecation note</a>. Use IPTC metadata instead.
+     */
+    @Deprecated(since = "2022-05-06")
     public String getGeoLocation() { return geoLocation; }
 
-    /** Retrieves license string of image*/
+    /** Retrieves license string of image
+     * @deprecated Since May 2022, see <a href="https://developers.google.com/search/blog/2022/05/spring-cleaning-sitemap-extensions">deprecation note</a>. Use IPTC metadata instead.
+     */
+    @Deprecated(since = "2022-05-06")
     public URL getLicense() { return license; }
 
     public static class ImageBuilder {
-        private URL url;
+        private final URL url;
         private String title;
         private String caption;
         private String geoLocation;
@@ -68,26 +80,46 @@ public class Image {
         public ImageBuilder(URL url) {
             this.url = url;
         }
-
+        
+        /**
+         * @deprecated Since May 2022, see <a href="https://developers.google.com/search/blog/2022/05/spring-cleaning-sitemap-extensions">deprecation note</a>. Use IPTC metadata instead.
+         */
+        @Deprecated(since = "2022-05-06")
         public ImageBuilder title(String title) {
             this.title = title;
             return this;
         }
-
+        
+        /**
+         * @deprecated Since May 2022, see <a href="https://developers.google.com/search/blog/2022/05/spring-cleaning-sitemap-extensions">deprecation note</a>. Use IPTC metadata instead.
+         */
+        @Deprecated(since = "2022-05-06")
         public ImageBuilder caption(String caption) {
             this.caption = caption;
             return this;
         }
-
+        
+        /**
+         * @deprecated Since May 2022, see <a href="https://developers.google.com/search/blog/2022/05/spring-cleaning-sitemap-extensions">deprecation note</a>. Use IPTC metadata instead.
+         */
+        @Deprecated(since = "2022-05-06")
         public ImageBuilder geoLocation(String geoLocation) {
             this.geoLocation = geoLocation;
             return this;
         }
-
+        
+        /**
+         * @deprecated Since May 2022, see <a href="https://developers.google.com/search/blog/2022/05/spring-cleaning-sitemap-extensions">deprecation note</a>. Use IPTC metadata instead.
+         */
+        @Deprecated(since = "2022-05-06")
         public ImageBuilder license(String license) throws MalformedURLException {
             return license(new URL(license));
         }
-
+        
+        /**
+         * @deprecated Since May 2022, see <a href="https://developers.google.com/search/blog/2022/05/spring-cleaning-sitemap-extensions">deprecation note</a>. Use IPTC metadata instead.
+         */
+        @Deprecated(since = "2022-05-06")
         public ImageBuilder license(URL license) {
             this.license = license;
             return this;

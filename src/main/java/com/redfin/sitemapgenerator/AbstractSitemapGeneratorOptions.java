@@ -13,7 +13,7 @@ abstract class AbstractSitemapGeneratorOptions<T extends AbstractSitemapGenerato
 	boolean allowMultipleSitemaps = true;
 	String suffixStringPattern; // this will store some type of string pattern suitable per needs.
 	W3CDateFormat dateFormat;
-	int maxUrls = SitemapGenerator.MAX_URLS_PER_SITEMAP;
+	int maxUrls = SitemapConstants.MAX_URLS_PER_SITEMAP;
 	boolean autoValidate = false;
 	boolean gzip = false;
 	
@@ -62,12 +62,14 @@ abstract class AbstractSitemapGeneratorOptions<T extends AbstractSitemapGenerato
 	}
 	/**
 	 * The maximum number of URLs to allow per sitemap; the default is the
-	 * maximum allowed (50,000), but you can decrease it if you wish (to make
-	 * your auto-generated sitemaps smaller)
+	 * maximum allowed (see {@link SitemapConstants#MAX_URLS_PER_SITEMAP}), but you
+	 * can decrease it if you wish (to make your auto-generated sitemaps smaller)
 	 */
 	public T maxUrls(int maxUrls) {
-		if (maxUrls > SitemapGenerator.MAX_URLS_PER_SITEMAP) {
-			throw new SitemapException("You can only have 50,000 URLs per sitemap; to use more, allowMultipleSitemaps and generate a sitemap index. You asked for " + maxUrls);
+		if (maxUrls > SitemapConstants.MAX_URLS_PER_SITEMAP) {
+			throw new SitemapException(String.format(
+					"You can only have %d URLs per sitemap; to use more, allowMultipleSitemaps and generate a sitemap index. You asked for %d",
+					SitemapConstants.MAX_URLS_PER_SITEMAP, maxUrls));
 		}
 		this.maxUrls = maxUrls;
 		return getThis();

@@ -14,20 +14,20 @@ import java.util.List;
 import java.util.zip.GZIPInputStream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class SitemapGeneratorTest {
 	
-	
 	private static final String SITEMAP_PLUS_ONE = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" + 
-		"<urlset xmlns=\"https://www.sitemaps.org/schemas/sitemap/0.9\" >\n" + 
+		"<urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\" >\n" + 
 		"  <url>\n" + 
 		"    <loc>https://www.example.com/just-one-more</loc>\n" + 
 		"  </url>\n" + 
 		"</urlset>";
 	private static final String SITEMAP1 = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" + 
-		"<urlset xmlns=\"https://www.sitemaps.org/schemas/sitemap/0.9\" >\n" + 
+		"<urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\" >\n" + 
 		"  <url>\n" + 
 		"    <loc>https://www.example.com/0</loc>\n" + 
 		"  </url>\n" + 
@@ -60,7 +60,7 @@ class SitemapGeneratorTest {
 		"  </url>\n" + 
 		"</urlset>";
 	private static final String SITEMAP2 = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" + 
-		"<urlset xmlns=\"https://www.sitemaps.org/schemas/sitemap/0.9\" >\n" + 
+		"<urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\" >\n" + 
 		"  <url>\n" + 
 		"    <loc>https://www.example.com/10</loc>\n" + 
 		"  </url>\n" + 
@@ -119,13 +119,15 @@ class SitemapGeneratorTest {
 		wsg = new WebSitemapGenerator("https://www.example.com", dir);
 		wsg.addUrl("https://www.example.com/index.html");
 		String expected = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" + 
-			"<urlset xmlns=\"https://www.sitemaps.org/schemas/sitemap/0.9\" >\n" + 
+			"<urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\" >\n" + 
 			"  <url>\n" + 
 			"    <loc>https://www.example.com/index.html</loc>\n" + 
 			"  </url>\n" + 
 			"</urlset>";
 		String sitemap = writeSingleSiteMap(wsg);
 		assertEquals(expected, sitemap);
+		
+		TestUtil.isValidSitemap(sitemap);
 	}
 	
 	@Test
@@ -133,7 +135,7 @@ class SitemapGeneratorTest {
 		wsg = new WebSitemapGenerator("https://www.example.com", dir);
 		wsg.addUrls("https://www.example.com/index.html", "https://www.example.com/index2.html");
 		String expected = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" + 
-			"<urlset xmlns=\"https://www.sitemaps.org/schemas/sitemap/0.9\" >\n" + 
+			"<urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\" >\n" + 
 			"  <url>\n" + 
 			"    <loc>https://www.example.com/index.html</loc>\n" + 
 			"  </url>\n" + 
@@ -143,6 +145,8 @@ class SitemapGeneratorTest {
 			"</urlset>";
 		String sitemap = writeSingleSiteMap(wsg);
 		assertEquals(expected, sitemap);
+		
+		TestUtil.isValidSitemap(sitemap);
 	}
 	
 	@Test
@@ -154,7 +158,7 @@ class SitemapGeneratorTest {
 			.changeFreq(ChangeFreq.DAILY).lastMod(new Date(0)).priority(1.0).build();
 		wsg.addUrl(url);
 		String expected = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" + 
-			"<urlset xmlns=\"https://www.sitemaps.org/schemas/sitemap/0.9\" >\n" + 
+			String.format("<urlset xmlns=\"%s\" >\n", SitemapConstants.SITEMAP_NS_URI) +
 			"  <url>\n" + 
 			"    <loc>https://www.example.com/index.html</loc>\n" + 
 			"    <lastmod>1970-01-01</lastmod>\n" + 
@@ -164,6 +168,8 @@ class SitemapGeneratorTest {
 			"</urlset>";
 		String sitemap = writeSingleSiteMap(wsg);
 		assertEquals(expected, sitemap);
+		
+		TestUtil.isValidSitemap(sitemap);
 	}
 	
 	@Test
@@ -179,13 +185,15 @@ class SitemapGeneratorTest {
 		wsg.addUrl("https://www.example.com/index.html");
 		
 		String expected = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" + 
-				"<urlset xmlns=\"https://www.sitemaps.org/schemas/sitemap/0.9\" >\n" + 
+				String.format("<urlset xmlns=\"%s\" >\n", SitemapConstants.SITEMAP_NS_URI) +
 				"  <url>\n" + 
 				"    <loc>https://www.example.com/index.html</loc>\n" + 
 				"  </url>\n" + 
 				"</urlset>";
 		String sitemap = writeSingleSiteMap(wsg);
-		assertEquals(expected, sitemap);		
+		assertEquals(expected, sitemap);
+		
+		TestUtil.isValidSitemap(sitemap);
 	}
 	
 	@Test
@@ -221,7 +229,7 @@ class SitemapGeneratorTest {
 	@Test
 	void testTooManyUrls() throws Exception {
 		wsg = WebSitemapGenerator.builder("https://www.example.com", dir).allowMultipleSitemaps(false).build();
-		for (int i = 0; i < SitemapGenerator.MAX_URLS_PER_SITEMAP; i++) {
+		for (int i = 0; i < SitemapConstants.MAX_URLS_PER_SITEMAP; i++) {
 			wsg.addUrl("https://www.example.com/"+i);
 		}
 		assertThrows(RuntimeException.class, () -> wsg.addUrl("https://www.example.com/just-one-more"), "too many URLs allowed");
@@ -243,6 +251,8 @@ class SitemapGeneratorTest {
 		assertEquals("sitemap2.xml", files.get(1).getName(), "Second sitemap was misnamed");
 		actual = TestUtil.slurpFileAndDelete(files.get(1));
 		assertEquals(SITEMAP_PLUS_ONE, actual, "sitemap2 didn't match");
+		
+		TestUtil.isValidSitemap(actual);
 	}
 	
 	@Test
@@ -254,6 +264,8 @@ class SitemapGeneratorTest {
 		wsg.addUrl("https://www.example.com/9");
 		String actual = writeSingleSiteMap(wsg);
 		assertEquals(SITEMAP1, actual, "sitemap didn't match");
+		
+		TestUtil.isValidSitemap(actual);
 	}
 	
 	@Test
@@ -272,8 +284,12 @@ class SitemapGeneratorTest {
 		String actual = TestUtil.slurpFileAndDelete(files.get(0));
 		assertEquals(SITEMAP1, actual, "sitemap1 didn't match");
 		
+		TestUtil.isValidSitemap(actual);
+		
 		actual = TestUtil.slurpFileAndDelete(files.get(1));
 		assertEquals(SITEMAP2, actual, "sitemap2 didn't match");
+		
+		TestUtil.isValidSitemap(actual);
 	}
 	
 	@Test
@@ -295,13 +311,19 @@ class SitemapGeneratorTest {
 		String actual = TestUtil.slurpFileAndDelete(files.get(0));
 		assertEquals(expected, actual, "sitemap1 didn't match");
 		
+		TestUtil.isValidSitemap(actual);
+		
 		expected = SITEMAP2;
 		actual = TestUtil.slurpFileAndDelete(files.get(1));
 		assertEquals(expected, actual, "sitemap2 didn't match");
 		
+		TestUtil.isValidSitemap(actual);
+		
 		expected = SITEMAP_PLUS_ONE;
 		actual = TestUtil.slurpFileAndDelete(files.get(2));
 		assertEquals(expected, actual, "sitemap3 didn't match");
+		
+		TestUtil.isValidSitemap(actual);
 	}
 	
 	@Test
@@ -333,6 +355,7 @@ class SitemapGeneratorTest {
 		file.delete();
 		String actual = sb.toString();
 		assertEquals(SITEMAP1, actual, "sitemap didn't match");
+		TestUtil.isValidSitemap(actual);
 	}
 	
 	@Test
@@ -345,8 +368,8 @@ class SitemapGeneratorTest {
 		} catch (Exception ex) {
 			e = ex;
 		}
-		assertTrue(e instanceof NullPointerException);
-		assertEquals(e.getMessage(), "To write to files, baseDir must not be null", "Correct exception was not thrown");
+        assertInstanceOf(NullPointerException.class, e);
+		assertEquals("To write to files, baseDir must not be null", e.getMessage(), "Correct exception was not thrown");
 	}
 	
 	@Test
@@ -366,7 +389,7 @@ class SitemapGeneratorTest {
 	void testWriteEmptySitemap() throws Exception {
 		wsg = WebSitemapGenerator.builder("https://www.example.com", dir).allowEmptySitemap(true).build();
 		String expected = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
-				"<urlset xmlns=\"https://www.sitemaps.org/schemas/sitemap/0.9\" >\n" +
+				String.format("<urlset xmlns=\"%s\" >\n", SitemapConstants.SITEMAP_NS_URI) +
 				"</urlset>";
 		String sitemap = writeSingleSiteMap(wsg);
 		assertEquals(expected, sitemap);
@@ -384,7 +407,7 @@ class SitemapGeneratorTest {
 	
 	private String writeSingleSiteMap(WebSitemapGenerator wsg) {
 		List<File> files = wsg.write();
-		assertEquals(1, files.size(), "Too many files: " + files.toString());
+		assertEquals(1, files.size(), "Too many files: " + files);
 		assertEquals("sitemap.xml", files.get(0).getName(), "Sitemap misnamed");
 		return TestUtil.slurpFileAndDelete(files.get(0));
 	}

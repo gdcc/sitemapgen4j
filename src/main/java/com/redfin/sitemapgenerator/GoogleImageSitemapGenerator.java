@@ -77,27 +77,25 @@ public class GoogleImageSitemapGenerator extends SitemapGenerator<GoogleImageSit
 
     private static class Renderer extends AbstractSitemapUrlRenderer<GoogleImageSitemapUrl> implements ISitemapUrlRenderer<GoogleImageSitemapUrl> {
 
-        private static final String IMAGE_NS = "image";
-        
         public Class<GoogleImageSitemapUrl> getUrlClass() {
             return GoogleImageSitemapUrl.class;
         }
 
         public String getXmlNamespaces() {
-            return "xmlns:image=\"https://www.google.com/schemas/sitemap-image/1.1\"";
+            return String.format("xmlns:%s=\"%s\"", SitemapConstants.GOOGLE_IMAGE_NS, SitemapConstants.GOOGLE_IMAGE_NS_URI);
         }
 
         public void render(GoogleImageSitemapUrl url, StringBuilder sb, W3CDateFormat dateFormat) {
             StringBuilder tagSb = new StringBuilder();
 
             for(Image image : url.getImages()) {
-                tagSb.append("    <").append(IMAGE_NS).append(":image>\n");
-                renderTag(tagSb, IMAGE_NS, "loc", image.getUrl());
-                renderTag(tagSb, IMAGE_NS, "caption", image.getCaption());
-                renderTag(tagSb, IMAGE_NS, "title", image.getTitle());
-                renderTag(tagSb, IMAGE_NS, "geo_location", image.getGeoLocation());
-                renderTag(tagSb, IMAGE_NS, "license", image.getLicense());
-                tagSb.append("    </").append(IMAGE_NS).append(":image>\n");
+                tagSb.append("    <").append(SitemapConstants.GOOGLE_IMAGE_NS).append(":image>\n");
+                renderTag(tagSb, SitemapConstants.GOOGLE_IMAGE_NS, "loc", image.getUrl());
+                renderTag(tagSb, SitemapConstants.GOOGLE_IMAGE_NS, "caption", image.getCaption());
+                renderTag(tagSb, SitemapConstants.GOOGLE_IMAGE_NS, "title", image.getTitle());
+                renderTag(tagSb, SitemapConstants.GOOGLE_IMAGE_NS, "geo_location", image.getGeoLocation());
+                renderTag(tagSb, SitemapConstants.GOOGLE_IMAGE_NS, "license", image.getLicense());
+                tagSb.append("    </").append(SitemapConstants.GOOGLE_IMAGE_NS).append(":image>\n");
             }
             super.render(url, sb, dateFormat, tagSb.toString());
         }

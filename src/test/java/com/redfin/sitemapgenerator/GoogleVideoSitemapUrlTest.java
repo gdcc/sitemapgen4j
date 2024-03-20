@@ -53,7 +53,8 @@ class GoogleVideoSitemapUrlTest {
 		GoogleVideoSitemapUrl url = new GoogleVideoSitemapUrl(LANDING_URL, CONTENT_URL);
 		wsg.addUrl(url);
 		String expected = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" + 
-			"<urlset xmlns=\"https://www.sitemaps.org/schemas/sitemap/0.9\" xmlns:video=\"https://www.google.com/schemas/sitemap-video/1.1\" >\n" +
+			String.format("<urlset xmlns=\"%s\" xmlns:%s=\"%s\" >\n",
+					SitemapConstants.SITEMAP_NS_URI, SitemapConstants.GOOGLE_VIDEO_NS, SitemapConstants.GOOGLE_VIDEO_NS_URI) +
 			"  <url>\n" + 
 			"    <loc>https://www.example.com/index.html</loc>\n" +
 			"    <video:video>\n" + 
@@ -80,7 +81,8 @@ class GoogleVideoSitemapUrlTest {
 			.build();
 		wsg.addUrl(url);
 		String expected = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" + 
-			"<urlset xmlns=\"https://www.sitemaps.org/schemas/sitemap/0.9\" xmlns:video=\"https://www.google.com/schemas/sitemap-video/1.1\" >\n" +
+			String.format("<urlset xmlns=\"%s\" xmlns:%s=\"%s\" >\n",
+					SitemapConstants.SITEMAP_NS_URI, SitemapConstants.GOOGLE_VIDEO_NS, SitemapConstants.GOOGLE_VIDEO_NS_URI) +
 			"  <url>\n" + 
 			"    <loc>https://www.example.com/index.html</loc>\n" +
 			"    <video:video>\n" + 

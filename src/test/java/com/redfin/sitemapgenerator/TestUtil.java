@@ -1,10 +1,18 @@
 package com.redfin.sitemapgenerator;
 
+import org.xmlunit.builder.Input;
+import org.xmlunit.validation.Languages;
+import org.xmlunit.validation.ValidationResult;
+import org.xmlunit.validation.Validator;
+
+import javax.xml.transform.Source;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class TestUtil {
 	public static String getResourceAsString(Class<?> clazz, String path) {
@@ -38,5 +46,17 @@ public class TestUtil {
 		}
 		file.delete();
 		return sb.toString();
+	}
+	
+	// This is a hack. Without this instantiation, we would not be able to access the XSD from the main classpath.
+	private static final TestUtil instance = new TestUtil();
+	
+	public static void isValidSitemap(String xml) {
+		Validator validator = Validator.forLanguage(Languages.W3C_XML_SCHEMA_NS_URI);
+		Source source = Input.fromStream(instance.getClass().getResourceAsStream("sitemap.xsd")).build();
+		
+		validator.setSchemaSource(source);
+		ValidationResult vr = validator.validateInstance(Input.fromString(xml).build());
+		assertTrue(vr.isValid(), vr.getProblems().toString());
 	}
 }

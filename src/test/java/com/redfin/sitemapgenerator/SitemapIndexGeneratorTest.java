@@ -14,7 +14,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 public class SitemapIndexGeneratorTest {
 
 	private static final String INDEX = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" + 
-			"<sitemapindex xmlns=\"https://www.sitemaps.org/schemas/sitemap/0.9\">\n" + 
+			String.format("<sitemapindex xmlns=\"%s\">\n", SitemapConstants.SITEMAP_NS_URI) +
 			"  <sitemap>\n" + 
 			"    <loc>https://www.example.com/sitemap1.xml</loc>\n" + 
 			"    <lastmod>1970-01-01</lastmod>\n" + 
@@ -96,7 +96,7 @@ public class SitemapIndexGeneratorTest {
 		sig = new SitemapIndexGenerator.Options(EXAMPLE, outFile).allowEmptyIndex(true).build();
 		sig.write();
 		String expected = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
-				"<sitemapindex xmlns=\"https://www.sitemaps.org/schemas/sitemap/0.9\">\n" +
+				String.format("<sitemapindex xmlns=\"%s\">\n", SitemapConstants.SITEMAP_NS_URI) +
 				"</sitemapindex>";
 		String actual = TestUtil.slurpFileAndDelete(outFile);
 		assertEquals(expected, actual);
@@ -125,7 +125,7 @@ public class SitemapIndexGeneratorTest {
 		sig.write();
 		String actual = TestUtil.slurpFileAndDelete(outFile);
 		String expected = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" + 
-				"<sitemapindex xmlns=\"https://www.sitemaps.org/schemas/sitemap/0.9\">\n" + 
+				String.format("<sitemapindex xmlns=\"%s\">\n", SitemapConstants.SITEMAP_NS_URI) +
 				"  <sitemap>\n" + 
 				"    <loc>https://www.example.com/index.html</loc>\n" + 
 				"    <lastmod>1970-01-01</lastmod>\n" + 
