@@ -3,6 +3,8 @@ package com.redfin.sitemapgenerator;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.xmlunit.builder.Input;
+import org.xmlunit.validation.ValidationResult;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -18,7 +20,6 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class SitemapGeneratorTest {
-	
 	
 	private static final String SITEMAP_PLUS_ONE = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" + 
 		"<urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\" >\n" + 
@@ -126,6 +127,8 @@ class SitemapGeneratorTest {
 			"</urlset>";
 		String sitemap = writeSingleSiteMap(wsg);
 		assertEquals(expected, sitemap);
+		
+		TestUtil.isValidSitemap(sitemap);
 	}
 	
 	@Test
@@ -143,6 +146,8 @@ class SitemapGeneratorTest {
 			"</urlset>";
 		String sitemap = writeSingleSiteMap(wsg);
 		assertEquals(expected, sitemap);
+		
+		TestUtil.isValidSitemap(sitemap);
 	}
 	
 	@Test
@@ -164,6 +169,8 @@ class SitemapGeneratorTest {
 			"</urlset>";
 		String sitemap = writeSingleSiteMap(wsg);
 		assertEquals(expected, sitemap);
+		
+		TestUtil.isValidSitemap(sitemap);
 	}
 	
 	@Test
@@ -185,7 +192,9 @@ class SitemapGeneratorTest {
 				"  </url>\n" + 
 				"</urlset>";
 		String sitemap = writeSingleSiteMap(wsg);
-		assertEquals(expected, sitemap);		
+		assertEquals(expected, sitemap);
+		
+		TestUtil.isValidSitemap(sitemap);
 	}
 	
 	@Test
@@ -243,6 +252,8 @@ class SitemapGeneratorTest {
 		assertEquals("sitemap2.xml", files.get(1).getName(), "Second sitemap was misnamed");
 		actual = TestUtil.slurpFileAndDelete(files.get(1));
 		assertEquals(SITEMAP_PLUS_ONE, actual, "sitemap2 didn't match");
+		
+		TestUtil.isValidSitemap(actual);
 	}
 	
 	@Test
@@ -254,6 +265,8 @@ class SitemapGeneratorTest {
 		wsg.addUrl("https://www.example.com/9");
 		String actual = writeSingleSiteMap(wsg);
 		assertEquals(SITEMAP1, actual, "sitemap didn't match");
+		
+		TestUtil.isValidSitemap(actual);
 	}
 	
 	@Test
@@ -272,8 +285,12 @@ class SitemapGeneratorTest {
 		String actual = TestUtil.slurpFileAndDelete(files.get(0));
 		assertEquals(SITEMAP1, actual, "sitemap1 didn't match");
 		
+		TestUtil.isValidSitemap(actual);
+		
 		actual = TestUtil.slurpFileAndDelete(files.get(1));
 		assertEquals(SITEMAP2, actual, "sitemap2 didn't match");
+		
+		TestUtil.isValidSitemap(actual);
 	}
 	
 	@Test
@@ -295,13 +312,19 @@ class SitemapGeneratorTest {
 		String actual = TestUtil.slurpFileAndDelete(files.get(0));
 		assertEquals(expected, actual, "sitemap1 didn't match");
 		
+		TestUtil.isValidSitemap(actual);
+		
 		expected = SITEMAP2;
 		actual = TestUtil.slurpFileAndDelete(files.get(1));
 		assertEquals(expected, actual, "sitemap2 didn't match");
 		
+		TestUtil.isValidSitemap(actual);
+		
 		expected = SITEMAP_PLUS_ONE;
 		actual = TestUtil.slurpFileAndDelete(files.get(2));
 		assertEquals(expected, actual, "sitemap3 didn't match");
+		
+		TestUtil.isValidSitemap(actual);
 	}
 	
 	@Test
@@ -333,6 +356,7 @@ class SitemapGeneratorTest {
 		file.delete();
 		String actual = sb.toString();
 		assertEquals(SITEMAP1, actual, "sitemap didn't match");
+		TestUtil.isValidSitemap(actual);
 	}
 	
 	@Test
