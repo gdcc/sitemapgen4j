@@ -14,4 +14,10 @@ addUrl({url:"https://www.example.com",lastMod:"2007-08-01");
 new WebSitemapGenerator({});
 new SitemapIndexGenerator({});
 
-Remove deprecated Google Image sitemap tag : https://developers.google.com/search/docs/crawling-indexing/sitemaps/image-sitemaps?#deprecated
+Remove deprecated Google Image sitemap tag:
+    https://developers.google.com/search/docs/crawling-indexing/sitemaps/image-sitemaps?#deprecated
+    https://developers.google.com/search/blog/2022/05/spring-cleaning-sitemap-extensions
+
+Update Google Video Sitemap classes to match latest schema (missing attributes, mark deprecations):
+    https://developers.google.com/search/docs/crawling-indexing/sitemaps/video-sitemaps
+    https://developers.google.com/search/blog/2022/05/spring-cleaning-sitemap-extensions
