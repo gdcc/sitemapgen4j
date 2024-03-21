@@ -145,6 +145,17 @@ You can't mix-and-match regular URLs with Google-specific sitemaps, so you'll al
 
 ## Release Notes
 
+### v2.1.2
+
+#### 🌟 FEATURES
+- (none)
+
+#### 💔 BREAKING CHANGES
+- (none)
+
+#### 🏹 BUG FIXES
+- Fixing wrong XML namespace URIs #18
+
 ### v2.1.0
 
 #### 🌟 FEATURES
