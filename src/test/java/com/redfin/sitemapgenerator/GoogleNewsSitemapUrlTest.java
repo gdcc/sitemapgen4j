@@ -1,12 +1,14 @@
 package com.redfin.sitemapgenerator;
 
-import com.redfin.sitemapgenerator.W3CDateFormat.Pattern;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;
-import java.util.Date;
+import java.time.Instant;
+import java.time.OffsetDateTime;
+import java.time.ZoneId;
+import java.time.ZoneOffset;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -37,11 +39,9 @@ class GoogleNewsSitemapUrlTest {
 	
 	@Test
 	void testSimpleUrl() throws Exception {
-		W3CDateFormat dateFormat = new W3CDateFormat(Pattern.SECOND);
-		dateFormat.setTimeZone(W3CDateFormat.ZULU);
 		wsg = GoogleNewsSitemapGenerator.builder("https://www.example.com", dir)
-			.dateFormat(dateFormat).build();
-		GoogleNewsSitemapUrl url = new GoogleNewsSitemapUrl("https://www.example.com/index.html", new Date(0), "Example Title", "The Example Times", "en");
+			.dateFormat(W3CDateFormat.SECOND.withZone(ZoneOffset.UTC)).build();
+		GoogleNewsSitemapUrl url = new GoogleNewsSitemapUrl("https://www.example.com/index.html", TestUtil.getEpochOffsetDateTime(), "Example Title", "The Example Times", "en");
 		wsg.addUrl(url);
 		String expected = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" + 
 			String.format("<urlset xmlns=\"%s\" xmlns:%s=\"%s\" >\n",
@@ -64,11 +64,9 @@ class GoogleNewsSitemapUrlTest {
 	
 	@Test
 	void testKeywords() throws Exception {
-		W3CDateFormat dateFormat = new W3CDateFormat(Pattern.SECOND);
-		dateFormat.setTimeZone(W3CDateFormat.ZULU);
 		wsg = GoogleNewsSitemapGenerator.builder("https://www.example.com", dir)
-			.dateFormat(dateFormat).build();
-		GoogleNewsSitemapUrl url = new GoogleNewsSitemapUrl.Options("https://www.example.com/index.html", new Date(0), "Example Title", "The Example Times", "en")
+			.dateFormat(W3CDateFormat.SECOND.withZone(ZoneOffset.UTC)).build();
+		GoogleNewsSitemapUrl url = new GoogleNewsSitemapUrl.Options("https://www.example.com/index.html", TestUtil.getEpochOffsetDateTime(), "Example Title", "The Example Times", "en")
 			.keywords("Klaatu", "Barrata", "Nicto")
 			.build();
 		wsg.addUrl(url);
@@ -94,11 +92,9 @@ class GoogleNewsSitemapUrlTest {
 
 	@Test
 	void testGenres() throws Exception {
-		W3CDateFormat dateFormat = new W3CDateFormat(Pattern.SECOND);
-		dateFormat.setTimeZone(W3CDateFormat.ZULU);
 		wsg = GoogleNewsSitemapGenerator.builder("https://www.example.com", dir)
-			.dateFormat(dateFormat).build();
-		GoogleNewsSitemapUrl url = new GoogleNewsSitemapUrl.Options("https://www.example.com/index.html", new Date(0), "Example Title", "The Example Times", "en")
+			.dateFormat(W3CDateFormat.SECOND.withZone(ZoneOffset.UTC)).build();
+		GoogleNewsSitemapUrl url = new GoogleNewsSitemapUrl.Options("https://www.example.com/index.html", TestUtil.getEpochOffsetDateTime(), "Example Title", "The Example Times", "en")
 			.genres("persbericht")
 			.build();
 		wsg.addUrl(url);

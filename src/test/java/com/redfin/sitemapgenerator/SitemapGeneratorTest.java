@@ -9,14 +9,13 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.MalformedURLException;
-import java.util.Date;
+import java.time.Instant;
+import java.time.OffsetDateTime;
+import java.time.ZoneOffset;
 import java.util.List;
 import java.util.zip.GZIPInputStream;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertInstanceOf;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 class SitemapGeneratorTest {
 	
@@ -151,11 +150,9 @@ class SitemapGeneratorTest {
 	
 	@Test
 	void testAllUrlOptions() throws Exception {
-		W3CDateFormat df = new W3CDateFormat();
-		df.setTimeZone(W3CDateFormat.ZULU);
-		wsg = WebSitemapGenerator.builder("https://www.example.com", dir).dateFormat(df).autoValidate(true).build();
+		wsg = WebSitemapGenerator.builder("https://www.example.com", dir).dateFormat(W3CDateFormat.AUTO.withZone(ZoneOffset.UTC)).autoValidate(true).build();
 		WebSitemapUrl url = new WebSitemapUrl.Options("https://www.example.com/index.html")
-			.changeFreq(ChangeFreq.DAILY).lastMod(new Date(0)).priority(1.0).build();
+			.changeFreq(ChangeFreq.DAILY).lastMod(TestUtil.getEpochOffsetDateTime()).priority(1.0).build();
 		wsg.addUrl(url);
 		String expected = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" + 
 			String.format("<urlset xmlns=\"%s\" >\n", SitemapConstants.SITEMAP_NS_URI) +
@@ -168,7 +165,7 @@ class SitemapGeneratorTest {
 			"</urlset>";
 		String sitemap = writeSingleSiteMap(wsg);
 		assertEquals(expected, sitemap);
-		
+
 		TestUtil.isValidSitemap(sitemap);
 	}
 	

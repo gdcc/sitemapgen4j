@@ -1,9 +1,9 @@
 package com.redfin.sitemapgenerator;
 
 import java.net.URL;
+import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
 
 /** One configurable Google Video Search URL.  To configure, use {@link Options}
@@ -21,7 +21,7 @@ public class GoogleVideoSitemapUrl extends WebSitemapUrl {
 	private final String description;
 	private final Double rating;
 	private final Integer viewCount;
-	private final Date publicationDate;
+	private final OffsetDateTime publicationDate;
 	private final List<String> tags;
 	private final String category;
 	// TODO can there be multiple categories?
@@ -40,7 +40,7 @@ public class GoogleVideoSitemapUrl extends WebSitemapUrl {
 		private String description;
 		private Double rating;
 		private Integer viewCount;
-		private Date publicationDate;
+		private OffsetDateTime publicationDate;
 		private List<String> tags;
 		private String category;
 		// TODO can there be multiple categories?
@@ -137,7 +137,7 @@ public class GoogleVideoSitemapUrl extends WebSitemapUrl {
 		}
 		
 		/** The date the video was first published, in {@link W3CDateFormat}. */
-		public Options publicationDate(Date publicationDate) {
+		public Options publicationDate(OffsetDateTime publicationDate) {
 			this.publicationDate = publicationDate;
 			return this;
 		}
@@ -308,7 +308,7 @@ public class GoogleVideoSitemapUrl extends WebSitemapUrl {
 	}
 
 	/** Retrieves the {@link Options#publicationDate}*/
-	public Date getPublicationDate() {
+	public OffsetDateTime getPublicationDate() {
 		return publicationDate;
 	}
 

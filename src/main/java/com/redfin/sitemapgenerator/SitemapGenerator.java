@@ -34,9 +34,9 @@ abstract class SitemapGenerator<U extends ISitemapUrl, T extends SitemapGenerato
 		baseDir = options.baseDir;
 		baseUrl = options.baseUrl;
 		fileNamePrefix = options.fileNamePrefix;
-		W3CDateFormat dateFormat = options.dateFormat;
-		if (dateFormat == null) dateFormat = new W3CDateFormat();
-		this.dateFormat = dateFormat;
+		W3CDateFormat dateFormatter = options.dateFormat;
+		if (dateFormatter == null) dateFormatter = W3CDateFormat.AUTO;
+		this.dateFormat = dateFormatter;
 		allowEmptySitemap = options.allowEmptySitemap;
 		allowMultipleSitemaps = options.allowMultipleSitemaps;
 		maxUrls = options.maxUrls;

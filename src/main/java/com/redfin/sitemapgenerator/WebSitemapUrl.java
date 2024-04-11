@@ -2,7 +2,7 @@ package com.redfin.sitemapgenerator;
 
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.Date;
+import java.time.OffsetDateTime;
 
 /**
  * Encapsulates a single URL to be inserted into a Web sitemap (as opposed to a Geo sitemap, a Mobile sitemap, a Video sitemap, etc which are Google specific).
@@ -14,7 +14,7 @@ import java.util.Date;
  */
 public class WebSitemapUrl implements ISitemapUrl {
 	private final URL url;
-	private final Date lastMod;
+	private final OffsetDateTime lastMod;
 	private final ChangeFreq changeFreq;
 	private final Double priority;
 	
@@ -43,8 +43,10 @@ public class WebSitemapUrl implements ISitemapUrl {
 		this.priority = options.priority;
 	}
 	
-	/** Retrieves the {@link Options#lastMod(Date)} */
-	public Date getLastMod() { return lastMod; }
+	/**
+	 * Retrieves the {@link Options#lastMod(OffsetDateTime)}
+	 */
+	public OffsetDateTime getLastMod() { return lastMod; }
 	/** Retrieves the {@link Options#changeFreq(ChangeFreq)} */
 	public ChangeFreq getChangeFreq() { return changeFreq; }
 	/** Retrieves the {@link Options#priority(Double)} */

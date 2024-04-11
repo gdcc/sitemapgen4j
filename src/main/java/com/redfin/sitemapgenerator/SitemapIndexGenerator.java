@@ -8,8 +8,10 @@ import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.time.OffsetDateTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -24,7 +26,7 @@ public class SitemapIndexGenerator {
 	private final List<SitemapIndexUrl> urls = new ArrayList<>();
 	private final int maxUrls;
 	private final W3CDateFormat dateFormat;
-	private final Date defaultLastMod;
+	private final OffsetDateTime defaultLastMod;
 	private final boolean autoValidate;
 	
 	/** Options to configure sitemap index generation */
@@ -34,7 +36,7 @@ public class SitemapIndexGenerator {
 		private W3CDateFormat dateFormat = null;
 		private boolean allowEmptyIndex = false;
 		private int maxUrls = SitemapConstants.MAX_SITEMAPS_PER_INDEX;
-		private Date defaultLastMod = new Date();
+		private OffsetDateTime defaultLastMod = OffsetDateTime.now();
 		private boolean autoValidate = false;
 		// TODO GZIP?  Is that legal for a sitemap index?
 
@@ -55,7 +57,7 @@ public class SitemapIndexGenerator {
 		public Options(String baseUrl, File outFile) throws MalformedURLException {
 			this(new URL(baseUrl), outFile);
 		}
-		/** The date formatter, typically configured with a {@link W3CDateFormat.Pattern} and/or a time zone */
+		/** The date formatter, typically configured with a {@link W3CDateFormat} and/or a time zone */
 		public Options dateFormat(W3CDateFormat dateFormat) {
 			this.dateFormat = dateFormat;
 			return this;
@@ -89,7 +91,7 @@ public class SitemapIndexGenerator {
 		 * now, but you can pass in null to omit a lastMod entirely. We don't
 		 * recommend this; Google may not like you as much.
 		 */
-		public Options defaultLastMod(Date defaultLastMod) {
+		public Options defaultLastMod(OffsetDateTime defaultLastMod) {
 			this.defaultLastMod = defaultLastMod;
 			return this;
 		}
@@ -132,9 +134,9 @@ public class SitemapIndexGenerator {
 		this.outFile = options.outFile;
 		this.allowEmptyIndex = options.allowEmptyIndex;
 		this.maxUrls = options.maxUrls;
-		W3CDateFormat dateFormat = options.dateFormat;
-		if (dateFormat == null) dateFormat = new W3CDateFormat();
-		this.dateFormat = dateFormat;
+		W3CDateFormat dateFormatter = options.dateFormat;
+		if (dateFormatter == null) dateFormatter = W3CDateFormat.AUTO;
+		this.dateFormat = dateFormatter;
 		this.defaultLastMod = options.defaultLastMod;
 		this.autoValidate = options.autoValidate;
 	}
@@ -184,12 +186,12 @@ public class SitemapIndexGenerator {
 	}
 	
 	/** Adds a single sitemap to the index */
-	public SitemapIndexGenerator addUrl(URL url, Date lastMod) {
+	public SitemapIndexGenerator addUrl(URL url, OffsetDateTime lastMod) {
 		return addUrl(new SitemapIndexUrl(url, lastMod));
 	}
 	
 	/** Adds a single sitemap to the index */
-	public SitemapIndexGenerator addUrl(String url, Date lastMod) throws MalformedURLException {
+	public SitemapIndexGenerator addUrl(String url, OffsetDateTime lastMod) throws MalformedURLException {
 		return addUrl(new SitemapIndexUrl(url, lastMod));
 	}
 	
@@ -258,7 +260,7 @@ public class SitemapIndexGenerator {
 			sb.append("    <loc>");
 			sb.append(UrlUtils.escapeXml(url.url.toString()));
 			sb.append("</loc>\n");
-			Date lastMod = url.lastMod;
+			OffsetDateTime lastMod = url.lastMod;
 			
 			if (lastMod == null) lastMod = defaultLastMod;
 			

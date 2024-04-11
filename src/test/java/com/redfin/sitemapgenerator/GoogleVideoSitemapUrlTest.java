@@ -8,7 +8,9 @@ import org.junit.jupiter.api.Test;
 import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.Date;
+import java.time.Instant;
+import java.time.OffsetDateTime;
+import java.time.ZoneOffset;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -68,15 +70,13 @@ class GoogleVideoSitemapUrlTest {
 
 	@Test
 	void testOptions() throws Exception {
-		W3CDateFormat dateFormat = new W3CDateFormat();
-		dateFormat.setTimeZone(W3CDateFormat.ZULU);
 		wsg = GoogleVideoSitemapGenerator.builder("https://www.example.com", dir)
-			.dateFormat(dateFormat).build();
+			.dateFormat(W3CDateFormat.AUTO.withZone(ZoneOffset.UTC)).build();
 		GoogleVideoSitemapUrl url = new Options(LANDING_URL, CONTENT_URL)
 			.playerUrl(new URL("https://www.example.com/index.swf"), true)
 			.thumbnailUrl(new URL("https://www.example.com/thumbnail.jpg"))
 			.title("This is a video!").description("A great video about dinosaurs")
-			.rating(5.0).viewCount(500000).publicationDate(new Date(0)).tags("dinosaurs", "example", "awesome")
+			.rating(5.0).viewCount(500000).publicationDate(TestUtil.getEpochOffsetDateTime()).tags("dinosaurs", "example", "awesome")
 			.category("example").familyFriendly(false).durationInSeconds(60*30)
 			.build();
 		wsg.addUrl(url);

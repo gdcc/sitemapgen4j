@@ -1,12 +1,11 @@
 package com.redfin.sitemapgenerator;
 
-import com.redfin.sitemapgenerator.W3CDateFormat.Pattern;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;
-import java.util.Date;
+import java.time.OffsetDateTime;
 import java.util.TimeZone;
 
 public class TutorialExampleTest {
@@ -52,7 +51,7 @@ public class TutorialExampleTest {
 	void testConfiguringUrlOptions() throws Exception {
 		WebSitemapGenerator wsg = new WebSitemapGenerator("https://www.example.com", myDir);
 		WebSitemapUrl url = new WebSitemapUrl.Options("https://www.example.com/index.html")
-			.lastMod(new Date()).priority(1.0).changeFreq(ChangeFreq.HOURLY).build();
+			.lastMod(OffsetDateTime.now()).priority(1.0).changeFreq(ChangeFreq.HOURLY).build();
 		// this will configure the URL with lastmod=now, priority=1.0, changefreq=hourly 
 		wsg.addUrl(url);
 		wsg.write();
@@ -60,10 +59,8 @@ public class TutorialExampleTest {
 	
 	@Test
 	void testConfiguringDateFormat() throws Exception {
-		W3CDateFormat dateFormat = new W3CDateFormat(Pattern.DAY); // e.g. 2008-01-29
-		dateFormat.setTimeZone(TimeZone.getTimeZone("GMT")); // Use Greenwich Mean Time timezone
 		WebSitemapGenerator wsg = WebSitemapGenerator.builder("https://www.example.com", myDir)
-			.dateFormat(dateFormat).build(); // actually use the configured dateFormat
+			.dateFormat(W3CDateFormat.DAY.withZone(TimeZone.getTimeZone("GMT").toZoneId())).build(); // actually use the configured dateFormat
 		wsg.addUrl("https://www.example.com/index.html");
 		wsg.write();
 	}
