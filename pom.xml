@@ -25,7 +25,7 @@
         <connection>scm:git:git://github.com:gdcc/sitemapgen4j.git</connection>
         <developerConnection>scm:git:git@github.com:gdcc/sitemapgen4j.git</developerConnection>
         <url>https://github.com/gdcc/sitemapgen4j/</url>
-      <tag>sitemapgen4j-2.1.2</tag>
+      <tag>sitemapgen4j-2.2.0</tag>
   </scm>
     <issueManagement>
         <url>https://github.com/gdcc/sitemapgen4j/issues</url>

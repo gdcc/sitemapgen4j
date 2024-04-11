@@ -33,7 +33,7 @@ First, add this as a dependency to your POM:
 <dependency>
     <groupId>io.gdcc</groupId>
     <artifactId>sitemapgen4j</artifactId>
-    <version>2.1.0</version>
+    <version>2.2.0</version>
 </dependency>
 ```
 
@@ -59,12 +59,18 @@ wsg.write();
 To configure the URLs, construct a WebSitemapUrl with WebSitemapUrl.Options.
 
 ```java
+import java.time.OffsetDateTime;
+
 WebSitemapGenerator wsg = new WebSitemapGenerator("https://www.example.com", myDir);
 WebSitemapUrl url = new WebSitemapUrl.Options("https://www.example.com/index.html")
-    .lastMod(new Date()).priority(1.0).changeFreq(ChangeFreq.HOURLY).build();
+        .lastMod(OffsetDateTime.now()).priority(1.0).changeFreq(ChangeFreq.HOURLY).build();
 // this will configure the URL with lastmod=now, priority=1.0, changefreq=hourly 
-wsg.addUrl(url);
-wsg.write();
+wsg.
+
+addUrl(url);
+wsg.
+
+write();
 ```
 
 ## Configuring the date format
