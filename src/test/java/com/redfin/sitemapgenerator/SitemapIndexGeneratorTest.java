@@ -6,7 +6,10 @@ import org.junit.jupiter.api.Test;
 
 import java.io.File;
 import java.net.MalformedURLException;
-import java.util.Date;
+import java.time.Instant;
+import java.time.OffsetDateTime;
+import java.time.ZoneOffset;
+import java.time.format.DateTimeFormatter;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -58,13 +61,11 @@ public class SitemapIndexGeneratorTest {
 			"</sitemapindex>";
 	
 	private static final String EXAMPLE = "https://www.example.com/";
-	private static final W3CDateFormat ZULU = new W3CDateFormat();
 	File outFile;
 	SitemapIndexGenerator sig;
 	
 	@BeforeEach
 	public void setUp() throws Exception {
-		ZULU.setTimeZone(W3CDateFormat.ZULU);
 		outFile = File.createTempFile(SitemapGeneratorTest.class.getSimpleName(), ".xml");
 		outFile.deleteOnExit();
 	}
@@ -106,7 +107,7 @@ public class SitemapIndexGeneratorTest {
 	@Test
 	void testMaxUrls() throws Exception {
 		sig = new SitemapIndexGenerator.Options(EXAMPLE, outFile).autoValidate(true)
-			.maxUrls(10).defaultLastMod(new Date(0)).dateFormat(ZULU).build();
+			.maxUrls(10).defaultLastMod(OffsetDateTime.ofInstant(Instant.EPOCH, ZoneOffset.UTC)).dateFormat(new W3CDateFormat()).build();
 		for (int i = 1; i <= 9; i++) {
 			sig.addUrl(EXAMPLE+"sitemap"+i+".xml");
 		}
@@ -119,8 +120,8 @@ public class SitemapIndexGeneratorTest {
 	
 	@Test
 	void testOneUrl() throws Exception {
-		sig = new SitemapIndexGenerator.Options(EXAMPLE, outFile).dateFormat(ZULU).autoValidate(true).build();
-		SitemapIndexUrl url = new SitemapIndexUrl(EXAMPLE+"index.html", new Date(0));
+		sig = new SitemapIndexGenerator.Options(EXAMPLE, outFile).dateFormat(new W3CDateFormat()).autoValidate(true).build();
+		SitemapIndexUrl url = new SitemapIndexUrl(EXAMPLE+"index.html", OffsetDateTime.ofInstant(Instant.EPOCH, ZoneOffset.UTC));
 		sig.addUrl(url);
 		sig.write();
 		String actual = TestUtil.slurpFileAndDelete(outFile);
@@ -138,7 +139,7 @@ public class SitemapIndexGeneratorTest {
 	@Test
 	void testAddByPrefix() throws MalformedURLException {
 		sig = new SitemapIndexGenerator.Options(EXAMPLE, outFile).autoValidate(true)
-			.defaultLastMod(new Date(0)).dateFormat(ZULU).build();
+			.defaultLastMod(OffsetDateTime.ofInstant(Instant.EPOCH, ZoneOffset.UTC)).dateFormat(new W3CDateFormat()).build();
 		sig.addUrls("sitemap", ".xml", 10);
 		sig.write();
 		String actual = TestUtil.slurpFileAndDelete(outFile);

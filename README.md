@@ -74,8 +74,8 @@ One important configuration option for the sitemap generator is the date format.
 ```java
 
 // Use DAY pattern (2009-02-07), Greenwich Mean Time timezone
-W3CDateFormat dateFormat = new W3CDateFormat(Pattern.DAY); 
-dateFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
+ZoneId zoneId = TimeZone.getTimeZone("GMT").toZoneId();
+W3CDateFormat dateFormat = W3CDateFormat.DAY.withZone(zoneId);
 WebSitemapGenerator wsg = WebSitemapGenerator.builder("https://www.example.com", myDir)
     .dateFormat(dateFormat).build(); // actually use the configured dateFormat
 wsg.addUrl("https://www.example.com/index.html");

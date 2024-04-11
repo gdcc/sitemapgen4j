@@ -2,6 +2,7 @@ package com.redfin.sitemapgenerator;
 
 import java.io.File;
 import java.net.URL;
+import java.time.format.DateTimeFormatter;
 
 // that weird thing with generics is so sub-classed objects will return themselves
 // It makes sense, I swear! https://madbean.com/2004/mb2004-3/
@@ -55,7 +56,7 @@ abstract class AbstractSitemapGeneratorOptions<T extends AbstractSitemapGenerato
 		this.allowMultipleSitemaps = allowMultipleSitemaps;
 		return getThis();
 	}
-	/** The date formatter, typically configured with a {@link W3CDateFormat.Pattern} and/or a time zone */
+	/** The date formatter, typically configured with a {@link DateTimeFormatter} and/or a time zone */
 	public T dateFormat(W3CDateFormat dateFormat) {
 		this.dateFormat = dateFormat;
 		return getThis();

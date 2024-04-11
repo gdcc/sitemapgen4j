@@ -1,7 +1,9 @@
 package com.redfin.sitemapgenerator;
 
 import java.io.File;
-import java.net.*;
+import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URL;
 import java.util.Map;
 import java.util.Map.Entry;
 

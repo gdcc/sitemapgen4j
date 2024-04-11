@@ -2,8 +2,8 @@ package com.redfin.sitemapgenerator;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.time.OffsetDateTime;
 import java.util.Arrays;
-import java.util.Date;
 
 /**
  * One configurable Google News Search URL.  To configure, use {@link Options}
@@ -13,7 +13,7 @@ import java.util.Date;
  */
 public class GoogleNewsSitemapUrl extends WebSitemapUrl {
 
-	private final Date publicationDate;
+	private final OffsetDateTime publicationDate;
 	private final String keywords;
 	private final String genres;
 	private final String title;
@@ -21,27 +21,27 @@ public class GoogleNewsSitemapUrl extends WebSitemapUrl {
 	
 	/** Options to configure Google News URLs */
 	public static class Options extends AbstractSitemapUrlOptions<GoogleNewsSitemapUrl, Options> {
-		private final Date publicationDate;
+		private final OffsetDateTime publicationDate;
 		private String keywords;
 		private String genres;
 		private final String title;
 		private final GoogleNewsPublication publication;
 	
 		/** Specifies a URL and publication date (which is mandatory for Google News) */
-		public Options(String url, Date publicationDate, String title, GoogleNewsPublication publication) throws MalformedURLException {
+		public Options(String url, OffsetDateTime publicationDate, String title, GoogleNewsPublication publication) throws MalformedURLException {
 			this(new URL(url), publicationDate, title, publication);
 		}
 		
-		public Options(String url, Date publicationDate, String title, String name, String language) throws MalformedURLException {
+		public Options(String url, OffsetDateTime publicationDate, String title, String name, String language) throws MalformedURLException {
 			this(new URL(url), publicationDate, title, new GoogleNewsPublication(name, language));
 		}
 
-		public Options(URL url, Date publicationDate, String title, String name, String language) {
+		public Options(URL url, OffsetDateTime publicationDate, String title, String name, String language) {
 			this(url, publicationDate, title, new GoogleNewsPublication(name, language));
 		}
 
 		/** Specifies a URL and publication date (which is mandatory for Google News) */
-		public Options(URL url, Date publicationDate, String title, GoogleNewsPublication publication) {
+		public Options(URL url, OffsetDateTime publicationDate, String title, GoogleNewsPublication publication) {
 			super(url, GoogleNewsSitemapUrl.class);
 			if (publicationDate == null) throw new NullPointerException("publicationDate must not be null");
 			this.publicationDate = publicationDate;
@@ -101,22 +101,22 @@ public class GoogleNewsSitemapUrl extends WebSitemapUrl {
 	}
 	
 	/** Specifies a URL and publication date, title and publication (which are mandatory for Google News) */
-	public GoogleNewsSitemapUrl(URL url, Date publicationDate, String title, String name, String language) {
+	public GoogleNewsSitemapUrl(URL url, OffsetDateTime publicationDate, String title, String name, String language) {
 		this(new Options(url, publicationDate, title, name, language));
 	}
 	
 	/** Specifies a URL and publication date, title and publication (which are mandatory for Google News) */
-	public GoogleNewsSitemapUrl(URL url, Date publicationDate, String title, GoogleNewsPublication publication) {
+	public GoogleNewsSitemapUrl(URL url, OffsetDateTime publicationDate, String title, GoogleNewsPublication publication) {
 		this(new Options(url, publicationDate, title, publication));
 	}
 
 	/** Specifies a URL and publication date, title and publication (which are mandatory for Google News) */
-	public GoogleNewsSitemapUrl(String url, Date publicationDate, String title, String name, String language) throws MalformedURLException {
+	public GoogleNewsSitemapUrl(String url, OffsetDateTime publicationDate, String title, String name, String language) throws MalformedURLException {
 		this(new Options(url, publicationDate, title, name, language));
 	}
 
 	/** Specifies a URL and publication date, title and publication (which are mandatory for Google News) */
-	public GoogleNewsSitemapUrl(String url, Date publicationDate, String title, GoogleNewsPublication publication) throws MalformedURLException {
+	public GoogleNewsSitemapUrl(String url, OffsetDateTime publicationDate, String title, GoogleNewsPublication publication) throws MalformedURLException {
 		this(new Options(url, publicationDate, title, publication));
 	}
 
@@ -131,7 +131,7 @@ public class GoogleNewsSitemapUrl extends WebSitemapUrl {
 	}
 
 	/** Retrieves the publication date */
-	public Date getPublicationDate() {
+	public OffsetDateTime getPublicationDate() {
 		return publicationDate;
 	}
 
