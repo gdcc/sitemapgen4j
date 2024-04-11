@@ -15,7 +15,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class W3CDateFormatTest {
 	@Test
 	void testFormatEpoch() {
-		OffsetDateTime epoch = OffsetDateTime.ofInstant(Instant.EPOCH, ZoneOffset.UTC);
+		OffsetDateTime epoch = TestUtil.getEpochOffsetDateTime();
 		verifyPatternFormat(epoch, MILLISECOND, "1970-01-01T00:00:00.000Z");
 		verifyPatternFormat(epoch, SECOND, "1970-01-01T00:00:00Z");
 		verifyPatternFormat(epoch, MINUTE, "1970-01-01T00:00Z");
@@ -27,7 +27,7 @@ public class W3CDateFormatTest {
 	
 	@Test
 	void testAutoFormat() {
-		OffsetDateTime date = OffsetDateTime.ofInstant(Instant.EPOCH, ZoneOffset.UTC);
+		OffsetDateTime date = TestUtil.getEpochOffsetDateTime();
 		verifyPatternFormat(date, AUTO, "1970-01-01");
 		date = OffsetDateTime.ofInstant(Instant.ofEpochMilli(1), ZoneOffset.UTC);
 		verifyPatternFormat(date, AUTO, "1970-01-01T00:00:00.001Z");
@@ -41,7 +41,7 @@ public class W3CDateFormatTest {
 	
 	@Test
 	void testFormatTimeZone() {
-		OffsetDateTime epoch = OffsetDateTime.ofInstant(Instant.EPOCH, ZoneOffset.UTC);
+		OffsetDateTime epoch = TestUtil.getEpochOffsetDateTime();
 		ZoneId tz = TimeZone.getTimeZone("PST").toZoneId();
 		verifyPatternFormat(epoch, MILLISECOND.withZone(tz), "1969-12-31T16:00:00.000-08:00", tz);
 		verifyPatternFormat(epoch, AUTO.withZone(tz), "1969-12-31T16:00-08:00", tz);
@@ -49,7 +49,7 @@ public class W3CDateFormatTest {
 	
 	@Test
 	void testParseEpoch() throws ParseException {
-		OffsetDateTime date = OffsetDateTime.ofInstant(Instant.EPOCH, ZoneOffset.UTC);
+		OffsetDateTime date = TestUtil.getEpochOffsetDateTime();
 		verifyPatternParse("1970-01-01T00:00:00.000Z", MILLISECOND, date);
 		verifyPatternParse("1970-01-01T00:00:00Z", SECOND, date);
 		verifyPatternParse("1970-01-01T00:00Z", MINUTE, date);
@@ -61,7 +61,7 @@ public class W3CDateFormatTest {
 	
 	@Test
 	void testAutoParse() throws ParseException {
-		OffsetDateTime date = OffsetDateTime.ofInstant(Instant.EPOCH, ZoneOffset.UTC);
+		OffsetDateTime date = TestUtil.getEpochOffsetDateTime();
 		verifyPatternParse("1970-01-01T00:00:00.000Z", AUTO, date);
 		verifyPatternParse("1970-01-01T00:00:00Z", AUTO, date);
 		verifyPatternParse("1970-01-01T00:00Z", AUTO, date);
@@ -72,7 +72,7 @@ public class W3CDateFormatTest {
 	
 	@Test
 	void testParseTimeZone() throws ParseException {
-		OffsetDateTime epoch = OffsetDateTime.ofInstant(Instant.EPOCH, ZoneOffset.UTC);
+		OffsetDateTime epoch = TestUtil.getEpochOffsetDateTime();
 		verifyPatternParse("1969-12-31T16:00:00.000-08:00", MILLISECOND, epoch);
 		verifyPatternParse("1969-12-31T16:00:00.000-08:00", AUTO, epoch);
 	}

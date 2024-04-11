@@ -56,7 +56,7 @@ abstract class AbstractSitemapGeneratorOptions<T extends AbstractSitemapGenerato
 		this.allowMultipleSitemaps = allowMultipleSitemaps;
 		return getThis();
 	}
-	/** The date formatter, typically configured with a {@link DateTimeFormatter} and/or a time zone */
+	/** The date formatter, typically configured with a {@link W3CDateFormat} and/or a time zone */
 	public T dateFormat(W3CDateFormat dateFormat) {
 		this.dateFormat = dateFormat;
 		return getThis();

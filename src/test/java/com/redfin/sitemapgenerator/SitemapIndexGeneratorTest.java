@@ -6,15 +6,14 @@ import org.junit.jupiter.api.Test;
 
 import java.io.File;
 import java.net.MalformedURLException;
-import java.time.Instant;
-import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
-import java.time.format.DateTimeFormatter;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class SitemapIndexGeneratorTest {
+
+	private static final W3CDateFormat ZULU = new W3CDateFormat().withZone(ZoneOffset.UTC);
 
 	private static final String INDEX = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" + 
 			String.format("<sitemapindex xmlns=\"%s\">\n", SitemapConstants.SITEMAP_NS_URI) +
@@ -107,7 +106,7 @@ public class SitemapIndexGeneratorTest {
 	@Test
 	void testMaxUrls() throws Exception {
 		sig = new SitemapIndexGenerator.Options(EXAMPLE, outFile).autoValidate(true)
-			.maxUrls(10).defaultLastMod(OffsetDateTime.ofInstant(Instant.EPOCH, ZoneOffset.UTC)).dateFormat(new W3CDateFormat()).build();
+			.maxUrls(10).defaultLastMod(TestUtil.getEpochOffsetDateTime()).dateFormat(ZULU).build();
 		for (int i = 1; i <= 9; i++) {
 			sig.addUrl(EXAMPLE+"sitemap"+i+".xml");
 		}
@@ -120,8 +119,8 @@ public class SitemapIndexGeneratorTest {
 	
 	@Test
 	void testOneUrl() throws Exception {
-		sig = new SitemapIndexGenerator.Options(EXAMPLE, outFile).dateFormat(new W3CDateFormat()).autoValidate(true).build();
-		SitemapIndexUrl url = new SitemapIndexUrl(EXAMPLE+"index.html", OffsetDateTime.ofInstant(Instant.EPOCH, ZoneOffset.UTC));
+		sig = new SitemapIndexGenerator.Options(EXAMPLE, outFile).dateFormat(ZULU).autoValidate(true).build();
+		SitemapIndexUrl url = new SitemapIndexUrl(EXAMPLE+"index.html", TestUtil.getEpochOffsetDateTime());
 		sig.addUrl(url);
 		sig.write();
 		String actual = TestUtil.slurpFileAndDelete(outFile);
@@ -139,7 +138,7 @@ public class SitemapIndexGeneratorTest {
 	@Test
 	void testAddByPrefix() throws MalformedURLException {
 		sig = new SitemapIndexGenerator.Options(EXAMPLE, outFile).autoValidate(true)
-			.defaultLastMod(OffsetDateTime.ofInstant(Instant.EPOCH, ZoneOffset.UTC)).dateFormat(new W3CDateFormat()).build();
+			.defaultLastMod(TestUtil.getEpochOffsetDateTime()).dateFormat(ZULU).build();
 		sig.addUrls("sitemap", ".xml", 10);
 		sig.write();
 		String actual = TestUtil.slurpFileAndDelete(outFile);

@@ -71,12 +71,12 @@ class GoogleVideoSitemapUrlTest {
 	@Test
 	void testOptions() throws Exception {
 		wsg = GoogleVideoSitemapGenerator.builder("https://www.example.com", dir)
-			.dateFormat(W3CDateFormat.DAY).build();
+			.dateFormat(W3CDateFormat.AUTO.withZone(ZoneOffset.UTC)).build();
 		GoogleVideoSitemapUrl url = new Options(LANDING_URL, CONTENT_URL)
 			.playerUrl(new URL("https://www.example.com/index.swf"), true)
 			.thumbnailUrl(new URL("https://www.example.com/thumbnail.jpg"))
 			.title("This is a video!").description("A great video about dinosaurs")
-			.rating(5.0).viewCount(500000).publicationDate(OffsetDateTime.ofInstant(Instant.EPOCH, ZoneOffset.UTC)).tags("dinosaurs", "example", "awesome")
+			.rating(5.0).viewCount(500000).publicationDate(TestUtil.getEpochOffsetDateTime()).tags("dinosaurs", "example", "awesome")
 			.category("example").familyFriendly(false).durationInSeconds(60*30)
 			.build();
 		wsg.addUrl(url);

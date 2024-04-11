@@ -150,9 +150,9 @@ class SitemapGeneratorTest {
 	
 	@Test
 	void testAllUrlOptions() throws Exception {
-		wsg = WebSitemapGenerator.builder("https://www.example.com", dir).dateFormat(W3CDateFormat.DAY).autoValidate(true).build();
+		wsg = WebSitemapGenerator.builder("https://www.example.com", dir).dateFormat(W3CDateFormat.AUTO.withZone(ZoneOffset.UTC)).autoValidate(true).build();
 		WebSitemapUrl url = new WebSitemapUrl.Options("https://www.example.com/index.html")
-			.changeFreq(ChangeFreq.DAILY).lastMod(OffsetDateTime.ofInstant(Instant.EPOCH, ZoneOffset.UTC)).priority(1.0).build();
+			.changeFreq(ChangeFreq.DAILY).lastMod(TestUtil.getEpochOffsetDateTime()).priority(1.0).build();
 		wsg.addUrl(url);
 		String expected = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" + 
 			String.format("<urlset xmlns=\"%s\" >\n", SitemapConstants.SITEMAP_NS_URI) +

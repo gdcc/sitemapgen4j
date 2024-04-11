@@ -45,7 +45,7 @@ abstract class AbstractSitemapUrlOptions<U extends WebSitemapUrl, T extends Abst
 	 * @see W3CDateFormat
 	 */
 	public T lastMod(String lastMod) throws ParseException {
-		this.lastMod = W3CDateFormat.DAY.parse(lastMod);
+		this.lastMod = W3CDateFormat.AUTO.parse(lastMod);
 		return getThis();
 	}
 	

@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 import java.io.File;
 import java.time.Instant;
 import java.time.OffsetDateTime;
+import java.time.ZoneId;
 import java.time.ZoneOffset;
 import java.util.List;
 
@@ -39,8 +40,8 @@ class GoogleNewsSitemapUrlTest {
 	@Test
 	void testSimpleUrl() throws Exception {
 		wsg = GoogleNewsSitemapGenerator.builder("https://www.example.com", dir)
-			.dateFormat(W3CDateFormat.SECOND).build();
-		GoogleNewsSitemapUrl url = new GoogleNewsSitemapUrl("https://www.example.com/index.html", OffsetDateTime.ofInstant(Instant.EPOCH, ZoneOffset.UTC), "Example Title", "The Example Times", "en");
+			.dateFormat(W3CDateFormat.SECOND.withZone(ZoneOffset.UTC)).build();
+		GoogleNewsSitemapUrl url = new GoogleNewsSitemapUrl("https://www.example.com/index.html", TestUtil.getEpochOffsetDateTime(), "Example Title", "The Example Times", "en");
 		wsg.addUrl(url);
 		String expected = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" + 
 			String.format("<urlset xmlns=\"%s\" xmlns:%s=\"%s\" >\n",
@@ -64,8 +65,8 @@ class GoogleNewsSitemapUrlTest {
 	@Test
 	void testKeywords() throws Exception {
 		wsg = GoogleNewsSitemapGenerator.builder("https://www.example.com", dir)
-			.dateFormat(W3CDateFormat.SECOND).build();
-		GoogleNewsSitemapUrl url = new GoogleNewsSitemapUrl.Options("https://www.example.com/index.html", OffsetDateTime.ofInstant(Instant.EPOCH, ZoneOffset.UTC), "Example Title", "The Example Times", "en")
+			.dateFormat(W3CDateFormat.SECOND.withZone(ZoneOffset.UTC)).build();
+		GoogleNewsSitemapUrl url = new GoogleNewsSitemapUrl.Options("https://www.example.com/index.html", TestUtil.getEpochOffsetDateTime(), "Example Title", "The Example Times", "en")
 			.keywords("Klaatu", "Barrata", "Nicto")
 			.build();
 		wsg.addUrl(url);
@@ -92,8 +93,8 @@ class GoogleNewsSitemapUrlTest {
 	@Test
 	void testGenres() throws Exception {
 		wsg = GoogleNewsSitemapGenerator.builder("https://www.example.com", dir)
-			.dateFormat(W3CDateFormat.SECOND).build();
-		GoogleNewsSitemapUrl url = new GoogleNewsSitemapUrl.Options("https://www.example.com/index.html", OffsetDateTime.ofInstant(Instant.EPOCH, ZoneOffset.UTC), "Example Title", "The Example Times", "en")
+			.dateFormat(W3CDateFormat.SECOND.withZone(ZoneOffset.UTC)).build();
+		GoogleNewsSitemapUrl url = new GoogleNewsSitemapUrl.Options("https://www.example.com/index.html", TestUtil.getEpochOffsetDateTime(), "Example Title", "The Example Times", "en")
 			.genres("persbericht")
 			.build();
 		wsg.addUrl(url);

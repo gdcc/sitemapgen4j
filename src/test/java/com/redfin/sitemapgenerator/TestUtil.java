@@ -6,7 +6,14 @@ import org.xmlunit.validation.ValidationResult;
 import org.xmlunit.validation.Validator;
 
 import javax.xml.transform.Source;
-import java.io.*;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.time.Instant;
+import java.time.OffsetDateTime;
+import java.time.ZoneOffset;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -54,5 +61,9 @@ public class TestUtil {
 		validator.setSchemaSource(source);
 		ValidationResult vr = validator.validateInstance(Input.fromString(xml).build());
 		assertTrue(vr.isValid(), vr.getProblems().toString());
+	}
+	
+	public static OffsetDateTime getEpochOffsetDateTime(){
+		return OffsetDateTime.ofInstant(Instant.EPOCH, ZoneOffset.UTC);
 	}
 }
