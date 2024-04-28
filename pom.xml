@@ -83,7 +83,7 @@
         
         <!-- Testing dependencies -->
         <junit.jupiter.version>5.10.2</junit.jupiter.version>
-        <xmlunit.version>2.9.1</xmlunit.version>
+        <xmlunit.version>2.10.0</xmlunit.version>
         
         <!-- Official Maven Plugins -->
         <maven-plugin-api.version>3.8.2</maven-plugin-api.version>
