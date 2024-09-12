@@ -3,13 +3,13 @@ package com.redfin.sitemapgenerator;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.text.ParseException;
-import java.util.Date;
+import java.time.OffsetDateTime;
 
 /** Container for optional URL parameters */
 //that weird thing with generics is so sub-classed objects will return themselves
 //It makes sense, I swear! https://madbean.com/2004/mb2004-3/
 abstract class AbstractSitemapUrlOptions<U extends WebSitemapUrl, T extends AbstractSitemapUrlOptions<U,T>> {
-	Date lastMod;
+	OffsetDateTime lastMod;
 	ChangeFreq changeFreq;
 	Double priority;
 	URL url;
@@ -31,7 +31,7 @@ abstract class AbstractSitemapUrlOptions<U extends WebSitemapUrl, T extends Abst
 	 * return, and search engines may use the information from both sources
 	 * differently.
 	 */
-	public T lastMod(Date lastMod) {
+	public T lastMod(OffsetDateTime lastMod) {
 		this.lastMod = lastMod;
 		return getThis();
 	}
@@ -45,7 +45,7 @@ abstract class AbstractSitemapUrlOptions<U extends WebSitemapUrl, T extends Abst
 	 * @see W3CDateFormat
 	 */
 	public T lastMod(String lastMod) throws ParseException {
-		this.lastMod = new W3CDateFormat().parse(lastMod);
+		this.lastMod = W3CDateFormat.AUTO.parse(lastMod);
 		return getThis();
 	}
 	

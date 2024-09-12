@@ -1,11 +1,11 @@
 package com.redfin.sitemapgenerator;
 
 import java.net.URL;
-import java.util.Date;
+import java.time.OffsetDateTime;
 
 public interface ISitemapUrl {
 
-	Date getLastMod();
+	OffsetDateTime getLastMod();
 
 	URL getUrl();
 
